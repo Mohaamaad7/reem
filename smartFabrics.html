@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأقمشة الصديقة للبيئة - رونق</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'morris-cream': '#F8F5F0',
+                        'morris-primary': '#064E3B',
+                        'morris-terracotta': '#9F1239',
+                        'morris-gold': '#B45309',
+                        'morris-indigo': '#1E3A8A',
+                        'morris-olive': '#3F6212',
+                        'morris-text': '#1C1917',
+                        'morris-border': '#E7E5E4',
+                    },
+                    fontFamily: {
+                        'brand': ['Amiri', 'serif'],
+                        'magic': ['"Aref Ruqaa"', 'serif'],
+                        'body': ['Cairo', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'morris': '0 4px 20px -2px rgba(27, 74, 64, 0.08)',
+                        'portrait': '0 10px 30px -5px rgba(180, 83, 9, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #FBF7F2;
+            color: #2C2724;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D49A36' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .morris-frame {
+            position: relative;
+            background: #fff;
+            border: 1px solid #DED8C9;
+        }
+        .morris-frame::before {
+            content: '';
+            position: absolute;
+            top: 4px; left: 4px; right: 4px; bottom: 4px;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        /* Article Typography Styles */
+        .article-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.9;
+            font-size: 1.1rem;
+            color: #3f3a36;
+            text-align: justify;
+        }
+        .article-content h3 {
+            font-family: 'Amiri', serif;
+            color: #064E3B;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+            position: relative;
+            padding-right: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .article-content h3::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 15%;
+            bottom: 15%;
+            width: 4px;
+            background-color: #B45309;
+            border-radius: 4px;
+        }
+        .article-content h3 svg {
+            color: #B45309;
+            opacity: 0.8;
+            flex-shrink: 0;
+        }
+
+        /* Scrollbar hiding for mobile nav */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Active state for Table of Contents */
+        .toc-link.active {
+            color: #9F1239;
+            font-weight: 700;
+            border-right-color: #9F1239;
+            background-color: rgba(159, 18, 57, 0.05);
+        }
+        .toc-link.active svg {
+            color: #9F1239;
+        }
+
+        /* Image Placeholder Base Style */
+        .img-placeholder {
+            background-color: rgba(248, 245, 240, 0.8);
+            border: 2px dashed rgba(180, 83, 9, 0.3);
+            transition: all 0.3s ease;
+        }
+        .img-placeholder:hover {
+            border-color: rgba(180, 83, 9, 0.6);
+            background-color: rgba(248, 245, 240, 1);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col relative">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-morris-cream/95 backdrop-blur-md border-b border-morris-border shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20 sm:h-24">
+                <a href="#" class="flex flex-col items-center justify-center group relative">
+                    <span class="font-brand text-3xl sm:text-4xl font-bold text-morris-primary tracking-wide">رونق</span>
+                    <span class="font-magic text-lg sm:text-xl text-morris-terracotta mt-[-4px]">ريم السعوي</span>
+                </a>
+                
+                <!-- Breadcrumb -->
+                <div class="hidden md:flex items-center gap-2 text-sm font-semibold text-morris-text/60">
+                    <a href="#" class="hover:text-morris-terracotta transition">الرئيسية</a>
+                    <span>/</span>
+                    <span class="text-morris-primary">الموضة المستدامة</span>
+                </div>
+
+                <a href="#" class="flex items-center gap-2 bg-morris-cream border border-morris-primary text-morris-primary hover:bg-morris-primary hover:text-white px-4 py-2 rounded-full transition-colors duration-300 shadow-sm text-sm sm:text-base font-semibold">
+                    <span>العودة</span>
+                    <svg class="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        
+        <!-- Mobile Only Title -->
+        <div class="md:hidden container mx-auto px-4 py-6 text-center">
+            <div class="inline-flex items-center justify-center gap-2 mb-2">
+                <span class="h-px w-6 bg-morris-olive"></span>
+                <span class="text-morris-olive font-magic text-lg">الموضة المستدامة</span>
+                <span class="h-px w-6 bg-morris-olive"></span>
+            </div>
+            <h1 class="font-brand text-3xl text-morris-primary font-bold drop-shadow-sm leading-snug">الأقمشة الصديقة للبيئة<br>وكيفية العناية بها</h1>
+        </div>
+
+        <!-- Hero Banner (Hidden on Mobile) -->
+        <section class="hidden md:block py-8 lg:py-10">
+            <div class="container mx-auto px-6 lg:px-8 max-w-7xl">
+                <div class="relative rounded-3xl lg:rounded-[2.5rem] bg-morris-primary overflow-hidden shadow-2xl flex items-center justify-between border border-morris-olive/30 p-8 lg:p-12">
+                    <!-- Background Pattern (Leaves/Nature inspired) -->
+                    <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M54.627 0l1.25 1.25-43.125 43.125-1.25-1.25L54.627 0zM29.5 0l1.25 1.25-23.75 23.75-1.25-1.25L29.5 0zM60 25.373l-1.25-1.25L15.625 67.25l1.25 1.25L60 25.373zM60 50.5l-1.25-1.25-15.625 15.625 1.25 1.25L60 50.5z\' fill=\'%23F8F5F0\' fill-opacity=\'1\' fill-rule=\'evenodd\'/%3E%3C/svg%3E');"></div>
+                    <div class="absolute inset-3 border border-morris-cream/20 rounded-2xl lg:rounded-[2rem] pointer-events-none"></div>
+
+                    <!-- Text Content -->
+                    <div class="relative z-10 w-3/5 lg:w-2/3 text-right pr-2 lg:pr-4">
+                        <div class="inline-flex items-center gap-3 mb-3 lg:mb-4">
+                            <span class="h-[2px] w-8 bg-morris-olive rounded-full"></span>
+                            <span class="font-magic text-morris-cream/90 text-xl lg:text-2xl">الموضة المستدامة</span>
+                        </div>
+                        <h1 class="font-brand text-4xl lg:text-5xl text-morris-cream mb-4 lg:mb-6 leading-tight drop-shadow-md">
+                            الأقمشة الصديقة للبيئة<br>وكيفية العناية بها
+                        </h1>
+                        <p class="text-base lg:text-xl text-morris-cream/80 leading-relaxed font-light max-w-2xl">
+                            دليلك الشامل لاختيار الأقمشة التي تحافظ على الموارد الطبيعية، وكيفية العناية بها لضمان استدامتها لأطول فترة ممكنة، من أجل كوكب أنظف وخزانة ملابس أكثر وعياً.
+                        </p>
+                    </div>
+
+                    <!-- Elegant Image Placeholder inside Hero -->
+                    <div class="relative z-10 w-2/5 lg:w-1/3 flex justify-end pl-2 lg:pl-4">
+                        <div class="relative w-40 h-56 lg:w-56 lg:h-72 rounded-t-[4rem] rounded-b-xl overflow-hidden border-2 border-dashed border-morris-cream/40 bg-morris-primary/40 flex flex-col items-center justify-center text-morris-cream/60 shadow-portrait backdrop-blur-sm">
+                            <svg class="w-12 h-12 mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <span class="font-brand text-center px-4 leading-snug"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Area -->
+        <section class="pb-24 pt-2 md:pt-6 relative">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl flex flex-col lg:flex-row gap-8 lg:gap-12 relative items-start">
+                
+                <!-- Table of Contents (Sticky on ALL devices: Mobile, Tablet, Desktop) -->
+                <aside class="w-full lg:w-1/4 sticky top-20 sm:top-24 lg:top-32 shrink-0 z-30 pt-2 lg:pt-0">
+                    <div class="morris-frame rounded-xl lg:rounded-2xl p-2 sm:p-4 lg:p-6 shadow-md bg-white overflow-hidden relative">
+                        <h4 class="font-brand text-xl text-morris-primary border-b border-morris-border pb-3 mb-3 hidden lg:block">دليل الأقمشة</h4>
+                        
+                        <div class="relative w-full">
+                            <!-- Scroll Indicator Hint (Shows on Mobile/Tablet RTL left edge) -->
+                            <div id="toc-scroll-hint" class="absolute top-0 bottom-0 left-0 w-12 bg-gradient-to-r from-white to-transparent pointer-events-none lg:hidden flex items-center justify-start z-10 transition-opacity duration-300">
+                                <div class="bg-white/80 rounded-full p-1 shadow-sm backdrop-blur-sm -ml-1 text-morris-olive">
+                                    <svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                                </div>
+                            </div>
+
+                            <nav id="toc" class="flex lg:flex-col overflow-x-auto lg:overflow-visible no-scrollbar gap-1 snap-x font-semibold relative">
+                                <a href="#intro" class="toc-link flex items-center gap-2 snap-start shrink-0 lg:shrink px-3 lg:px-4 py-2 text-xs sm:text-sm lg:text-base border-r-2 border-transparent text-morris-text/70 hover:text-morris-terracotta hover:bg-morris-cream transition-colors rounded-l-lg">
+                                    <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-morris-olive/70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>المقدمة</span>
+                                </a>
+                                <a href="#fabric-types" class="toc-link flex items-center gap-2 snap-start shrink-0 lg:shrink px-3 lg:px-4 py-2 text-xs sm:text-sm lg:text-base border-r-2 border-transparent text-morris-text/70 hover:text-morris-terracotta hover:bg-morris-cream transition-colors rounded-l-lg">
+                                    <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-morris-olive/70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                                    <span>أنواع الأقمشة</span>
+                                </a>
+                                <a href="#general-care" class="toc-link flex items-center gap-2 snap-start shrink-0 lg:shrink px-3 lg:px-4 py-2 text-xs sm:text-sm lg:text-base border-r-2 border-transparent text-morris-text/70 hover:text-morris-terracotta hover:bg-morris-cream transition-colors rounded-l-lg">
+                                    <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-morris-olive/70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                                    <span>قواعد العناية العامة</span>
+                                </a>
+                                <a href="#care-guide" class="toc-link flex items-center gap-2 snap-start shrink-0 lg:shrink px-3 lg:px-4 py-2 text-xs sm:text-sm lg:text-base border-r-2 border-transparent text-morris-text/70 hover:text-morris-terracotta hover:bg-morris-cream transition-colors rounded-l-lg">
+                                    <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-morris-olive/70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                                    <span>دليل العناية المفصل</span>
+                                </a>
+                                <a href="#conclusion" class="toc-link flex items-center gap-2 snap-start shrink-0 lg:shrink px-3 lg:px-4 py-2 text-xs sm:text-sm lg:text-base border-r-2 border-transparent text-morris-text/70 hover:text-morris-terracotta hover:bg-morris-cream transition-colors rounded-l-lg">
+                                    <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-morris-olive/70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                                    <span>ختاماً</span>
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Article Content -->
+                <div class="w-full lg:w-3/4 article-content bg-white/60 p-6 sm:p-8 lg:p-12 rounded-3xl shadow-sm border border-morris-border/50">
+                    
+                    <!-- Section 1: Intro -->
+                    <section id="intro" class="scroll-mt-40 lg:scroll-mt-32 mb-16">
+                        <p class="text-xl font-brand text-morris-primary leading-relaxed">
+                            في ظل تنامي الوعي البيئي والتوجه نحو "الموضة المستدامة"، لم يعد اختيار الملابس يقتصر على التصميم واللون فقط، بل أصبح نوع القماش وتأثيره على كوكب الأرض عاملاً حاسماً. الأقمشة الصديقة للبيئة هي تلك التي يتم إنتاجها بطرق تحافظ على الموارد الطبيعية، وتقلل من الانبعاثات الكربونية، وتتجنب استخدام المواد الكيميائية الضارة.
+                        </p>
+                        <p>
+                            في هذا المقال، سنستكشف أبرز أنواع الأقمشة المستدامة، ونقدم لك دليلاً عملياً لكيفية العناية بها لضمان استدامتها لأطول فترة ممكنة.
+                        </p>
+                    </section>
+
+                    <!-- Section 2: Fabric Types -->
+                    <section id="fabric-types" class="scroll-mt-40 lg:scroll-mt-32 mb-16">
+                        <h3>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                            <span>أولاً: أبرز أنواع الأقمشة الصديقة للبيئة</span>
+                        </h3>
+
+                        <div class="space-y-12 mt-8">
+                            
+                            <!-- Fabric 1: Organic Cotton -->
+                            <div class="flex flex-col lg:flex-row items-center gap-6 lg:gap-10">
+                                <div class="w-full lg:w-1/2">
+                                    <h4 class="font-brand text-2xl text-morris-olive mb-3">1. القطن العضوي (Organic Cotton)</h4>
+                                    <p class="text-morris-text/80 text-base">على عكس القطن التقليدي الذي يستهلك كميات هائلة من المياه والمبيدات الحشرية، يُزرع القطن العضوي باستخدام طرق زراعية تحافظ على خصوبة التربة وتعتمد على مياه الأمطار بشكل كبير، دون استخدام أي أسمدة كيميائية أو مبيدات سامة.</p>
+                                    <div class="bg-morris-cream p-4 rounded-xl border-r-4 border-morris-olive inline-block w-full">
+                                        <span class="font-bold text-morris-primary block mb-1">المميزات:</span>
+                                        <span class="text-sm text-morris-text/70">ناعم جداً على البشرة، مضاد للحساسية، ويسمح بمرور الهواء.</span>
+                                    </div>
+                                </div>
+                                <!-- Image Placeholder -->
+                                <div class="w-full lg:w-1/2 aspect-video lg:aspect-square max-h-64 rounded-2xl flex flex-col items-center justify-center text-morris-gold/60 img-placeholder group">
+                                    <svg class="w-10 h-10 mb-2 opacity-50 group-hover:opacity-80 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    <span class="font-brand font-bold"></span>
+                                </div>
+                            </div>
+
+                            <!-- Fabric 2: Linen (Reversed layout on desktop) -->
+                            <div class="flex flex-col lg:flex-row-reverse items-center gap-6 lg:gap-10">
+                                <div class="w-full lg:w-1/2">
+                                    <h4 class="font-brand text-2xl text-morris-indigo mb-3">2. الكتان (Linen)</h4>
+                                    <p class="text-morris-text/80 text-base">يُصنع الكتان من ألياف نبات الكتان (Flax)، وهو من أقدم وأقوى الأقمشة في العالم. زراعة الكتان تتطلب كميات قليلة جداً من المياه ولا تحتاج إلى مبيدات، كما أن جميع أجزاء النبتة يتم استخدامها مما يجعله خياراً خالياً من النفايات.</p>
+                                    <div class="bg-morris-indigo/5 p-4 rounded-xl border-r-4 border-morris-indigo inline-block w-full">
+                                        <span class="font-bold text-morris-primary block mb-1">المميزات:</span>
+                                        <span class="text-sm text-morris-text/70">متين للغاية، يمتص الرطوبة، وقابل للتحلل البيولوجي بالكامل.</span>
+                                    </div>
+                                </div>
+                                <!-- Image Placeholder -->
+                                <div class="w-full lg:w-1/2 aspect-video lg:aspect-square max-h-64 rounded-2xl flex flex-col items-center justify-center text-morris-indigo/50 img-placeholder group" style="border-color: rgba(30, 58, 138, 0.3);">
+                                    <svg class="w-10 h-10 mb-2 opacity-50 group-hover:opacity-80 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    <span class="font-brand font-bold"></span>
+                                </div>
+                            </div>
+
+                            <!-- Fabric 3: Hemp -->
+                            <div class="flex flex-col lg:flex-row items-center gap-6 lg:gap-10">
+                                <div class="w-full lg:w-1/2">
+                                    <h4 class="font-brand text-2xl text-morris-terracotta mb-3">3. القنب (Hemp)</h4>
+                                    <p class="text-morris-text/80 text-base">يعتبر القنب من أسرع النباتات نمواً في العالم، ولا يحتاج إلى مبيدات حشرية، بل إنه يساعد في تنقية التربة التي يُزرع فيها. أقمشة القنب تشبه الكتان في ملمسها ولكنها أكثر متانة.</p>
+                                    <div class="bg-morris-terracotta/5 p-4 rounded-xl border-r-4 border-morris-terracotta inline-block w-full">
+                                        <span class="font-bold text-morris-primary block mb-1">المميزات:</span>
+                                        <span class="text-sm text-morris-text/70">يوفر حماية طبيعية من الأشعة فوق البنفسجية، ويزداد نعومة مع كل غسلة.</span>
+                                    </div>
+                                </div>
+                                <!-- Image Placeholder -->
+                                <div class="w-full lg:w-1/2 aspect-video lg:aspect-square max-h-64 rounded-2xl flex flex-col items-center justify-center text-morris-terracotta/50 img-placeholder group" style="border-color: rgba(159, 18, 57, 0.3);">
+                                    <svg class="w-10 h-10 mb-2 opacity-50 group-hover:opacity-80 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    <span class="font-brand font-bold"></span>
+                                </div>
+                            </div>
+
+                            <!-- Fabric 4: Lyocell (Reversed) -->
+                            <div class="flex flex-col lg:flex-row-reverse items-center gap-6 lg:gap-10">
+                                <div class="w-full lg:w-1/2">
+                                    <h4 class="font-brand text-2xl text-morris-primary mb-3">4. اللايوسل / التنسل</h4>
+                                    <p class="text-morris-text/80 text-base">يُصنع هذا القماش من لب الخشب (غالباً الأوكالبتوس). يتم إنتاجه عبر "نظام الحلقة المغلقة" حيث يتم إعادة تدوير أكثر من 99% من المياه والمذيبات المستخدمة في عملية الإنتاج.</p>
+                                    <div class="bg-morris-primary/5 p-4 rounded-xl border-r-4 border-morris-primary inline-block w-full">
+                                        <span class="font-bold text-morris-primary block mb-1">المميزات:</span>
+                                        <span class="text-sm text-morris-text/70">ناعم كالحرير، مضاد للبكتيريا، وممتاز في امتصاص العرق.</span>
+                                    </div>
+                                </div>
+                                <!-- Image Placeholder -->
+                                <div class="w-full lg:w-1/2 aspect-video lg:aspect-square max-h-64 rounded-2xl flex flex-col items-center justify-center text-morris-primary/50 img-placeholder group" style="border-color: rgba(6, 78, 59, 0.3);">
+                                    <svg class="w-10 h-10 mb-2 opacity-50 group-hover:opacity-80 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    <span class="font-brand font-bold"></span>
+                                </div>
+                            </div>
+
+                            <!-- Fabric 5: rPET -->
+                            <div class="flex flex-col lg:flex-row items-center gap-6 lg:gap-10">
+                                <div class="w-full lg:w-1/2">
+                                    <h4 class="font-brand text-2xl text-morris-gold mb-3">5. البوليستر المعاد تدويره (rPET)</h4>
+                                    <p class="text-morris-text/80 text-base">بدلاً من استخراج البترول لصنع بوليستر جديد، يتم إنتاجه عن طريق إعادة تدوير العبوات البلاستيكية. هذا يقلل من حجم النفايات في المكبات ويستهلك طاقة أقل في الإنتاج.</p>
+                                    <div class="bg-morris-gold/10 p-4 rounded-xl border-r-4 border-morris-gold inline-block w-full">
+                                        <span class="font-bold text-morris-primary block mb-1">المميزات:</span>
+                                        <span class="text-sm text-morris-text/70">خفيف الوزن، سريع الجفاف، ومقاوم للتجعد.</span>
+                                    </div>
+                                </div>
+                                <!-- Image Placeholder -->
+                                <div class="w-full lg:w-1/2 aspect-video lg:aspect-square max-h-64 rounded-2xl flex flex-col items-center justify-center text-morris-gold/60 img-placeholder group">
+                                    <svg class="w-10 h-10 mb-2 opacity-50 group-hover:opacity-80 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    <span class="font-brand font-bold"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <!-- Section 3: General Care -->
+                    <section id="general-care" class="scroll-mt-40 lg:scroll-mt-32 mb-16">
+                        <h3>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                            <span>ثانياً: قواعد العناية بالملابس المستدامة</span>
+                        </h3>
+                        <p>اقتناء ملابس مستدامة هو نصف الطريق فقط؛ النصف الآخر يكمن في طريقة العناية بها لتقليل البصمة الكربونية وزيادة عمر الملابس الجاهزة.</p>
+                        
+                        <!-- Visual Grid for General Rules -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            <!-- Rule 1 -->
+                            <div class="bg-white border border-morris-border p-5 rounded-2xl shadow-sm hover:shadow-md transition">
+                                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+                                </div>
+                                <h5 class="font-brand text-lg text-morris-primary font-bold mb-2">الغسيل بالماء البارد</h5>
+                                <p class="text-sm text-morris-text/70">تسخين المياه يستهلك حوالي 90% من طاقة دورة الغسيل. الماء البارد يحمي الأنسجة من الانكماش ويوفر الطاقة.</p>
+                            </div>
+                            
+                            <!-- Rule 2 -->
+                            <div class="bg-white border border-morris-border p-5 rounded-2xl shadow-sm hover:shadow-md transition">
+                                <div class="w-12 h-12 bg-green-50 text-green-600 rounded-full flex items-center justify-center mb-4">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                                </div>
+                                <h5 class="font-brand text-lg text-morris-primary font-bold mb-2">منظفات صديقة للبيئة</h5>
+                                <p class="text-sm text-morris-text/70">تجنب المنظفات ذات المبيضات الكيميائية القاسية. اختر منظفات نباتية وقابلة للتحلل لحماية الأقمشة والبيئة المائية.</p>
+                            </div>
+
+                            <!-- Rule 3 -->
+                            <div class="bg-white border border-morris-border p-5 rounded-2xl shadow-sm hover:shadow-md transition">
+                                <div class="w-12 h-12 bg-yellow-50 text-yellow-600 rounded-full flex items-center justify-center mb-4">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                                </div>
+                                <h5 class="font-brand text-lg text-morris-primary font-bold mb-2">التجفيف في الهواء الطلق</h5>
+                                <p class="text-sm text-morris-text/70">تجنب استخدام مجفف الملابس الحراري؛ فهو يستهلك طاقة هائلة ويتسبب في تآكل الألياف الطبيعية بسرعة.</p>
+                            </div>
+
+                            <!-- Rule 4 -->
+                            <div class="bg-white border border-morris-border p-5 rounded-2xl shadow-sm hover:shadow-md transition">
+                                <div class="w-12 h-12 bg-red-50 text-red-500 rounded-full flex items-center justify-center mb-4">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                </div>
+                                <h5 class="font-brand text-lg text-morris-primary font-bold mb-2">التقليل من مرات الغسيل</h5>
+                                <p class="text-sm text-morris-text/70">ليست كل قطعة ملابس بحاجة للغسيل يومياً. تهوية الملابس أو إزالة البقع الموضعية (Spot cleaning) يكفي أحياناً.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Section 4: Detailed Care Table -->
+                    <section id="care-guide" class="scroll-mt-40 lg:scroll-mt-32 mb-16">
+                        <h3>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                            <span>دليلك المخصص للعناية بكل قماش</span>
+                        </h3>
+                        
+                        <div class="overflow-x-auto morris-frame rounded-2xl shadow-sm mt-6 relative">
+                            <!-- Table Scroll Hint for mobile -->
+                            <div class="absolute top-0 bottom-0 left-0 w-12 bg-gradient-to-r from-white to-transparent pointer-events-none md:hidden z-10"></div>
+                            
+                            <table class="w-full text-right border-collapse min-w-[650px]">
+                                <thead>
+                                    <tr class="bg-morris-cream text-morris-primary font-bold text-lg border-b-2 border-morris-olive/30">
+                                        <th class="p-4 w-1/5">نوع القماش</th>
+                                        <th class="p-4 w-2/5">طريقة الغسيل</th>
+                                        <th class="p-4 w-2/5">طريقة التجفيف والكي</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-morris-border/60 text-sm">
+                                    <tr class="hover:bg-morris-cream/50 transition">
+                                        <td class="p-4 font-bold"><span class="bg-morris-olive/10 text-morris-olive px-3 py-1 rounded-full whitespace-nowrap">القطن العضوي</span></td>
+                                        <td class="p-4 text-morris-text/80">غسيل آلي بماء بارد أو فاتر ودورة خفيفة.</td>
+                                        <td class="p-4 text-morris-text/80">يُفضل التجفيف بالهواء المفتوح لتجنب الانكماش. الكي بحرارة متوسطة.</td>
+                                    </tr>
+                                    <tr class="hover:bg-morris-cream/50 transition">
+                                        <td class="p-4 font-bold"><span class="bg-morris-indigo/10 text-morris-indigo px-3 py-1 rounded-full whitespace-nowrap">الكتان</span></td>
+                                        <td class="p-4 text-morris-text/80">غسيل يدوي أو آلي بماء بارد. لا تقم بعصره بقوة.</td>
+                                        <td class="p-4 text-morris-text/80">يُفرد مسطحاً ليجف. يُفضل كيه وهو لا يزال رطباً لتسهيل إزالة التجاعيد.</td>
+                                    </tr>
+                                    <tr class="hover:bg-morris-cream/50 transition">
+                                        <td class="p-4 font-bold"><span class="bg-morris-terracotta/10 text-morris-terracotta px-3 py-1 rounded-full whitespace-nowrap">القنب</span></td>
+                                        <td class="p-4 text-morris-text/80">يمكن غسله بماء فاتر. يتحمل الغسيل المتكرر.</td>
+                                        <td class="p-4 text-morris-text/80">يُجفف بالهواء. يمكن كيه بحرارة عالية نسبياً من الداخل إلى الخارج.</td>
+                                    </tr>
+                                    <tr class="hover:bg-bg-morris-cream/50 transition">
+                                        <td class="p-4 font-bold"><span class="bg-morris-primary/10 text-morris-primary px-3 py-1 rounded-full whitespace-nowrap">اللايوسل (التنسل)</span></td>
+                                        <td class="p-4 text-morris-text/80">غسيل يدوي أو آلي على دورة الملابس الحساسة (Delicates).</td>
+                                        <td class="p-4 text-morris-text/80">يُعلق بعيداً عن أشعة الشمس. يُكوى بحرارة منخفضة جداً بدون بخار كثيف.</td>
+                                    </tr>
+                                    <tr class="hover:bg-bg-morris-cream/50 transition">
+                                        <td class="p-4 font-bold"><span class="bg-morris-gold/15 text-morris-gold px-3 py-1 rounded-full whitespace-nowrap">بوليستر مُعاد</span></td>
+                                        <td class="p-4 text-morris-text/80">بماء بارد. يُنصح باستخدام كيس غسيل لالتقاط الألياف البلاستيكية الدقيقة.</td>
+                                        <td class="p-4 text-morris-text/80">يجف بسرعة في الهواء. لا يحتاج لكي، وتجنب الحرارة العالية لمنع ذوبانه.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Section 5: Conclusion -->
+                    <section id="conclusion" class="scroll-mt-40 lg:scroll-mt-32">
+                        <h3>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                            <span>ختاماً</span>
+                        </h3>
+                        <div class="bg-morris-olive/5 p-6 rounded-2xl border border-morris-olive/20 mt-4">
+                            <p class="mb-0 text-morris-primary font-semibold leading-relaxed">
+                                التحول نحو الأقمشة الصديقة للبيئة ليس مجرد "تريند" مؤقت، بل هو استثمار حقيقي في مستقبل كوكبنا. من خلال اختيار الأقمشة العضوية أو المعاد تدويرها، واتباع عادات غسيل وعناية واعية، فإننا نساهم بشكل مباشر في تقليل التلوث وحماية الموارد الطبيعية للأجيال القادمة. <br><br> <span class="font-brand text-2xl text-morris-olive">اجعل خزانة ملابسك جزءاً من الحل، وليس جزءاً من المشكلة.</span>
+                            </p>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-morris-border mt-auto">
+        <div class="container mx-auto px-4 py-8 text-center">
+            <p class="text-morris-text/60 text-sm font-semibold">
+                &copy; 2026 رونق - ريم السعوي. جميع الحقوق محفوظة.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Scroll Active State Logic
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.toc-link');
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: '-20% 0px -60% 0px',
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                                
+                                // Scroll TOC horizontally on mobile
+                                if(window.innerWidth < 1024) {
+                                    link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                                }
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // 2. Hide Scroll Hint on User Scroll (Mobile/Tablet)
+            const tocContainer = document.getElementById('toc');
+            const scrollHint = document.getElementById('toc-scroll-hint');
+            
+            if (tocContainer && scrollHint) {
+                tocContainer.addEventListener('scroll', () => {
+                    if (Math.abs(tocContainer.scrollLeft) > 10) {
+                        scrollHint.style.opacity = '0';
+                        scrollHint.style.pointerEvents = 'none';
+                    } else {
+                        scrollHint.style.opacity = '1';
+                    }
+                }, { passive: true });
+            }
+        });
+    </script>
+</body>
+</html>

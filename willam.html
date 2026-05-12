@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وليام موريس - رونق</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'morris-cream': '#F8F5F0',
+                        'morris-primary': '#064E3B',
+                        'morris-terracotta': '#9F1239',
+                        'morris-gold': '#B45309',
+                        'morris-indigo': '#1E3A8A',
+                        'morris-olive': '#3F6212',
+                        'morris-text': '#1C1917',
+                        'morris-border': '#E7E5E4',
+                    },
+                    fontFamily: {
+                        'brand': ['Amiri', 'serif'],
+                        'magic': ['"Aref Ruqaa"', 'serif'],
+                        'body': ['Cairo', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'morris': '0 4px 20px -2px rgba(27, 74, 64, 0.08)',
+                        'portrait': '0 10px 30px -5px rgba(180, 83, 9, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #FBF7F2;
+            color: #2C2724;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D49A36' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .morris-frame {
+            position: relative;
+            background: #fff;
+            border: 1px solid #DED8C9;
+        }
+        .morris-frame::before {
+            content: '';
+            position: absolute;
+            top: 4px; left: 4px; right: 4px; bottom: 4px;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        /* Article Typography Styles */
+        .article-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.9;
+            font-size: 1.1rem;
+            color: #3f3a36;
+            text-align: justify;
+        }
+        .article-content h3 {
+            font-family: 'Amiri', serif;
+            color: #064E3B;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+            position: relative;
+            padding-right: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .article-content h3::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 15%;
+            bottom: 15%;
+            width: 4px;
+            background-color: #B45309;
+            border-radius: 4px;
+        }
+        .article-content h3 svg {
+            color: #B45309;
+            opacity: 0.8;
+            flex-shrink: 0;
+        }
+
+        /* Scrollbar hiding for mobile nav */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Active state for Table of Contents */
+        .toc-link.active {
+            color: #9F1239;
+            font-weight: 700;
+            border-right-color: #9F1239;
+            background-color: rgba(159, 18, 57, 0.05);
+        }
+        .toc-link.active svg {
+            color: #9F1239;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col relative">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-morris-cream/95 backdrop-blur-md border-b border-morris-border shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20 sm:h-24">
+                <a href="#" class="flex flex-col items-center justify-center group relative">
+                    <span class="font-brand text-3xl sm:text-4xl font-bold text-morris-primary tracking-wide">رونق</span>
+                    <span class="font-magic text-lg sm:text-xl text-morris-terracotta mt-[-4px]">ريم السعوي</span>
+                </a>
+                
+                <!-- Breadcrumb -->
+                <div class="hidden md:flex items-center gap-2 text-sm font-semibold text-morris-text/60">
+                    <a href="#" class="hover:text-morris-terracotta transition">الرئيسية</a>
+                    <span>/</span>
+                    <span class="text-morris-primary">وليام موريس</span>
+                </div>
+
+                <a href="#" class="flex items-center gap-2 bg-morris-cream border border-morris-primary text-morris-primary hover:bg-morris-primary hover:text-white px-4 py-2 rounded-full transition-colors duration-300 shadow-sm text-sm sm:text-base font-semibold">
+                    <span>العودة</span>
+                    <svg class="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        
+        <!-- Mobile Only Title (Shows since Hero is hidden on mobile) -->
+        <div class="md:hidden container mx-auto px-4 py-6 text-center">
+            <div class="inline-flex items-center justify-center gap-2 mb-2">
+                <span class="h-px w-6 bg-morris-gold"></span>
+                <span class="text-morris-gold font-magic text-lg">شخصيات خالدة</span>
+                <span class="h-px w-6 bg-morris-gold"></span>
+            </div>
+            <h1 class="font-brand text-4xl text-morris-primary font-bold drop-shadow-sm">وليام موريس</h1>
+        </div>
+
+        <!-- Hero Banner (Hidden on Mobile, Adjusted for Tablet & Desktop) -->
+        <section class="hidden md:block py-8 lg:py-10">
+            <div class="container mx-auto px-6 lg:px-8 max-w-7xl">
+                <div class="relative rounded-3xl lg:rounded-[2.5rem] bg-morris-primary overflow-hidden shadow-2xl flex items-center justify-between border border-morris-gold/20 p-8 lg:p-12">
+                    <!-- Background Pattern -->
+                    <div class="absolute inset-0 opacity-[0.03]" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23F8F5F0\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+                    <div class="absolute inset-3 border border-morris-gold/10 rounded-2xl lg:rounded-[2rem] pointer-events-none"></div>
+
+                    <!-- Text Content -->
+                    <div class="relative z-10 w-3/5 lg:w-2/3 text-right pr-2 lg:pr-4">
+                        <div class="inline-flex items-center gap-3 mb-3 lg:mb-4">
+                            <span class="h-[2px] w-8 bg-morris-gold rounded-full"></span>
+                            <span class="font-magic text-morris-gold text-xl lg:text-2xl">شخصيات خالدة</span>
+                        </div>
+                        <h1 class="font-brand text-4xl lg:text-6xl text-morris-cream mb-4 lg:mb-6 leading-tight drop-shadow-md">
+                            وليام موريس
+                        </h1>
+                        <p class="text-base lg:text-xl text-morris-cream/90 leading-relaxed font-light max-w-2xl">
+                            رائد الفنون والحرف، والأدب الفانتازي، والاشتراكية. رحلة في عقل العبقري الذي سعى لإعادة التناغم المفقود بين الإنسان وعمله، وبين الفن والحياة اليومية.
+                        </p>
+                    </div>
+
+                    <!-- Elegant Portrait Frame -->
+                    <div class="relative z-10 w-2/5 lg:w-1/3 flex justify-end pl-2 lg:pl-4">
+                        <div class="relative w-40 h-56 lg:w-56 lg:h-72 rounded-t-[4rem] rounded-b-xl overflow-hidden border-4 border-morris-gold/30 shadow-portrait bg-morris-primary/50 group">
+                            <!-- Image -->
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/William_Morris_by_William_Richmond.jpg" alt="صورة وليام موريس" class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition duration-700 ease-in-out filter sepia-[0.2]">
+                            <!-- Subtle Gradient Overlay -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-morris-primary/60 via-transparent to-transparent opacity-80"></div>
+                            <!-- Inner Decorative Border -->
+                            <div class="absolute inset-2 border border-morris-gold/40 rounded-t-[3.5rem] rounded-b-lg pointer-events-none"></div>
+                            <!-- Caption -->
+                            <div class="absolute bottom-3 w-full text-center">
+                                <span class="font-magic text-sm lg:text-base text-morris-cream drop-shadow-md">المصمم العبقري</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Area -->
+        <section class="pb-24 pt-2 md:pt-6 relative">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl flex flex-col lg:flex-row gap-8 lg:gap-12 relative items-start">
+                
+                <!-- Table of Contents (Sticky on ALL devices: Mobile, Tablet, Desktop) -->
+                <aside class="w-full lg:w-1/4 sticky top-20 sm:top-24 lg:top-32 shrink-0 z-30 pt-2 lg:pt-0">
+                    <div class="morris-frame rounded-xl lg:rounded-2xl p-2 sm:p-4 lg:p-6 shadow-md bg-white overflow-hidden relative">
+                        <h4 class="font-brand text-xl text-morris-primary border-b border-morris-border pb-3 mb-3 hidden lg:block">محتويات التقرير</h4>
+                        
+                        <div class="relative w-full">
+                            <!-- Scroll Indicator Hint (Shows on Mobile/Tablet RTL left edge) -->
+                            <div id="toc-scroll-hint" class="absolute top-0 bottom-0 left-0 w-12 bg-gradient-to-r from-white to-transparent pointer-events-none lg:hidden flex items-center justify-start z-10 transition-opacity duration-300">
+                                <div class="bg-white/80 rounded-full p-1 shadow-sm backdrop-blur-sm -ml-1 text-morris-gold">
+                                    <svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                                </div>
+                            </div>
+
+                            <nav id="toc" class="flex lg:flex-col overflow-x-auto lg:overflow-visible no-scrollbar gap-1 snap-x font-semibold relative">
+                                <a href="#intro" class="toc-link flex items-center gap-2 snap-start shrink-0 lg:shrink px-3 lg:px-4 py-2 text-xs sm:text-sm lg:text-base border-r-2 border-transparent text-morris-text/70 hover:text-morris-terracotta hover:bg-morris-cream transition-colors rounded-l-lg">
+                                    <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-morris-gold/70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                    <span>مقدمة استراتيجية</span>
+                                </a>
+                                <a href="#early" class="toc-link flex items-center gap-2 snap-start shrink-0 lg:shrink px-3 lg:px-4 py-2 text-xs sm:text-sm lg:text-base border-r-2 border-transparent text-morris-text/70 hover:text-morris-terracotta hover:bg-morris-cream transition-colors rounded-l-lg">
+                                    <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-morris-gold/70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                                    <span>التكوين المبكر</span>
+                                </a>
+                                <a href="#philosophy" class="toc-link flex items-center gap-2 snap-start shrink-0 lg:shrink px-3 lg:px-4 py-2 text-xs sm:text-sm lg:text-base border-r-2 border-transparent text-morris-text/70 hover:text-morris-terracotta hover:bg-morris-cream transition-colors rounded-l-lg">
+                                    <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-morris-gold/70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2c-5.333 4-8 8.667-8 14 0 2.209 1.791 4 4 4 2.667 0 4-2 4-2s1.333 2 4 2c2.209 0 4-1.791 4-4 0-5.333-2.667-10-8-14z"></path></svg>
+                                    <span>فلسفة الفنون والحرف</span>
+                                </a>
+                                <a href="#company" class="toc-link flex items-center gap-2 snap-start shrink-0 lg:shrink px-3 lg:px-4 py-2 text-xs sm:text-sm lg:text-base border-r-2 border-transparent text-morris-text/70 hover:text-morris-terracotta hover:bg-morris-cream transition-colors rounded-l-lg">
+                                    <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-morris-gold/70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                                    <span>شركة موريس وشركاه</span>
+                                </a>
+                                <a href="#architecture" class="toc-link flex items-center gap-2 snap-start shrink-0 lg:shrink px-3 lg:px-4 py-2 text-xs sm:text-sm lg:text-base border-r-2 border-transparent text-morris-text/70 hover:text-morris-terracotta hover:bg-morris-cream transition-colors rounded-l-lg">
+                                    <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-morris-gold/70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                                    <span>العمارة والمنازل</span>
+                                </a>
+                                <a href="#conservation" class="toc-link flex items-center gap-2 snap-start shrink-0 lg:shrink px-3 lg:px-4 py-2 text-xs sm:text-sm lg:text-base border-r-2 border-transparent text-morris-text/70 hover:text-morris-terracotta hover:bg-morris-cream transition-colors rounded-l-lg">
+                                    <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-morris-gold/70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                                    <span>الحفاظ على التراث</span>
+                                </a>
+                                <a href="#literature" class="toc-link flex items-center gap-2 snap-start shrink-0 lg:shrink px-3 lg:px-4 py-2 text-xs sm:text-sm lg:text-base border-r-2 border-transparent text-morris-text/70 hover:text-morris-terracotta hover:bg-morris-cream transition-colors rounded-l-lg">
+                                    <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-morris-gold/70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                                    <span>الإنتاج الأدبي</span>
+                                </a>
+                                <a href="#press" class="toc-link flex items-center gap-2 snap-start shrink-0 lg:shrink px-3 lg:px-4 py-2 text-xs sm:text-sm lg:text-base border-r-2 border-transparent text-morris-text/70 hover:text-morris-terracotta hover:bg-morris-cream transition-colors rounded-l-lg">
+                                    <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-morris-gold/70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                                    <span>مطبعة كيلمسكوت</span>
+                                </a>
+                                <a href="#politics" class="toc-link flex items-center gap-2 snap-start shrink-0 lg:shrink px-3 lg:px-4 py-2 text-xs sm:text-sm lg:text-base border-r-2 border-transparent text-morris-text/70 hover:text-morris-terracotta hover:bg-morris-cream transition-colors rounded-l-lg">
+                                    <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-morris-gold/70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg>
+                                    <span>النشاط السياسي</span>
+                                </a>
+                                <a href="#guide" class="toc-link flex items-center gap-2 snap-start shrink-0 lg:shrink px-3 lg:px-4 py-2 text-xs sm:text-sm lg:text-base border-r-2 border-transparent text-morris-text/70 hover:text-morris-terracotta hover:bg-morris-cream transition-colors rounded-l-lg">
+                                    <svg class="w-3.5 h-3.5 lg:w-4 lg:h-4 text-morris-gold/70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    <span>دليل الزوار للمتاحف</span>
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Article Content -->
+                <div class="w-full lg:w-3/4 article-content bg-white/60 p-6 sm:p-8 lg:p-12 rounded-3xl shadow-sm border border-morris-border/50">
+                    
+                    <!-- Section 1: Intro -->
+                    <section id="intro" class="scroll-mt-40 lg:scroll-mt-32 mb-16">
+                        <h3>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                            <span>مقدمة استراتيجية حول إرثه الثقافي والفني</span>
+                        </h3>
+                        <p>يُعد وليام موريس (1834-1896) واحداً من أهم الشخصيات الثقافية والفنية، ليس فقط في بريطانيا خلال العصر الفيكتوري، بل في مسار التاريخ البشري الحديث بأكمله، حيث ترك بصمة لا تُمحى من خلال تعدد مواهبه الاستثنائي والمتشعب. لم يكن موريس مجرد مصمم للمنسوجات وورق الجدران، بل كان فناناً ثورياً، وحرفياً، وكاتباً، وشاعراً، ومترجماً، وناشطاً سياسياً، ورائداً مؤسساً في مجال الحفاظ على التراث المعماري والبيئة الطبيعية.</p>
+                        <p>في عصر سادت فيه الثورة الصناعية والإنتاج الضخم الآلي، وبرزت فيه ملامح الرأسمالية الصناعية القاسية، برز موريس كصوت معارض يدافع بضراوة عن الحرفية اليدوية، ويسعى إلى إعادة التناغم المفقود بين الإنسان وعمله، وبين الفن والحياة اليومية.</p>
+                        
+                        <!-- Beautiful Quote Block -->
+                        <blockquote class="my-10 relative bg-morris-cream p-8 rounded-2xl border-r-4 border-morris-gold shadow-sm">
+                            <svg class="absolute top-4 left-4 w-12 h-12 text-morris-gold/10" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"/></svg>
+                            <p class="font-magic text-2xl sm:text-3xl text-morris-primary leading-relaxed text-center" style="margin-bottom: 0;">"لا تحتفظ في منازلك بأي شيء لا تعرف أنه مفيد، أو لا تعتقد أنه جميل"</p>
+                            <footer class="mt-4 text-center font-bold text-morris-terracotta text-sm">- وليام موريس</footer>
+                        </blockquote>
+                    </section>
+
+                    <!-- Section 2: Early Life -->
+                    <section id="early" class="scroll-mt-40 lg:scroll-mt-32 mb-16">
+                        <h3>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                            <span>التكوين المبكر: من إيسكس إلى أروقة أكسفورد</span>
+                        </h3>
+                        <p>ولد وليام موريس في 24 مارس 1834 في منطقة والثامستو (Walthamstow) في شرق لندن. نشأ في كنف عائلة من الطبقة الوسطى شديدة الثراء، حيث كان والده خبيراً مالياً. أظهر موريس شغفاً مبكراً وغير تقليدي بالطبيعة وسرد القصص، متأثراً بقراءاته لأعمال مثل "ألف ليلة وليلة".</p>
+                        <p>التحق بكلية إكستر (Exeter College) في جامعة أكسفورد عام 1853 بهدف دراسة علم اللاهوت وتكريس حياته للكنيسة. لكن أكسفورد مثلت نقطة تحول تاريخية؛ فقد تراجع عن نيته الدينية تحت تأثير الانغماس في دراسة التاريخ الكلاسيكي وشعر العصور الوسطى، والتقى برفيق دربه الفني إدوارد بيرن-جونز، حيث أسسوا لنهج رومانسي يعارض المادية الفيكتورية.</p>
+                    </section>
+
+                    <!-- Section 3: Philosophy -->
+                    <section id="philosophy" class="scroll-mt-40 lg:scroll-mt-32 mb-16">
+                        <h3>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2c-5.333 4-8 8.667-8 14 0 2.209 1.791 4 4 4 2.667 0 4-2 4-2s1.333 2 4 2c2.209 0 4-1.791 4-4 0-5.333-2.667-10-8-14z"></path></svg>
+                            <span>الفلسفة الجمالية وجذور حركة الفنون والحرف</span>
+                        </h3>
+                        <p>تزعم موريس ما عُرف تاريخياً بـ "حركة الفنون والحرف" (Arts & Crafts Movement)، وهي حركة ثقافية نشأت كاستجابة قلقة تجاه الحياة الصناعية المفرطة. ارتكزت على نقد عميق لمبادئ الثورة الصناعية واستلاب العمالة.</p>
+                        
+                        <!-- Philosophy Grid Cards -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                            <div class="morris-frame p-6 rounded-xl bg-white group hover:bg-morris-primary/5 transition">
+                                <h5 class="font-brand font-bold text-xl text-morris-indigo mb-2 group-hover:text-morris-primary transition">رفض التقسيم الصناعي</h5>
+                                <p class="text-sm text-morris-text/80 mb-0">إصرار موريس على ضرورة إتقان المصمم لكافة التقنيات والمواد شخصياً قبل تكليف العمال بتنفيذها، لإلغاء الاغتراب الصناعي.</p>
+                            </div>
+                            <div class="morris-frame p-6 rounded-xl bg-white group hover:bg-morris-primary/5 transition">
+                                <h5 class="font-brand font-bold text-xl text-morris-gold mb-2 group-hover:text-morris-primary transition">تمجيد الحرفية اليدوية</h5>
+                                <p class="text-sm text-morris-text/80 mb-0">الاحتفاء بالمهارات الفردية، ورفض أساليب الإنتاج الآلي التي تجرد العمل من قيمته وتحول العامل إلى امتداد للآلة.</p>
+                            </div>
+                            <div class="morris-frame p-6 rounded-xl bg-white group hover:bg-morris-primary/5 transition">
+                                <h5 class="font-brand font-bold text-xl text-morris-olive mb-2 group-hover:text-morris-primary transition">المواد الطبيعية</h5>
+                                <p class="text-sm text-morris-text/80 mb-0">التفضيل المطلق لاستخدام الخشب، والحجر، والمواد العضوية على المواد الاصطناعية المقلدة ذات الإنتاج الضخم.</p>
+                            </div>
+                            <div class="morris-frame p-6 rounded-xl bg-white group hover:bg-morris-primary/5 transition">
+                                <h5 class="font-brand font-bold text-xl text-morris-terracotta mb-2 group-hover:text-morris-primary transition">الصدق التصميمي</h5>
+                                <p class="text-sm text-morris-text/80 mb-0">تجريد التصاميم من الزخارف الزائفة، مع التركيز على الأشكال البسيطة المستمدة من الطبيعة كالنباتات والحيوانات.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Section 4: Morris & Co -->
+                    <section id="company" class="scroll-mt-40 lg:scroll-mt-32 mb-16">
+                        <h3>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                            <span>شركة موريس وشركاه: ثورة التصميم الداخلي</span>
+                        </h3>
+                        <p>في أبريل عام 1861، أسس موريس مع أصدقائه بيرن-جونز وروسيتي وويب وغيرهم شركة الفنون الزخرفية. أحدثت الشركة ثورة غير مسبوقة في مفهوم التصميم الداخلي الفيكتوري، ونجحت في إدخال جماليات بصرية مستوحاة من الطبيعة.</p>
+                        
+                        <!-- Beautiful Table Wrapper -->
+                        <h4 class="font-brand text-2xl text-morris-primary mt-8 mb-4">أبرز التصميمات الخالدة</h4>
+                        <div class="overflow-x-auto morris-frame rounded-2xl shadow-sm mb-6 relative">
+                            <!-- Table Scroll Hint for mobile -->
+                            <div class="absolute top-0 bottom-0 left-0 w-12 bg-gradient-to-r from-white to-transparent pointer-events-none md:hidden z-10"></div>
+                            
+                            <table class="w-full text-right border-collapse min-w-[600px]">
+                                <thead>
+                                    <tr class="bg-morris-cream text-morris-primary font-bold text-lg border-b-2 border-morris-gold/30">
+                                        <th class="p-4 w-1/4">العمل (التصميم)</th>
+                                        <th class="p-4 w-1/6">السنة</th>
+                                        <th class="p-4 w-1/6">الفئة</th>
+                                        <th class="p-4">الوصف</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-morris-border/60 text-sm">
+                                    <tr class="hover:bg-morris-cream/50 transition">
+                                        <td class="p-4 font-bold text-morris-terracotta">تعريشة (Trellis)</td>
+                                        <td class="p-4">1862</td>
+                                        <td class="p-4"><span class="bg-morris-olive/10 text-morris-olive px-2 py-1 rounded">ورق جدران</span></td>
+                                        <td class="p-4 text-morris-text/80">استوحاه من تعريشات الورد التي كانت تزين حديقة بيته الأحمر.</td>
+                                    </tr>
+                                    <tr class="hover:bg-morris-cream/50 transition">
+                                        <td class="p-4 font-bold text-morris-terracotta">لص الفراولة</td>
+                                        <td class="p-4">1883</td>
+                                        <td class="p-4"><span class="bg-morris-indigo/10 text-morris-indigo px-2 py-1 rounded">نسيج قطني</span></td>
+                                        <td class="p-4 text-morris-text/80">استلهم فكرته من مراقبته لطيور السمنة التي كانت تسرق الفراولة من حديقته.</td>
+                                    </tr>
+                                    <tr class="hover:bg-morris-cream/50 transition">
+                                        <td class="p-4 font-bold text-morris-terracotta">نقار الخشب</td>
+                                        <td class="p-4">1885</td>
+                                        <td class="p-4"><span class="bg-morris-primary/10 text-morris-primary px-2 py-1 rounded">نسيج جداري</span></td>
+                                        <td class="p-4 text-morris-text/80">نسيج معقد يجسد إتقان موريس المطلق لتقنيات النسيج العالية وتوظيف العناصر الحية.</td>
+                                    </tr>
+                                    <tr class="hover:bg-bg-morris-cream/50 transition">
+                                        <td class="p-4 font-bold text-morris-terracotta">بلاكثورن</td>
+                                        <td class="p-4">1892</td>
+                                        <td class="p-4"><span class="bg-morris-olive/10 text-morris-olive px-2 py-1 rounded">ورق جدران</span></td>
+                                        <td class="p-4 text-morris-text/80">يعكس النضج الفني الكامل لموريس، وإتقانه لتكرار الأنماط النباتية المعقدة.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-sm bg-morris-cream p-4 rounded-xl text-morris-text/70 border-r-4 border-morris-border">ملاحظة: تطلّب طباعة بعض أوراق الجدران الفاخرة ما يصل إلى 30 لوحاً خشبياً محفوراً يدوياً لإكمال نمط متكرر واحد فقط.</p>
+                    </section>
+
+                    <!-- Section 5: Architecture -->
+                    <section id="architecture" class="scroll-mt-40 lg:scroll-mt-32 mb-16">
+                        <h3>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                            <span>العمارة والمنازل التاريخية</span>
+                        </h3>
+                        <h4 class="font-bold text-xl text-morris-terracotta mb-2">البيت الأحمر (Red House)</h4>
+                        <p>في عام 1859، كلف موريس صديقه المهندس فيليب ويب ببناء منزله العائلي "البيت الأحمر" في بيكسلي هيث. يُعد مهد مسقط رأس أسلوب "الفنون والحرف". استندت الفلسفة المعمارية للمنزل إلى مبدأ المنفعة والضرورة؛ حيث تخلوا عن الزخارف غير المبررة، مفضلين "وظيفة التصميم". تميز بطابعه غير المتماثل، والنوافذ التي لم تُضف إلا للضرورة الوظيفية.</p>
+                        
+                        <h4 class="font-bold text-xl text-morris-terracotta mb-2 mt-6">ملاذ كيلمسكوت (Kelmscott Manor)</h4>
+                        <p>بدءاً من 1871، استأجر موريس هذا المنزل الذي يعود للقرن السادس عشر بمحاذاة نهر التايمز. شكل ملاذاً ريفياً واستوحى منه تصميماته، وأطلق اسمه لاحقاً على منزله في لندن وعلى مطبعته الشهيرة.</p>
+                    </section>
+
+                    <!-- Section 6: Conservation -->
+                    <section id="conservation" class="scroll-mt-40 lg:scroll-mt-32 mb-16">
+                        <h3>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                            <span>الحفاظ على التراث المعماري (SPAB)</span>
+                        </h3>
+                        <p>كان موريس مصلحاً رائداً ومؤسساً حقيقياً في مجال الحفاظ على التراث. استجابةً لـ "الترميم" المفرط والمشوه للمباني القديمة من قبل المهندسين الفيكتوريين، أسس "جمعية حماية المباني القديمة" (SPAB) عام 1877.</p>
+                        <p>تتمحور فلسفتها حول مبدأ <strong>"الإصلاح بدلاً من الترميم" (Repair not Restoration)</strong>. أكد موريس أن المهارة تكمن في تقنيات الإصلاح الماهر بأقل قدر من فقدان النسيج المادي الأصلي للحفاظ على رومانسية المبنى وعيوبه البشرية الصادقة.</p>
+                    </section>
+
+                    <!-- Section 7: Literature & Fantasy -->
+                    <section id="literature" class="scroll-mt-40 lg:scroll-mt-32 mb-16">
+                        <h3>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                            <span>الإنتاج الأدبي: تأسيس الفانتازيا الحديثة</span>
+                        </h3>
+                        <p>رغم شهرته كمصمم، كان موريس معروفاً في حياته كشاعر وأديب يشار إليه بالبنان. تأثر بشدة بالملاحم الأيسلندية القديمة، واعتبره النقاد <strong>الأب المؤسس الفعلي لأدب الفانتازيا الحديثة</strong>. استلهم عوالم متخيلة بالكامل دمجت الخارق للطبيعة مع رومانسية العصور الوسطى.</p>
+                        
+                        <!-- Tolkien Comparison -->
+                        <div class="bg-morris-indigo/5 p-6 rounded-2xl mt-8 border border-morris-indigo/20">
+                            <h4 class="font-brand text-2xl text-morris-indigo mb-4 flex items-center gap-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                تأثيره المباشر على ج.ر.ر. تولكين
+                            </h4>
+                            <ul class="space-y-4 text-morris-text/80 text-sm sm:text-base">
+                                <li class="flex items-start gap-3">
+                                    <span class="text-morris-gold font-bold mt-1">✓</span>
+                                    <span><strong>الأسماء والرموز:</strong> الساحر "الملك غاندولف" في روايات موريس تحول إلى "غاندالف" عند تولكين، وحصان "سيلفرفاكس" أصبح "شادوفاكس".</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-morris-gold font-bold mt-1">✓</span>
+                                    <span><strong>الجان (Elves):</strong> صورة الجان الحكيمة والملائكية مستمدة مباشرة من عالم موريس، وليس من أساطير الجنيات المؤذية.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-morris-gold font-bold mt-1">✓</span>
+                                    <span><strong>تقنيات السرد:</strong> دمج القصائد الشعرية والأغاني الملحمية داخل النص النثري، واستخدام اللغة القديمة (Archaic) لتعميق الإحساس بالتاريخ.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <h4 class="font-bold text-xl text-morris-terracotta mb-2 mt-8">اليوتوبيا: أخبار من لا مكان</h4>
+                        <p>في روايته "أخبار من لا مكان" (1890)، رسم موريس صورة لبريطانيا في عام 2102 بعد ثورة، حيث يعيش الناس أحراراً في تناغم مع الطبيعة دون دولة مركزية، وجادل بأن العمل المادي يجب أن يكون بحد ذاته عملية إبداعية وممتعة.</p>
+                    </section>
+
+                    <!-- Section 8: Kelmscott Press -->
+                    <section id="press" class="scroll-mt-40 lg:scroll-mt-32 mb-16">
+                        <h3>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                            <span>مطبعة كيلمسكوت وإحياء فن صناعة الكتاب</span>
+                        </h3>
+                        <p>رفضاً للانحدار الجمالي في الطباعة التجارية، أسس "مطبعة كيلمسكوت" عام 1891 لإحياء التقاليد الحرفية الصارمة لإنتاج الكتب. استخدم مكابس يدوية قديمة، ورقاً مصنوعاً يدوياً، وأحباراً غنية، وصمم خطوطاً حصرية لتوفير تجربة قراءة فريدة.</p>
+                        
+                        <div class="flex flex-wrap gap-4 mt-6">
+                            <span class="px-4 py-2 bg-morris-cream border border-morris-border rounded-full text-morris-primary font-bold">الخط الذهبي (1890)</span>
+                            <span class="px-4 py-2 bg-morris-cream border border-morris-border rounded-full text-morris-primary font-bold">خط طروادة (1891)</span>
+                            <span class="px-4 py-2 bg-morris-cream border border-morris-border rounded-full text-morris-primary font-bold">خط تشوسر (1892)</span>
+                        </div>
+                        <p class="mt-6">يُعتبر كتاب "أعمال جيفري تشوسر" (1896) درة التاج للمطبعة، وأحد أجمل الكتب المطبوعة على الإطلاق، حيث استغرق 4 سنوات وطُبعت منه 438 نسخة فقط بيعت مسبقاً.</p>
+                    </section>
+
+                    <!-- Section 9: Politics -->
+                    <section id="politics" class="scroll-mt-40 lg:scroll-mt-32 mb-16">
+                        <h3>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg>
+                            <span>النشاط السياسي وفلسفة الاستحالة</span>
+                        </h3>
+                        <p>تحول موريس إلى اشتراكي ثوري راديكالي كامل الوعي. كان يتألم لأن منتجاته اليدوية الفاخرة لا يستطيع شراءها سوى الأغنياء، فأسس "الرابطة الاشتراكية" عام 1884.</p>
+                        <p>عُرف بفلسفة "الاستحالة" (Impossibilism)، رافضاً الإصلاحات الاجتماعية البرلمانية التدريجية، لإيمانه بأنها ستروض الحركة العمالية. كان هدفه الوحيد هو الثورة الشاملة وإلغاء استغلال وسائل الإنتاج.</p>
+                    </section>
+
+                    <!-- Section 10: Museum Guide -->
+                    <section id="guide" class="scroll-mt-40 lg:scroll-mt-32">
+                        <h3>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            <span>دليل الزوار والمتاحف</span>
+                        </h3>
+                        <p>تستمر فلسفة موريس كأيقونة عابرة للزمن أثرت على الباوهاوس، والفكر البيئي، وثقافة البوب. للغوص في عالمه، يمكنك زيارة هذه المعالم:</p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
+                            <!-- Museum Card 1 -->
+                            <div class="morris-frame rounded-2xl p-6 text-center">
+                                <div class="w-16 h-16 mx-auto bg-morris-gold/15 text-morris-gold rounded-full flex items-center justify-center mb-4">
+                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path></svg>
+                                </div>
+                                <h4 class="font-brand text-xl text-morris-primary mb-2">معرض وليام موريس</h4>
+                                <p class="text-sm text-morris-text/70 mb-4">يقع في منزل طفولته "ووتر هاوس" في والثامستو. يضم أكبر مجموعة من أعماله وأرشيف رسائله الخاصة.</p>
+                                <span class="text-xs font-bold text-morris-gold bg-morris-gold/10 px-3 py-1 rounded-full">الدخول مجاني</span>
+                            </div>
+                            
+                            <!-- Museum Card 2 -->
+                            <div class="morris-frame rounded-2xl p-6 text-center">
+                                <div class="w-16 h-16 mx-auto bg-morris-terracotta/15 text-morris-terracotta rounded-full flex items-center justify-center mb-4">
+                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                                </div>
+                                <h4 class="font-brand text-xl text-morris-primary mb-2">منزل كيلمسكوت</h4>
+                                <p class="text-sm text-morris-text/70 mb-4">في حي هامرسميث. يحتضن أحد مكابس الطباعة اليدوية الأصلية، وتُعقد فيه جولات للمجموعات بـ 12£.</p>
+                                <span class="text-xs font-bold text-morris-terracotta bg-morris-terracotta/10 px-3 py-1 rounded-full">يتطلب حجز مسبق</span>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-morris-border mt-auto">
+        <div class="container mx-auto px-4 py-8 text-center">
+            <p class="text-morris-text/60 text-sm font-semibold">
+                &copy; 2026 رونق - ريم السعوي. جميع الحقوق محفوظة.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Scroll Active State Logic
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.toc-link');
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: '-20% 0px -60% 0px',
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                                
+                                // Scroll TOC horizontally on mobile
+                                if(window.innerWidth < 1024) {
+                                    link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                                }
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // 2. Hide Scroll Hint on User Scroll (Mobile/Tablet)
+            const tocContainer = document.getElementById('toc');
+            const scrollHint = document.getElementById('toc-scroll-hint');
+            
+            if (tocContainer && scrollHint) {
+                tocContainer.addEventListener('scroll', () => {
+                    // Check if scrolled more than a few pixels (Math.abs handles RTL cross-browser variations)
+                    if (Math.abs(tocContainer.scrollLeft) > 10) {
+                        scrollHint.style.opacity = '0';
+                        scrollHint.style.pointerEvents = 'none';
+                    } else {
+                        scrollHint.style.opacity = '1';
+                    }
+                }, { passive: true });
+            }
+        });
+    </script>
+</body>
+</html>

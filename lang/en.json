@@ -1,0 +1,132 @@
+{
+  "app": {
+    "name": "Rawnaq",
+    "tagline": "Sustainable Fabric Design Experience"
+  },
+  "hub": {
+    "title": "Rawnaq",
+    "subtitle": "A sustainable fabric design experience inspired by William Morris",
+    "welcome_back": "Welcome back",
+    "explore": "Explore",
+    "start": "Start",
+    "login_required": "Requires login code",
+    "modal_subtitle": "Enter your participation code to access this section",
+    "morris_desc": "Discover the life and vision of the father of Arts & Crafts and his lasting legacy",
+    "fabrics_title": "Sustainable Fabrics",
+    "fabrics_desc": "Discover eco-friendly fabric types and their impact on the future of textile",
+    "technique_title": "Extra Weft Technique",
+    "technique_desc": "Learn the traditional weaving technique step-by-step with interactive animation",
+    "design_desc": "Create your own pattern on different fabrics and preview your design live",
+    "survey_desc": "Share your experience evaluation and contribute to this scientific research"
+  },
+  "nav": {
+    "home": "Home",
+    "morris": "William Morris",
+    "fabrics": "Fabrics",
+    "technique": "Technique",
+    "design_tool": "Design Tool",
+    "survey": "Survey",
+    "logout": "Logout",
+    "login": "Login",
+    "progress": "Progress"
+  },
+  "login": {
+    "title": "Welcome to Rawnaq",
+    "subtitle": "Sustainable Fabric Design Experience",
+    "label": "Participation Code",
+    "placeholder": "Enter your 4-digit code",
+    "button": "Start Experience",
+    "error_invalid": "Invalid code. Please check and try again.",
+    "error_completed": "This experience has already been completed. Thank you for your participation."
+  },
+  "morris": {
+    "title": "William Morris",
+    "subtitle": "Father of Arts & Crafts",
+    "years": "1834 — 1896",
+    "timeline_title": "Life Milestones",
+    "gallery_title": "Artworks Gallery",
+    "philosophy_title": "His Design Philosophy",
+    "philosophy_nature": "Nature as Inspiration",
+    "philosophy_craft": "Craftsmanship & Quality",
+    "philosophy_beauty": "Beauty in Everyday Life",
+    "next": "Next: Sustainable Fabrics"
+  },
+  "fabrics": {
+    "title": "Sustainable Fabrics",
+    "subtitle": "Choose your eco-friendly fabric",
+    "stat_headline": "The textile industry consumes 93 billion cubic meters of water annually",
+    "compare_btn": "Compare Fabrics",
+    "weaving_ease": "Weaving Ease",
+    "next": "Next: Extra Weft Technique",
+    "fabrics": {
+      "organic_cotton": { "name": "Organic Cotton", "en": "Organic Cotton" },
+      "linen": { "name": "Natural Linen", "en": "Natural Linen" },
+      "peace_silk": { "name": "Peace Silk", "en": "Peace Silk" },
+      "bamboo": { "name": "Bamboo Fabric", "en": "Bamboo Fabric" },
+      "hemp": { "name": "Hemp", "en": "Hemp" },
+      "tencel": { "name": "Tencel", "en": "Tencel / Lyocell" }
+    }
+  },
+  "technique": {
+    "title": "Extra Weft Technique",
+    "subtitle": "تقنية النقشة الزائدة",
+    "steps_title": "Step-by-Step Process",
+    "step1": "Prepare warp threads (vertical)",
+    "step2": "Prepare weft threads (horizontal)",
+    "step3": "Basic interlacing (Plain Weave)",
+    "step4": "Add the Extra Weft thread",
+    "step5": "Finishing & pressing",
+    "animation_play": "Play",
+    "animation_pause": "Pause",
+    "animation_speed": "Animation Speed",
+    "morris_section": "Extra Weft in William Morris's Work",
+    "next": "Next: Try the Design Tool"
+  },
+  "design_tool": {
+    "title": "Design Tool",
+    "subtitle": "Select a fabric and pattern to start",
+    "step1_title": "Choose Fabric",
+    "step2_title": "Choose Pattern",
+    "step2_hint": "Tap a pattern to place it. You can add multiple copies and move them freely.",
+    "step3_title": "Choose Color",
+    "custom_color": "Custom Color / لون مخصص",
+    "delete_btn": "Delete / حذف",
+    "save_btn": "Save Design & Proceed to Survey",
+    "next": "Next: Survey",
+    "warning_no_fabric": "Please choose a fabric first",
+    "warning_no_pattern": "Please choose a pattern"
+  },
+  "survey": {
+    "title": "Survey",
+    "welcome": "Hello",
+    "welcome_msg": "Please rate your experience honestly — your answers will enrich this research",
+    "section1": "Design Tool Evaluation",
+    "section2": "Educational Content Evaluation",
+    "section3": "Overall Evaluation",
+    "q1": "Ease of using the design tool",
+    "q2": "Visual quality of the pattern preview",
+    "q3": "My knowledge of William Morris before the app",
+    "q4": "My knowledge of William Morris after the app",
+    "q5": "Clarity of the Extra Weft technique explanation",
+    "q6": "My awareness of sustainable fabrics",
+    "q7": "My overall rating of the app",
+    "q_liked": "What I liked most about the app",
+    "q_suggest": "My suggestions for improvement",
+    "submit": "Submit Answers",
+    "required": "Please answer all required questions"
+  },
+  "thank_you": {
+    "title": "Thank You!",
+    "message": "Your contribution will enrich this scientific research",
+    "subtitle": "Your answers have been saved successfully"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred. Please try again.",
+    "next": "Next",
+    "prev": "Previous",
+    "close": "Close",
+    "copy": "Copy",
+    "copied": "Copied!"
+  }
+}

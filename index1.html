@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رونق - ريم السعوي</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Amiri for Brand, Aref Ruqaa for Subtitle, Cairo for Body -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // ألوان جديدة كلياً: أعمق، أكثر حيوية وتنوعاً، وأكثر تبايناً
+                        'morris-cream': '#F8F5F0',     // كريمي أفتح وأنقى
+                        'morris-primary': '#064E3B',   // أخضر زمردي/غابات عميق جداً
+                        'morris-terracotta': '#9F1239', // أحمر قرمزي/عنابي غني (تغيير جذري)
+                        'morris-gold': '#B45309',      // ذهبي نحاسي/برتقالي دافئ
+                        'morris-indigo': '#1E3A8A',    // أزرق نيلي/طاووسي عميق
+                        'morris-olive': '#3F6212',     // أخضر زيتي/طحلبي داكن
+                        'morris-text': '#1C1917',      // لون نص داكن جداً لراحة العين
+                        'morris-border': '#E7E5E4',    // إطارات أنعم
+                    },
+                    fontFamily: {
+                        'brand': ['Amiri', 'serif'],
+                        'magic': ['"Aref Ruqaa"', 'serif'],
+                        'body': ['Cairo', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'morris': '0 4px 20px -2px rgba(27, 74, 64, 0.08)',
+                        'morris-hover': '0 10px 30px -5px rgba(27, 74, 64, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #FBF7F2;
+            color: #2C2724;
+            /* Subtle floral pattern SVG encoded as background */
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D49A36' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* Delicate border framing inspired by Arts & Crafts */
+        .morris-frame {
+            position: relative;
+            background: #fff;
+            border: 1px solid #DED8C9;
+        }
+        .morris-frame::before {
+            content: '';
+            position: absolute;
+            top: 4px; left: 4px; right: 4px; bottom: 4px;
+            border: 1px solid rgba(197, 160, 89, 0.2); /* Gold inner border */
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+
+        /* Modal Backdrop Blur */
+        .modal-backdrop {
+            backdrop-filter: blur(4px);
+        }
+
+        /* Hide scrollbar for cleaner look on modal */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+
+    <header class="sticky top-0 z-40 bg-morris-cream/90 backdrop-blur-md border-b border-morris-border shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-24">
+                
+                <!-- Logo & Brand -->
+                <a href="#" class="flex flex-col items-center justify-center group relative">
+                    <!-- Leaf SVG decoration above text -->
+                    <svg class="w-6 h-6 text-morris-gold mb-[-8px] opacity-70 group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.5,2C15.5,2 13.5,3 12,4.5C10.5,3 8.5,2 6.5,2C2.5,2 0,5.5 0,9.5C0,15 12,22 12,22C12,22 24,15 24,9.5C24,5.5 21.5,2 17.5,2Z" opacity="0.3"/>
+                        <path d="M12,22S0,15 0,9.5C0,5.5 2.5,2 6.5,2C8.5,2 10.5,3 12,4.5C13.5,3 15.5,2 17.5,2C21.5,2 24,5.5 24,9.5C24,15 12,22 12,22ZM12,19.2C14.7,17.2 22,12.2 22,9.5C22,6.6 20.1,4 17.5,4C15.4,4 13.6,5.4 12.8,7.3L12,9L11.2,7.3C10.4,5.4 8.6,4 6.5,4C3.9,4 2,6.6 2,9.5C2,12.2 9.3,17.2 12,19.2Z"/>
+                    </svg>
+                    <span class="font-brand text-4xl font-bold text-morris-primary tracking-wide">رونق</span>
+                    <span class="font-magic text-xl text-morris-terracotta mt-[-4px]">ريم السعوي</span>
+                </a>
+
+                <!-- Actions -->
+                <div class="flex items-center gap-4">
+                    <div class="hidden sm:flex bg-white rounded-full p-1 border border-morris-border shadow-sm">
+                        <button class="px-3 py-1 rounded-full text-sm font-semibold bg-morris-primary text-white transition">AR</button>
+                        <button class="px-3 py-1 rounded-full text-sm font-semibold text-morris-text hover:bg-morris-cream transition">EN</button>
+                    </div>
+                    
+                    <button id="header-login-btn" data-open-login-modal class="flex items-center gap-2 bg-morris-terracotta hover:bg-morris-primary text-white px-5 py-2.5 rounded-full transition-colors duration-300 shadow-sm text-sm sm:text-base font-semibold">
+                        <span>دخول</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- Hero Section (New Compact & Masterpiece Design) -->
+        <section class="py-8 sm:py-12">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+                <!-- Framed Banner -->
+                <div class="relative rounded-[2rem] bg-morris-primary overflow-hidden shadow-2xl flex flex-col md:flex-row items-center justify-between border border-morris-primary/20">
+                    <!-- Subtle repeating pattern overlay for texture -->
+                    <div class="absolute inset-0 opacity-[0.04] pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23F8F5F0\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+                    
+                    <!-- Decorative Inner Frame (Arts & Crafts style) -->
+                    <div class="absolute inset-3 border border-morris-gold/20 rounded-[1.5rem] pointer-events-none hidden sm:block"></div>
+
+                    <!-- Text Content -->
+                    <div class="relative z-10 p-8 sm:p-12 lg:p-16 md:w-3/5 text-right flex flex-col justify-center">
+                        <!-- Eyebrow text -->
+                        <div class="inline-flex items-center gap-3 mb-4 fade-in-up" style="animation-delay: 0.1s;">
+                            <span class="h-[2px] w-8 bg-morris-gold rounded-full"></span>
+                            <span class="font-magic text-morris-gold text-xl">إلهام الطبيعة</span>
+                        </div>
+                        
+                        <h1 class="font-brand text-3xl sm:text-4xl lg:text-5xl text-morris-cream mb-4 leading-snug fade-in-up drop-shadow-sm" style="animation-delay: 0.2s;">
+                            رونق التصميم
+                        </h1>
+                        
+                        <p class="text-base sm:text-lg text-morris-cream/85 leading-relaxed font-light fade-in-up max-w-xl" style="animation-delay: 0.3s;">
+                            تجربة فريدة لتصميم الأقمشة المستدامة، مستوحاة من عراقة الطبيعة وفلسفة الفنون والحرف لوليام موريس.
+                        </p>
+                    </div>
+
+                    <!-- Visual Artistic Element (Right side LTR / Left side RTL) -->
+                    <div class="relative z-10 p-8 pb-12 md:pb-8 hidden sm:flex md:w-2/5 justify-center items-center fade-in-up" style="animation-delay: 0.4s;">
+                        <div class="relative w-40 h-40 lg:w-56 lg:h-56 flex items-center justify-center">
+                            <!-- Outer elegant rotating dashed ring -->
+                            <svg class="absolute inset-0 w-full h-full text-morris-gold/30 animate-[spin_40s_linear_infinite]" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="6 4" />
+                            </svg>
+                            <!-- Inner solid ring -->
+                            <svg class="absolute inset-4 w-[calc(100%-2rem)] h-[calc(100%-2rem)] text-morris-gold/40" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="0.5" />
+                            </svg>
+                            <!-- Central Intricate Icon (Botanical/Fabric feel) -->
+                            <svg class="w-20 h-20 lg:w-28 lg:h-28 text-morris-gold drop-shadow-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pb-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+                <!-- Grid layout: 1 col on mobile, 2 on tablet, 3 on desktop -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+
+                    <!-- Card 1: William Morris (Primary Green) -->
+                    <a href="#" class="morris-frame rounded-2xl p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-primary fade-in-up hover:bg-morris-primary/5" style="animation-delay: 0.4s;">
+                        <div class="w-16 h-16 rounded-full bg-morris-primary/15 text-morris-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <!-- Scroll Icon -->
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        </div>
+                        <h2 class="font-brand text-2xl text-morris-primary mb-3">وليام موريس</h2>
+                        <p class="text-sm text-morris-text/80 line-clamp-2">تعرفي على فلسفة الفنون والحرف والإلهام المستمد من الطبيعة.</p>
+                        <div class="mt-6 text-morris-primary/40 group-hover:text-morris-primary transition-colors">
+                            <svg class="w-6 h-6 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </div>
+                    </a>
+
+                    <!-- Card 2: Sustainable Fabrics (Olive Green) -->
+                    <a href="#" class="morris-frame rounded-2xl p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-olive fade-in-up hover:bg-morris-olive/5" style="animation-delay: 0.5s;">
+                        <div class="w-16 h-16 rounded-full bg-morris-olive/15 text-morris-olive flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <!-- Leaf/Fabric Icon -->
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                        </div>
+                        <h2 class="font-brand text-2xl text-morris-olive mb-3">الأقمشة المستدامة</h2>
+                        <p class="text-sm text-morris-text/80 line-clamp-2">اكتشفي أنواع الأقمشة الصديقة للبيئة وكيفية العناية بها.</p>
+                        <div class="mt-6 text-morris-olive/40 group-hover:text-morris-olive transition-colors">
+                            <svg class="w-6 h-6 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </div>
+                    </a>
+
+                    <!-- Card 3: Technique (Indigo Blue) -->
+                    <a href="#" class="morris-frame rounded-2xl p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-indigo fade-in-up hover:bg-morris-indigo/5" style="animation-delay: 0.6s;">
+                        <div class="w-16 h-16 rounded-full bg-morris-indigo/15 text-morris-indigo flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <!-- Sparkle/Magic Icon -->
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                        </div>
+                        <h2 class="font-brand text-2xl text-morris-indigo mb-3">النقشة الزائدة</h2>
+                        <p class="text-sm text-morris-text/80 line-clamp-2">تعلمي تقنيات النقشة الزائدة لإضافة لمسة فنية لأقمشتك.</p>
+                        <div class="mt-6 text-morris-indigo/40 group-hover:text-morris-indigo transition-colors">
+                            <svg class="w-6 h-6 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </div>
+                    </a>
+
+                    <!-- Card 4: Design Tool (Gold) -->
+                    <button type="button" data-open-login-modal class="relative w-full morris-frame rounded-2xl p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-gold fade-in-up hover:bg-morris-gold/5" style="animation-delay: 0.7s;">
+                        <!-- Lock Badge -->
+                        <div class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white border border-morris-gold text-morris-gold flex items-center justify-center shadow-sm group-hover:bg-morris-gold group-hover:text-white transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        </div>
+                        
+                        <div class="w-16 h-16 rounded-full bg-morris-gold/15 text-morris-gold flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <!-- Palette/Design Icon -->
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                        </div>
+                        <h2 class="font-brand text-2xl text-morris-gold mb-3">أداة التصميم</h2>
+                        <p class="text-sm text-morris-text/80 line-clamp-2">ابدئي بتصميم نقوشك الخاصة حصرياً للمشاركين.</p>
+                        <div class="mt-6 text-morris-gold font-bold text-sm bg-morris-gold/10 px-4 py-1.5 rounded-full border border-morris-gold/20">
+                            يتطلب كود دخول
+                        </div>
+                    </button>
+
+                    <!-- Card 5: Survey (Terracotta) -->
+                    <button type="button" data-open-login-modal class="relative w-full morris-frame rounded-2xl p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-terracotta fade-in-up hover:bg-morris-terracotta/5" style="animation-delay: 0.8s;">
+                        <!-- Lock Badge -->
+                        <div class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white border border-morris-terracotta text-morris-terracotta flex items-center justify-center shadow-sm group-hover:bg-morris-terracotta group-hover:text-white transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        </div>
+
+                        <div class="w-16 h-16 rounded-full bg-morris-terracotta/15 text-morris-terracotta flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <!-- Clipboard/Survey Icon -->
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                        </div>
+                        <h2 class="font-brand text-2xl text-morris-terracotta mb-3">الاستبيان</h2>
+                        <p class="text-sm text-morris-text/80 line-clamp-2">شاركينا رأيك حول تجربتك في استخدام أداة رونق.</p>
+                        <div class="mt-6 text-morris-terracotta font-bold text-sm bg-morris-terracotta/10 px-4 py-1.5 rounded-full border border-morris-terracotta/20">
+                            يتطلب كود دخول
+                        </div>
+                    </button>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-white border-t border-morris-border mt-auto">
+        <div class="container mx-auto px-4 py-8 text-center">
+            <p class="text-morris-text/60 text-sm">
+                &copy; 2024 رونق - ريم السعوي. جميع الحقوق محفوظة.
+            </p>
+        </div>
+    </footer>
+
+    <div id="login-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-morris-text/40 modal-backdrop transition-opacity" data-close-modal></div>
+
+        <!-- Modal Panel -->
+        <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-md mx-4 p-8 overflow-hidden border border-morris-border transform transition-all scale-95 opacity-0 duration-300" id="modal-panel">
+            
+            <!-- Decorative corner elements -->
+            <svg class="absolute top-0 left-0 w-16 h-16 text-morris-primary/5 -translate-x-4 -translate-y-4" fill="currentColor" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"/></svg>
+            <svg class="absolute bottom-0 right-0 w-24 h-24 text-morris-gold/10 translate-x-8 translate-y-8" fill="currentColor" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"/></svg>
+
+            <!-- Close Button -->
+            <button type="button" data-close-modal class="absolute top-4 left-4 text-morris-text/50 hover:text-morris-terracotta transition-colors bg-morris-cream rounded-full p-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <!-- Content -->
+            <div class="relative text-center">
+                <div class="font-brand text-3xl text-morris-primary mb-2">أهلاً بكِ في رونق</div>
+                <p class="text-morris-text/70 mb-8 text-sm">أدخلي كود المشاركة للوصول إلى هذا القسم والمتابعة</p>
+
+                <form id="modal-form" class="space-y-6">
+                    <div>
+                        <label for="modal-code" class="block text-right text-sm font-semibold text-morris-text mb-2">كود المشاركة</label>
+                        <input 
+                            type="text" 
+                            id="modal-code" 
+                            maxlength="4" 
+                            inputmode="numeric"
+                            placeholder="مثال: 1234"
+                            class="w-full text-center text-2xl tracking-[0.5em] font-bold text-morris-primary bg-morris-cream border-2 border-morris-border rounded-xl px-4 py-4 focus:outline-none focus:border-morris-gold focus:ring-1 focus:ring-morris-gold transition-all"
+                        >
+                        <p id="modal-error" class="text-red-500 text-sm mt-2 hidden">يرجى إدخال كود صحيح</p>
+                    </div>
+
+                    <button type="submit" id="modal-submit" class="w-full bg-morris-terracotta hover:bg-morris-primary text-white font-bold text-lg py-4 rounded-xl shadow-md transition-colors duration-300 relative overflow-hidden group">
+                        <span class="relative z-10">ابدئي التجربة</span>
+                        <!-- Subtle hover shine effect -->
+                        <div class="absolute inset-0 h-full w-full bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
+                    </button>
+                </form>
+                
+                <p class="mt-6 text-xs text-morris-text/50">الرجاء استخدام كود المشاركة المكون من 4 أرقام المرسل لكِ مسبقاً.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('login-modal');
+            const modalPanel = document.getElementById('modal-panel');
+            const openBtns = document.querySelectorAll('[data-open-login-modal]');
+            const closeBtns = document.querySelectorAll('[data-close-modal]');
+            const form = document.getElementById('modal-form');
+            const input = document.getElementById('modal-code');
+            const errorMsg = document.getElementById('modal-error');
+            const submitBtn = document.getElementById('modal-submit');
+
+            // Open Modal
+            const openModal = (e) => {
+                if(e) e.preventDefault();
+                modal.classList.remove('hidden');
+                // Small delay to allow display:block to apply before animating opacity/transform
+                requestAnimationFrame(() => {
+                    modalPanel.classList.remove('scale-95', 'opacity-0');
+                    modalPanel.classList.add('scale-100', 'opacity-100');
+                });
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                setTimeout(() => input.focus(), 300);
+            };
+
+            // Close Modal
+            const closeModal = () => {
+                modalPanel.classList.remove('scale-100', 'opacity-100');
+                modalPanel.classList.add('scale-95', 'opacity-0');
+                
+                // Wait for animation to finish before hiding
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = '';
+                    input.value = '';
+                    errorMsg.classList.add('hidden');
+                    input.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+                }, 300);
+            };
+
+            // Event Listeners
+            openBtns.forEach(btn => btn.addEventListener('click', openModal));
+            closeBtns.forEach(btn => btn.addEventListener('click', closeModal));
+
+            // Close on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
+
+            // Input formatting (numbers only)
+            input.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+                errorMsg.classList.add('hidden');
+                this.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+            });
+
+            // Form Submission Simulation
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const code = input.value.trim();
+
+                if (code.length !== 4) {
+                    errorMsg.textContent = 'الرجاء إدخال كود مكون من 4 أرقام';
+                    errorMsg.classList.remove('hidden');
+                    input.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+                    
+                    // Shake animation for error
+                    modalPanel.classList.add('animate-pulse');
+                    setTimeout(() => modalPanel.classList.remove('animate-pulse'), 500);
+                    return;
+                }
+
+                // Simulate loading state
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<span class="relative z-10 flex items-center justify-center gap-2"><svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> جاري التحقق...</span>';
+                submitBtn.disabled = true;
+
+                // Simulate API Call delay
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    
+                    // You can replace this alert with your actual redirection logic
+                    // window.location.href = '/dashboard';
+                    const tempDiv = document.createElement('div');
+                    tempDiv.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-morris-primary text-white px-6 py-3 rounded-full shadow-lg z-[60] font-bold transition-all';
+                    tempDiv.innerText = 'تم تسجيل الدخول بنجاح!';
+                    document.body.appendChild(tempDiv);
+                    
+                    closeModal();
+
+                    setTimeout(() => tempDiv.remove(), 3000);
+
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>

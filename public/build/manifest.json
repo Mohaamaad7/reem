@@ -1,0 +1,35 @@
+{
+  "resources/css/animations.css": {
+    "file": "assets/animations-DVePsAZk.css",
+    "name": "animations",
+    "names": [
+      "animations.css"
+    ],
+    "src": "resources/css/animations.css",
+    "isEntry": true
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-VU4vybKC.css",
+    "name": "app",
+    "names": [
+      "app.css"
+    ],
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/css/rtl.css": {
+    "file": "assets/rtl-DO17_WV5.css",
+    "name": "rtl",
+    "names": [
+      "rtl.css"
+    ],
+    "src": "resources/css/rtl.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-DKI9y7KO.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}

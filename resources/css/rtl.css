@@ -1,0 +1,32 @@
+html[dir="rtl"] .site-header__inner {
+    direction: rtl;
+}
+
+html[dir="rtl"] .brand__title,
+html[dir="rtl"] .brand__subtitle,
+html[dir="rtl"] .login-title,
+html[dir="rtl"] .login-subtitle,
+html[dir="rtl"] .form-label,
+html[dir="rtl"] .form-error,
+html[dir="rtl"] .login-meta {
+    text-align: right;
+}
+
+html[dir="rtl"] .login-title,
+html[dir="rtl"] .login-subtitle,
+html[dir="rtl"] .login-meta {
+    text-align: center;
+}
+
+html[dir="rtl"] .site-header__actions {
+    justify-content: flex-start;
+}
+
+html[dir="ltr"] .site-header__inner {
+    direction: ltr;
+}
+
+html[dir="ltr"] .form-label,
+html[dir="ltr"] .form-error {
+    text-align: left;
+}

@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>رونق - استوديو التصميم الفاخر</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Fabric.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+
+    <style>
+        :root {
+            /* Luxury Light Palette */
+            --bg-color: #FAFAFA; /* Off-white */
+            --surface-color: #FFFFFF;
+            --primary-color: #BFA15F; /* Soft Muted Gold */
+            --primary-hover: #A68B52;
+            --text-main: #2C3539; /* Gunmetal / Dark Charcoal */
+            --text-muted: #7A8B94;
+            --border-color: #EAE6DF;
+            --danger-color: #D66D6D;
+            --shadow-sm: 0 2px 8px rgba(44, 53, 57, 0.04);
+            --shadow-md: 0 8px 24px rgba(44, 53, 57, 0.06);
+            --radius-md: 12px;
+            --radius-lg: 20px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* --- Typography --- */
+        h1, h2, h3 { font-weight: 500; }
+        
+        /* --- Header --- */
+        .header {
+            background-color: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+        }
+
+        .brand__title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: 0.5px;
+        }
+
+        .brand__subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .user-chip {
+            background-color: var(--bg-color);
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-color);
+        }
+
+        /* --- Main Layout --- */
+        .workspace {
+            display: flex;
+            flex: 1;
+            height: calc(100vh - 73px); /* Minus header */
+            overflow: hidden;
+        }
+
+        /* --- Controls Sidebar (Right) --- */
+        .sidebar {
+            width: 400px;
+            background-color: var(--surface-color);
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-sm);
+            z-index: 5;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--surface-color);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1.2rem 0;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .tab-btn i { font-size: 1.4rem; }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .tab-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            display: none;
+        }
+
+        .tab-content.active { display: block; }
+
+        .section-title {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        /* Grids */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .grid-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.3s, border 0.3s;
+            background-color: #f5f5f5;
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .grid-item.selected {
+            border-color: var(--primary-color);
+        }
+
+        .grid-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(191, 161, 95, 0.1);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .grid-item.selected::after { opacity: 1; }
+
+        /* Controls inside tabs */
+        .control-group {
+            margin-bottom: 1.5rem;
+            background: var(--bg-color);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+
+        .slider-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        input[type=range] {
+            flex: 1;
+            -webkit-appearance: none;
+            background: transparent;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #ddd;
+            border-radius: 2px;
+        }
+
+        /* --- Canvas Area (Left) --- */
+        .canvas-container-outer {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: radial-gradient(circle, #FAFAFA 0%, #EFEBE4 100%);
+            position: relative;
+        }
+
+        .canvas-frame {
+            background-color: white;
+            padding: 1rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            position: relative;
+        }
+
+        canvas {
+            border-radius: var(--radius-md);
+            border: 1px dashed var(--border-color);
+            background-color: var(--bg-color);
+        }
+
+        .empty-state {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
+
+        .empty-state i {
+            font-size: 2.5rem;
+            color: var(--border-color);
+        }
+
+        /* Floating Actions */
+        .floating-actions {
+            position: absolute;
+            bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            background: var(--surface-color);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-action {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 20px;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover:not(:disabled) {
+            background: var(--bg-color);
+            color: var(--primary-color);
+        }
+
+        .btn-action:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .btn-danger { color: var(--danger-color); }
+        .btn-danger:hover:not(:disabled) {
+            background: #FDF0F0;
+            color: var(--danger-color);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background-color: var(--primary-hover);
+            color: white;
+        }
+
+        /* --- Responsive Mobile --- */
+        @media (max-width: 900px) {
+            .workspace {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: 50vh;
+                border-left: none;
+                border-top: 1px solid var(--border-color);
+            }
+            .canvas-container-outer {
+                padding: 1rem;
+            }
+            .canvas-frame {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <a class="brand" href="#">
+            <span class="brand__title">رونق</span>
+            <span class="brand__subtitle">تجربة تصميم الأقمشة المستدامة</span>
+        </a>
+
+        <div class="header-actions">
+            <button class="btn-outline">
+                <i class="ph ph-globe"></i> EN
+            </button>
+            <div class="user-chip">ضيف كريم</div>
+            <button class="btn-outline" style="border-color: transparent;">
+                <i class="ph ph-sign-out"></i> خروج
+            </button>
+        </div>
+    </header>
+
+    <!-- Workspace -->
+    <main class="workspace">
+        
+        <!-- Canvas Area -->
+        <div class="canvas-container-outer">
+            <div class="canvas-frame">
+                <canvas id="design-canvas" width="400" height="533"></canvas>
+                <div class="empty-state" id="empty-state">
+                    <i class="ph ph-magic-wand"></i>
+                    <span>اختاري قماشاً ونقشة لتبدئي الإبداع</span>
+                </div>
+            </div>
+
+            <div class="floating-actions">
+                <button class="btn-action btn-danger" id="btn-delete" disabled>
+                    <i class="ph ph-trash"></i> حذف العنصر
+                </button>
+                <button class="btn-action btn-primary" id="btn-save">
+                    <i class="ph ph-check-circle"></i> اعتماد التصميم
+                </button>
+            </div>
+        </div>
+
+        <!-- Controls Sidebar -->
+        <aside class="sidebar">
+            
+            <!-- Navigation Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-target="tab-fabric">
+                    <i class="ph ph-selection-background"></i>
+                    <span>القماش</span>
+                </button>
+                <button class="tab-btn" data-target="tab-pattern">
+                    <i class="ph ph-bezier-curve"></i>
+                    <span>النقوش</span>
+                </button>
+                <button class="tab-btn" data-target="tab-adjust">
+                    <i class="ph ph-sliders"></i>
+                    <span>التعديل</span>
+                </button>
+            </div>
+
+            <!-- Tab Content: Fabrics -->
+            <div class="tab-content active" id="tab-fabric">
+                <h2 class="section-title"><i class="ph ph-sparkle"></i> خامة القماش</h2>
+                <p class="section-desc">اختاري خامة القماش الأساسية التي ستشكل خلفية تصميمك الفاخر.</p>
+                
+                <div class="items-grid" id="fabric-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Tab Content: Patterns -->
+            <div class="tab-content" id="tab-pattern">
+                <h2 class="section-title"><i class="ph ph-flower-lotus"></i> زخارف ونقوش</h2>
+                <p class="section-desc">اضغطي على النقشة لإضافتها للكانفاس، يمكنك سحبها، تكبيرها، وتدويرها بحرية.</p>
+                
+                <div class="items-grid" id="pattern-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Tab Content: Adjustments -->
+            <div class="tab-content" id="tab-adjust">
+                <h2 class="section-title"><i class="ph ph-faders"></i> اللمسات الأخيرة</h2>
+                <p class="section-desc">قومي بتحديد عنصر على القماش لتعديل خصائصه واندماجه.</p>
+
+                <div class="control-group">
+                    <label style="display:block; margin-bottom: 0.8rem; font-weight: 500;">شفافية العنصر المحدد</label>
+                    <div class="slider-wrapper">
+                        <i class="ph ph-drop-half-bottom" style="color: var(--text-muted);"></i>
+                        <input type="range" id="opacity-slider" min="0" max="100" value="100" disabled>
+                        <span id="opacity-val" style="width: 40px; text-align: left; font-size: 0.9rem;">100%</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label style="display:block; margin-bottom: 0.8rem; font-weight: 500;">لون النقشة (للأشكال المتجهة)</label>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <button class="color-btn" style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; background: #BFA15F; cursor:pointer;" data-color="#BFA15F"></button>
+                        <button class="color-btn" style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; background: #2C3539; cursor:pointer;" data-color="#2C3539"></button>
+                        <button class="color-btn" style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; background: #8C5A4D; cursor:pointer;" data-color="#8C5A4D"></button>
+                        <button class="color-btn" style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; background: #5E7153; cursor:pointer;" data-color="#5E7153"></button>
+                        <button class="color-btn" style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; background: #FFFFFF; cursor:pointer;" data-color="#FFFFFF"></button>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // --- 1. Tab Switching Logic ---
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Remove active from all
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active to clicked
+                    btn.classList.add('active');
+                    document.getElementById(btn.dataset.target).classList.add('active');
+                });
+            });
+
+            // --- 2. Mock Data for Luxury Presentation ---
+            const fabrics = [
+                { id: 'f1', url: 'https://images.unsplash.com/photo-1605000797499-95a51c5269ae?w=400&q=80' }, // Linen
+                { id: 'f2', url: 'https://images.unsplash.com/photo-1596431940984-c5a4358a9e69?w=400&q=80' }, // Silk/Satin
+                { id: 'f3', url: 'https://images.unsplash.com/photo-1584955702758-c266f809a473?w=400&q=80' }, // Cotton
+                { id: 'f4', url: 'https://images.unsplash.com/photo-1598462719293-8646b1ebde2e?w=400&q=80' }  // Dark Fabric
+            ];
+
+            // Using simple shapes/transparent PNGs as patterns for demonstration
+            const patterns = [
+                { id: 'p1', url: 'https://cdn-icons-png.flaticon.com/512/3067/3067262.png' }, // Mandala/Flower
+                { id: 'p2', url: 'https://cdn-icons-png.flaticon.com/512/2926/2926880.png' }, // Leaves
+                { id: 'p3', url: 'https://cdn-icons-png.flaticon.com/512/4024/4024479.png' }, // Geometric
+                { id: 'p4', url: 'https://cdn-icons-png.flaticon.com/512/3712/3712169.png' }  // Abstract
+            ];
+
+            // Populate Fabric Grid
+            const fabricGrid = document.getElementById('fabric-grid');
+            fabrics.forEach(f => {
+                const div = document.createElement('div');
+                div.className = 'grid-item';
+                div.innerHTML = `<img src="${f.url}" alt="Fabric">`;
+                div.onclick = () => {
+                    document.querySelectorAll('#fabric-grid .grid-item').forEach(el => el.classList.remove('selected'));
+                    div.classList.add('selected');
+                    setCanvasBackground(f.url);
+                };
+                fabricGrid.appendChild(div);
+            });
+
+            // Populate Pattern Grid
+            const patternGrid = document.getElementById('pattern-grid');
+            patterns.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'grid-item';
+                div.style.padding = '20px'; // To see transparent PNGs better
+                div.innerHTML = `<img src="${p.url}" alt="Pattern" style="object-fit: contain;">`;
+                div.onclick = () => addPatternToCanvas(p.url);
+                patternGrid.appendChild(div);
+            });
+
+
+            // --- 3. Fabric.js Setup ---
+            const canvas = new fabric.Canvas('design-canvas', {
+                preserveObjectStacking: true
+            });
+            const emptyState = document.getElementById('empty-state');
+            const btnDelete = document.getElementById('btn-delete');
+            const opacitySlider = document.getElementById('opacity-slider');
+            const opacityVal = document.getElementById('opacity-val');
+
+            // Set Background Function
+            function setCanvasBackground(url) {
+                emptyState.style.opacity = '0';
+                fabric.Image.fromURL(url, function(img) {
+                    // Scale background to cover canvas
+                    const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+                    img.set({
+                        originX: 'center',
+                        originY: 'center',
+                        left: canvas.width / 2,
+                        top: canvas.height / 2,
+                        scaleX: scale,
+                        scaleY: scale
+                    });
+                    canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
+                }, { crossOrigin: 'anonymous' });
+            }
+
+            // Add Pattern Function
+            function addPatternToCanvas(url) {
+                emptyState.style.opacity = '0';
+                fabric.Image.fromURL(url, function(img) {
+                    img.scaleToWidth(150);
+                    img.set({
+                        left: canvas.width / 2,
+                        top: canvas.height / 2,
+                        originX: 'center',
+                        originY: 'center',
+                        cornerColor: '#BFA15F',
+                        cornerStrokeColor: '#BFA15F',
+                        borderColor: '#BFA15F',
+                        cornerSize: 10,
+                        transparentCorners: false
+                    });
+                    canvas.add(img);
+                    canvas.setActiveObject(img);
+                }, { crossOrigin: 'anonymous' });
+            }
+
+            // --- 4. Event Listeners for Canvas Objects ---
+            canvas.on('selection:created', handleSelection);
+            canvas.on('selection:updated', handleSelection);
+            canvas.on('selection:cleared', handleDeselection);
+
+            function handleSelection(e) {
+                const activeObj = e.selected[0];
+                btnDelete.disabled = false;
+                opacitySlider.disabled = false;
+                opacitySlider.value = activeObj.opacity * 100;
+                opacityVal.innerText = `${Math.round(activeObj.opacity * 100)}%`;
+            }
+
+            function handleDeselection() {
+                btnDelete.disabled = true;
+                opacitySlider.disabled = true;
+            }
+
+            // Delete Button
+            btnDelete.onclick = () => {
+                const activeObjects = canvas.getActiveObjects();
+                if (activeObjects.length) {
+                    canvas.discardActiveObject();
+                    activeObjects.forEach(function(object) {
+                        canvas.remove(object);
+                    });
+                    if (canvas.getObjects().length === 0 && !canvas.backgroundImage) {
+                        emptyState.style.opacity = '1';
+                    }
+                }
+            };
+
+            // Opacity Slider
+            opacitySlider.addEventListener('input', function() {
+                const activeObj = canvas.getActiveObject();
+                if (activeObj) {
+                    const val = this.value;
+                    activeObj.set('opacity', val / 100);
+                    opacityVal.innerText = `${val}%`;
+                    canvas.renderAll();
+                }
+            });
+
+            // Color Buttons (Simulating tint via Fabric filters for images)
+            document.querySelectorAll('.color-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const activeObj = canvas.getActiveObject();
+                    if (activeObj && activeObj.isType('image')) {
+                        const color = this.dataset.color;
+                        // Applying a blend color filter to simulate color change
+                        const filter = new fabric.Image.filters.BlendColor({
+                            color: color,
+                            mode: 'tint',
+                            alpha: 0.8
+                        });
+                        activeObj.filters = [filter];
+                        activeObj.applyFilters();
+                        canvas.renderAll();
+                    } else if (!activeObj) {
+                        // Switch to Adjust tab logic if they click a color but haven't selected an object
+                        alert("الرجاء تحديد نقشة من الكانفاس لتغيير لونها.");
+                    }
+                });
+            });
+
+            // Save Button
+            document.getElementById('btn-save').onclick = () => {
+                // Flash effect to simulate saving
+                const overlay = document.createElement('div');
+                overlay.style.position = 'absolute';
+                overlay.style.inset = '0';
+                overlay.style.backgroundColor = 'white';
+                overlay.style.opacity = '0.8';
+                overlay.style.transition = 'opacity 0.5s';
+                document.querySelector('.canvas-frame').appendChild(overlay);
+                
+                setTimeout(() => {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => overlay.remove(), 500);
+                    alert("تم اعتماد التصميم بنجاح! سيتم نقلك للخطوة التالية.");
+                }, 300);
+            };
+
+        });
+    </script>
+</body>
+</html>
