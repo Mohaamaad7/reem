@@ -1,4 +1,4 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
 @theme {
     --color-morris-cream:      #F8F5F0;
@@ -1575,6 +1575,13 @@ body:has(.dt-workspace) .brand__subtitle {
     .home-bg {
         background-image: url('/images/bg/desktop.jpg');
     }
+}
+
+/* ── Inner pages: reset the old 480px mobile container constraint ────────── */
+/* Same fix as .home-bg — the legacy .container caps width at 480px.         */
+.inner-page-bg .container {
+    width: 100%;
+    max-width: none;
 }
 
 /* ── Inner page body background (morris, fabrics, etc.) ─────────────────── */

@@ -45,7 +45,7 @@
 
         <!-- Hero Banner (hidden on mobile) -->
         <section class="hidden md:block py-8 lg:py-10">
-            <div class="container mx-auto px-6 lg:px-8 max-w-7xl">
+            <div class="container mx-auto px-6 lg:px-8">
                 <div class="relative rounded-3xl lg:rounded-[2.5rem] bg-morris-primary overflow-hidden shadow-2xl flex items-center justify-between border border-morris-gold/20 p-8 lg:p-12">
                     <div class="absolute inset-0 opacity-[0.03]" style="background-image:url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23F8F5F0\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
                     <div class="absolute inset-3 border border-morris-gold/10 rounded-2xl lg:rounded-[2rem] pointer-events-none"></div>
@@ -81,7 +81,7 @@
 
         <!-- Main Content Area -->
         <section class="pb-24 pt-2 md:pt-6 relative">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl flex flex-col lg:flex-row gap-8 lg:gap-12 relative items-start">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-8 lg:gap-12 relative items-start">
 
                 <!-- Table of Contents -->
                 <aside class="w-full lg:w-1/4 sticky top-20 sm:top-24 lg:top-32 shrink-0 z-30 pt-2 lg:pt-0">
