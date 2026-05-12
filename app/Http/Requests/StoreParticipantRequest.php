@@ -8,7 +8,7 @@ class StoreParticipantRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return session()->has('admin_logged_in');
+        return \Illuminate\Support\Facades\Auth::guard('admin')->check();
     }
 
     public function rules(): array
