@@ -13,6 +13,11 @@
          ═══════════════════════════════════════════ --}}
     <div class="dt-canvas-area">
 
+        {{-- Workspace Tabs --}}
+        <div class="dt-workspace-tabs" id="dt-workspace-tabs">
+            {{-- Populated by JS --}}
+        </div>
+
         <div class="dt-canvas-frame">
             <canvas
                 id="design-canvas"

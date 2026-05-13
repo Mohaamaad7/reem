@@ -775,7 +775,7 @@ body:has(.dt-workspace) .brand__subtitle {
     flex-direction: row-reverse;
 }
 
-/* â”€â”€ Canvas Area â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Canvas Area ──────────────────────────────────────────── */
 .dt-canvas-area {
     flex: 1;
     display: flex;
@@ -919,7 +919,103 @@ body:has(.dt-workspace) .brand__subtitle {
     color: #ffffff;
 }
 
-/* â”€â”€ Sidebar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Workspace Tabs ──────────────────────────────────────────── */
+.dt-workspace-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 0.5rem 1rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    flex-shrink: 0;
+    max-width: 100%;
+}
+
+.dt-workspace-tabs::-webkit-scrollbar { display: none; }
+
+.dt-ws-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.6rem;
+    border: 1.5px solid var(--color-border);
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--color-text-muted);
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color 0.18s, background 0.18s, color 0.18s;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.dt-ws-tab:hover {
+    border-color: var(--color-primary-light);
+    color: var(--color-text-primary);
+}
+
+.dt-ws-tab.is-active {
+    border-color: var(--color-primary-light);
+    background: rgba(191, 161, 95, 0.1);
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.dt-ws-tab__name {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dt-ws-tab__name[contenteditable] {
+    outline: none;
+    background: rgba(191, 161, 95, 0.08);
+    border-radius: 3px;
+    padding: 0 2px;
+}
+
+.dt-ws-tab__del {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity 0.18s, background 0.18s;
+    color: var(--color-danger);
+}
+
+.dt-ws-tab:hover .dt-ws-tab__del,
+.dt-ws-tab.is-active .dt-ws-tab__del {
+    opacity: 0.7;
+}
+
+.dt-ws-tab__del:hover {
+    opacity: 1 !important;
+    background: rgba(214, 109, 109, 0.12);
+}
+
+.dt-ws-tab--add {
+    border-style: dashed;
+    min-width: 30px;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-primary-light);
+}
+
+.dt-ws-tab--add:hover {
+    border-style: solid;
+    background: rgba(191, 161, 95, 0.06);
+}
+
+/* ── Sidebar ──────────────────────────────────────────────── */
 .dt-sidebar {
     width: 400px;
     flex-shrink: 0;

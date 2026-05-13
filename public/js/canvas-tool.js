@@ -30,6 +30,12 @@ const BLEND_MODES = [
     { id: 'screen',     labelAr: 'شفاف',   labelEn: 'Screen',  op: 'screen'     },
 ];
 
+/* ── Auto-Save & Workspace Constants ────────────────────────── */
+const AUTOSAVE_KEY = 'rawnaq_autosave';
+const AUTOSAVE_DEBOUNCE = 500;
+const WORKSPACES_KEY = 'rawnaq_workspaces';
+const MAX_WORKSPACES = 10;
+
 /* ── Helper: darken a hex color ────────────────────────────── */
 function _darken(hex, amount) {
     const n = parseInt(hex.replace('#', ''), 16);
@@ -175,6 +181,9 @@ class DesignEngine {
             opacity:   0.8,
         };
 
+        /* ── Auto-Save ── */
+        this._initAutoSave();
+
         /* ── Build UI ── */
         this._buildFabricGrid();
         this._buildPatternGrid();
@@ -187,6 +196,10 @@ class DesignEngine {
         this._bindSubTargetTracking();
         this._bindMobileBottomSheets();
         this._loadSavedDesigns();
+
+        /* ── Recovery & Workspaces ── */
+        this._tryRecovery();
+        this._initWorkspaces();
     }
 
     /* ─────────────────────────────────────────────────────────────
@@ -638,6 +651,7 @@ class DesignEngine {
                 if (self.opacityLabelMobile) self.opacityLabelMobile.textContent = val + '%';
             }
             applyOpacity(val);
+            self._scheduleAutoSave();
         });
 
         if (this.opacitySliderMobile) {
@@ -647,6 +661,7 @@ class DesignEngine {
                 self.opacitySlider.value = val;
                 if (self.opacityLabelMobile) self.opacityLabelMobile.textContent = val + '%';
                 applyOpacity(val);
+                self._scheduleAutoSave();
             });
         }
     }
@@ -884,6 +899,7 @@ class DesignEngine {
 
         this._hideEmpty();
         this._updateSaveBtn();
+        this._scheduleAutoSave();
     }
 
     /* ─────────────────────────────────────────────────────────────
@@ -1019,6 +1035,7 @@ class DesignEngine {
             obj.set({ globalCompositeOperation: blendMode.op });
         });
         this.canvas.requestRenderAll();
+        this._scheduleAutoSave();
     }
 
     /* ─────────────────────────────────────────────────────────────
@@ -1036,6 +1053,428 @@ class DesignEngine {
             this.canvas.getObjects().length > 0
         );
         this.saveBtns.forEach(function(btn) { btn.disabled = !canSave; });
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       Auto-Save & Recovery
+       ═══════════════════════════════════════════════════════════════ */
+
+    _initAutoSave() {
+        var self = this;
+        this._autoSaveTimer = null;
+        var events = ['object:modified', 'object:added', 'object:removed'];
+        events.forEach(function(evt) {
+            self.canvas.on(evt, function() {
+                self._scheduleAutoSave();
+            });
+        });
+    }
+
+    _scheduleAutoSave() {
+        var self = this;
+        if (this._autoSaveTimer) clearTimeout(this._autoSaveTimer);
+        this._autoSaveTimer = setTimeout(function() {
+            self._performAutoSave();
+        }, AUTOSAVE_DEBOUNCE);
+    }
+
+    _performAutoSave() {
+        try {
+            var gf = this._guideFrame;
+            if (gf) gf.set('visible', false);
+
+            var canvasJson = JSON.stringify(this.canvas.toJSON(['patternId', '_isSvgGroup', 'subTargetCheck']));
+
+            if (gf) gf.set('visible', true);
+            this.canvas.renderAll();
+
+            var data = {
+                canvas_json: canvasJson,
+                state: {
+                    fabricId: this.state.fabricId,
+                    blendMode: this.state.blendMode,
+                    opacity: this.state.opacity,
+                },
+                workspaceId: this._currentWorkspaceId,
+                updatedAt: Date.now(),
+            };
+            localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(data));
+
+            if (this._workspaces && this._currentWorkspaceId) {
+                this._updateCurrentWorkspaceData(canvasJson);
+            }
+        } catch (e) {
+            console.warn('[AutoSave] Failed:', e);
+        }
+    }
+
+    _updateCurrentWorkspaceData(canvasJson) {
+        var self = this;
+        var ws = this._workspaces.items.find(function(w) { return w.id === self._workspaces.currentId; });
+        if (!ws) return;
+        ws.canvas_json = canvasJson;
+        ws.state = {
+            fabricId: this.state.fabricId,
+            blendMode: this.state.blendMode,
+            opacity: this.state.opacity,
+        };
+        ws.updatedAt = Date.now();
+        this._persistWorkspaces(this._workspaces);
+    }
+
+    _tryRecovery() {
+        var self = this;
+        try {
+            var raw = localStorage.getItem(AUTOSAVE_KEY);
+            if (raw) {
+                var data = JSON.parse(raw);
+                if (data.canvas_json) {
+                    console.log('[Recovery] Found auto-save, restoring...');
+                    this.canvas.loadFromJSON(JSON.parse(data.canvas_json), function() {
+                        self._restoreRecoveryState(data.state);
+                        self._restoreBackground();
+                        self._syncUIAfterLoad();
+                        self._hideEmpty();
+                        self._updateSaveBtn();
+                        console.log('[Recovery] Canvas restored from auto-save');
+                    });
+                    localStorage.removeItem(AUTOSAVE_KEY);
+                    return;
+                }
+            }
+
+            var ws = this._workspaces.items.find(function(w) { return w.id === self._workspaces.currentId; });
+            if (ws && ws.canvas_json) {
+                console.log('[Recovery] Loading workspace:', ws.name);
+                this.canvas.loadFromJSON(JSON.parse(ws.canvas_json), function() {
+                    if (ws.state) {
+                        self.state.fabricId = ws.state.fabricId || null;
+                        self.state.blendMode = ws.state.blendMode || 'multiply';
+                        self.state.opacity = ws.state.opacity != null ? ws.state.opacity : 0.8;
+                    }
+                    self._restoreBackground();
+                    self._syncUIAfterLoad();
+                    self._hideEmpty();
+                    self._updateSaveBtn();
+                    console.log('[Recovery] Workspace restored');
+                });
+            } else {
+                this._drawGuideFrame();
+                this.canvas.renderAll();
+            }
+        } catch (e) {
+            console.warn('[Recovery] Failed:', e);
+        }
+    }
+
+    _restoreRecoveryState(data) {
+        if (data) {
+            this.state.fabricId = data.fabricId || null;
+            this.state.blendMode = data.blendMode || 'multiply';
+            this.state.opacity = data.opacity != null ? data.opacity : 0.8;
+        }
+    }
+
+    _restoreBackground() {
+        var self = this;
+        if (!this.state.fabricId) {
+            this._drawGuideFrame();
+            this.canvas.renderAll();
+            return;
+        }
+        var fabricItem = AssetCatalog.fabrics.find(function(f) { return f.id === self.state.fabricId; });
+        if (!fabricItem) {
+            this._drawGuideFrame();
+            this.canvas.renderAll();
+            return;
+        }
+        var url = fabricItem.working_url || fabricItem.url;
+        fabric.Image.fromURL(url, function(img, isError) {
+            if (isError) {
+                self._drawGuideFrame();
+                self.canvas.renderAll();
+                return;
+            }
+            var cW = self.canvas.getWidth();
+            var cH = self.canvas.getHeight();
+            img.set({
+                scaleX: cW / (img.getElement().naturalWidth || 1),
+                scaleY: cH / (img.getElement().naturalHeight || 1),
+                originX: 'left', originY: 'top', left: 0, top: 0,
+            });
+            self.canvas.setBackgroundImage(img, function() {
+                self._drawGuideFrame();
+                self.canvas.renderAll();
+            });
+        }, { crossOrigin: 'anonymous' });
+    }
+
+    _syncUIAfterLoad() {
+        var self = this;
+        var allFabricGrids = [this.fabricGrid];
+        if (this.fabricGridMobile) allFabricGrids.push(this.fabricGridMobile);
+        allFabricGrids.forEach(function(grid) {
+            if (!grid) return;
+            grid.querySelectorAll('.dt-grid__item').forEach(function(el) {
+                el.classList.toggle('is-selected', el.dataset.fabricId === self.state.fabricId);
+            });
+        });
+        var allBlendGroups = [this.blendGroup];
+        if (this.blendGroupMobile) allBlendGroups.push(this.blendGroupMobile);
+        allBlendGroups.forEach(function(group) {
+            if (!group) return;
+            group.querySelectorAll('.dt-blend-btn').forEach(function(el) {
+                el.classList.toggle('is-selected', el.dataset.blendId === self.state.blendMode);
+            });
+        });
+        var pct = Math.round(this.state.opacity * 100);
+        if (this.opacitySlider) this.opacitySlider.value = pct;
+        if (this.opacitySliderMobile) this.opacitySliderMobile.value = pct;
+        this._updateOpacityLabel(pct);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       Workspaces (Tabs)
+       ═══════════════════════════════════════════════════════════════ */
+
+    _initWorkspaces() {
+        var wsData = this._loadWorkspaces();
+        if (!wsData || !wsData.items || wsData.items.length === 0) {
+            wsData = { currentId: null, items: [] };
+            var defaultWs = this._createWorkspaceObject(
+                this.isAr ? 'مساحة عمل 1' : 'Workspace 1'
+            );
+            wsData.items.push(defaultWs);
+            wsData.currentId = defaultWs.id;
+            this._persistWorkspaces(wsData);
+        }
+        this._currentWorkspaceId = wsData.currentId;
+        this._workspaces = wsData;
+        this._renderWorkspaceTabs();
+    }
+
+    _createWorkspaceObject(name) {
+        return {
+            id: 'ws_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+            name: name,
+            canvas_json: null,
+            state: { fabricId: null, blendMode: 'multiply', opacity: 0.8 },
+            updatedAt: Date.now(),
+        };
+    }
+
+    _loadWorkspaces() {
+        try {
+            var raw = localStorage.getItem(WORKSPACES_KEY);
+            return raw ? JSON.parse(raw) : null;
+        } catch (e) {
+            console.warn('[Workspaces] Load failed:', e);
+            return null;
+        }
+    }
+
+    _persistWorkspaces(data) {
+        try {
+            localStorage.setItem(WORKSPACES_KEY, JSON.stringify(data));
+        } catch (e) {
+            console.warn('[Workspaces] Persist failed:', e);
+        }
+    }
+
+    _renderWorkspaceTabs() {
+        var container = document.getElementById('dt-workspace-tabs');
+        if (!container) return;
+        var self = this;
+        container.innerHTML = '';
+
+        this._workspaces.items.forEach(function(ws) {
+            var tab = document.createElement('button');
+            tab.type = 'button';
+            tab.className = 'dt-ws-tab' + (ws.id === self._workspaces.currentId ? ' is-active' : '');
+            tab.dataset.wsId = ws.id;
+
+            var nameSpan = document.createElement('span');
+            nameSpan.className = 'dt-ws-tab__name';
+            nameSpan.textContent = ws.name;
+
+            nameSpan.addEventListener('dblclick', function(e) {
+                e.stopPropagation();
+                self._startRename(ws.id, nameSpan);
+            });
+
+            tab.appendChild(nameSpan);
+
+            var delBtn = document.createElement('span');
+            delBtn.className = 'dt-ws-tab__del';
+            delBtn.textContent = '×';
+            delBtn.title = self.isAr ? 'حذف مساحة العمل' : 'Delete workspace';
+            delBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                self._deleteWorkspace(ws.id);
+            });
+            tab.appendChild(delBtn);
+
+            tab.addEventListener('click', function() {
+                self._switchWorkspace(ws.id);
+            });
+
+            container.appendChild(tab);
+        });
+
+        if (this._workspaces.items.length < MAX_WORKSPACES) {
+            var addBtn = document.createElement('button');
+            addBtn.type = 'button';
+            addBtn.className = 'dt-ws-tab dt-ws-tab--add';
+            addBtn.textContent = '+';
+            addBtn.title = this.isAr ? 'إضافة مساحة عمل' : 'Add workspace';
+            addBtn.addEventListener('click', function() { self._addWorkspace(); });
+            container.appendChild(addBtn);
+        }
+    }
+
+    _startRename(wsId, nameSpan) {
+        var self = this;
+        var currentName = nameSpan.textContent;
+        nameSpan.contentEditable = true;
+        nameSpan.focus();
+        var range = document.createRange();
+        range.selectNodeContents(nameSpan);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+
+        var finishRename = function() {
+            nameSpan.contentEditable = false;
+            var newName = nameSpan.textContent.trim() || currentName;
+            nameSpan.textContent = newName;
+            var ws = self._workspaces.items.find(function(w) { return w.id === wsId; });
+            if (ws) { ws.name = newName; self._persistWorkspaces(self._workspaces); }
+        };
+
+        nameSpan.addEventListener('blur', finishRename, { once: true });
+        nameSpan.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') { e.preventDefault(); nameSpan.blur(); }
+            if (e.key === 'Escape') { nameSpan.textContent = currentName; nameSpan.blur(); }
+        });
+    }
+
+    _switchWorkspace(id) {
+        if (id === this._workspaces.currentId) return;
+        var self = this;
+        this._saveCurrentWorkspace();
+        this.canvas.discardActiveObject();
+        this.canvas.getObjects().forEach(function(obj) {
+            if (!obj._isGuideFrame) self.canvas.remove(obj);
+        });
+        this.canvas.backgroundImage = null;
+        this._workspaces.currentId = id;
+        this._currentWorkspaceId = id;
+        this._persistWorkspaces(this._workspaces);
+        var ws = this._workspaces.items.find(function(w) { return w.id === id; });
+        if (ws) this._loadWorkspaceIntoCanvas(ws);
+        this._renderWorkspaceTabs();
+    }
+
+    _addWorkspace() {
+        if (this._workspaces.items.length >= MAX_WORKSPACES) return;
+        var self = this;
+        var count = this._workspaces.items.length + 1;
+        var ws = this._createWorkspaceObject(
+            this.isAr ? ('مساحة عمل ' + count) : ('Workspace ' + count)
+        );
+        this._saveCurrentWorkspace();
+        this.canvas.discardActiveObject();
+        this.canvas.getObjects().forEach(function(obj) {
+            if (!obj._isGuideFrame) self.canvas.remove(obj);
+        });
+        this.canvas.backgroundImage = null;
+        this.canvas.renderAll();
+        this.state.fabricId = null;
+        this.state.blendMode = 'multiply';
+        this.state.opacity = 0.8;
+        this._workspaces.items.push(ws);
+        this._workspaces.currentId = ws.id;
+        this._currentWorkspaceId = ws.id;
+        this._persistWorkspaces(this._workspaces);
+        this._renderWorkspaceTabs();
+        this._hideEmpty();
+        this._updateSaveBtn();
+        this._drawGuideFrame();
+        this.canvas.renderAll();
+        this._syncUIAfterLoad();
+    }
+
+    _deleteWorkspace(id) {
+        if (this._workspaces.items.length <= 1) return;
+        var self = this;
+        if (!confirm(this.isAr ? 'هل أنت متأكد من حذف مساحة العمل هذه؟' : 'Are you sure you want to delete this workspace?')) return;
+        var idx = -1;
+        this._workspaces.items.forEach(function(w, i) { if (w.id === id) idx = i; });
+        if (idx === -1) return;
+        this._workspaces.items.splice(idx, 1);
+        if (id === this._workspaces.currentId) {
+            var targetId = this._workspaces.items[0].id;
+            this._workspaces.currentId = targetId;
+            this._currentWorkspaceId = targetId;
+            this.canvas.discardActiveObject();
+            this.canvas.getObjects().forEach(function(obj) {
+                if (!obj._isGuideFrame) self.canvas.remove(obj);
+            });
+            this.canvas.backgroundImage = null;
+            var ws = this._workspaces.items[0];
+            this._loadWorkspaceIntoCanvas(ws);
+        }
+        this._persistWorkspaces(this._workspaces);
+        this._renderWorkspaceTabs();
+    }
+
+    _saveCurrentWorkspace() {
+        var self = this;
+        var ws = this._workspaces.items.find(function(w) { return w.id === self._workspaces.currentId; });
+        if (!ws) return;
+        try {
+            var gf = this._guideFrame;
+            if (gf) gf.set('visible', false);
+            ws.canvas_json = JSON.stringify(this.canvas.toJSON(['patternId', '_isSvgGroup', 'subTargetCheck']));
+            if (gf) gf.set('visible', true);
+            this.canvas.renderAll();
+            ws.state = {
+                fabricId: this.state.fabricId,
+                blendMode: this.state.blendMode,
+                opacity: this.state.opacity,
+            };
+            ws.updatedAt = Date.now();
+            this._persistWorkspaces(this._workspaces);
+        } catch (e) {
+            console.warn('[Workspaces] Save current failed:', e);
+        }
+    }
+
+    _loadWorkspaceIntoCanvas(ws) {
+        var self = this;
+        if (ws.canvas_json) {
+            this.canvas.loadFromJSON(JSON.parse(ws.canvas_json), function() {
+                if (ws.state) {
+                    self.state.fabricId = ws.state.fabricId || null;
+                    self.state.blendMode = ws.state.blendMode || 'multiply';
+                    self.state.opacity = ws.state.opacity != null ? ws.state.opacity : 0.8;
+                }
+                self._restoreBackground();
+                self._syncUIAfterLoad();
+                self._hideEmpty();
+                self._updateSaveBtn();
+            });
+        } else {
+            this.state.fabricId = null;
+            this.state.blendMode = (ws.state && ws.state.blendMode) || 'multiply';
+            this.state.opacity = (ws.state && ws.state.opacity != null) ? ws.state.opacity : 0.8;
+            this.canvas.backgroundImage = null;
+            this._drawGuideFrame();
+            this.canvas.renderAll();
+            this._syncUIAfterLoad();
+            this._hideEmpty();
+            this._updateSaveBtn();
+        }
     }
 
     /* ─────────────────────────────────────────────────────────────
