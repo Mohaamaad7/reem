@@ -1,6 +1,6 @@
 # Project Map — Rawnaq (رونق)
 
-> آخر تحديث: 2026-05-13
+> آخر تحديث: 2026-05-13 (Phase 2)
 
 ---
 
@@ -122,6 +122,41 @@ rawnaq/
 | `public/js/canvas-tool.js` | +350 سطر (AutoSave + Workspaces complete) |
 | `resources/views/pages/design-tool.blade.php` | +UI التبويبات (5 أسطر) |
 | `resources/css/app.css` | +50 سطر (Workspace tabs styles) |
+
+### Mini-Design Studio Phase 2
+
+#### 1. وضع الرسم الحر (Drawing Mode Toggle)
+- **الآلية**: `canvas.isDrawingMode = true/false`
+- **التبديل**: زر في شريط الأدوات الأيسر (Select ↔ Draw)
+- **الأيقونة**: SVG تتغير حسب الوضع (pointer/pen)
+
+#### 2. محرك الفرش (Brushes Engine)
+- **PencilBrush**: قلم ناعم `new fabric.PencilBrush(canvas)`
+- **SprayBrush**: بخاخ نقطي `new fabric.SprayBrush(canvas)`
+- **EraserBrush**: ممحاة ذكية `new fabric.EraserBrush(canvas)` (Fabric.js 5.3+)
+
+#### 3. إعدادات الفرشاة (Brush Settings)
+- **حجم الفرشاة**: شريط تمرير (slider) في لوحة الإعدادات
+- **لون الفرشاة**: `<input type="color">` للـ Pencil/Spray
+- **حجم الممحاة**: شريط تمرير منفصل يظهر عند اختيار Eraser
+
+#### 4. شريط الأدوات (Toolbar Layout)
+- **الموقع**: يسار الكانفاس (عمودي), كل أيقونة بسطر
+- **العرض**: 52px ديسكتوب / 46px تابلت
+- **الموبايل**: يتحول إلى شريط أفقي أعلى الكانفاس (ارتفاع 44px)
+- **RTL**: يبقى على اليسار الفيزيائي باستخدام `order` في CSS
+
+#### 5. التكامل مع الحفظ التلقائي
+- **`path:created`**: حدث جديد في auto-save لضمان حفظ المسارات
+- **`_isDrawingPath`**: خاصية مخصصة لكل Path تُضاف إلى `canvas.toJSON()`
+- **تحديث**: جميع استدعاءات `canvas.toJSON()` تشمل `_isDrawingPath`
+
+#### الملفات المعدلة:
+| الملف | التغيير |
+|-------|---------|
+| `public/js/canvas-tool.js` | +160 سطر (Drawing Engine + auto-save integration) |
+| `resources/views/pages/design-tool.blade.php` | +60 سطر (HTML toolbar + SVG icons + settings panel) |
+| `resources/css/app.css` | +170 سطر (Toolbar + RTL + responsive styles) |
 
 ---
 

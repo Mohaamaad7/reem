@@ -770,10 +770,11 @@ body:has(.dt-workspace) .brand__subtitle {
     background: #FAFAFA;
 }
 
-/* RTL: reverse row so canvas is physically LEFT, sidebar is physically RIGHT */
-[dir="rtl"] .dt-workspace {
-    flex-direction: row-reverse;
-}
+/* RTL: use order instead of row-reverse so draw-tools stays on physical left */
+[dir="rtl"] .dt-draw-tools    { order: 3; }
+[dir="rtl"] .dt-draw-settings { order: 2; }
+[dir="rtl"] .dt-canvas-area   { order: 1; }
+[dir="rtl"] .dt-sidebar       { order: 0; }
 
 /* ── Canvas Area ──────────────────────────────────────────── */
 .dt-canvas-area {
@@ -1583,6 +1584,336 @@ body:has(.dt-workspace) .brand__subtitle {
     .dt-tab-btn { font-size: 0.65rem; padding: 0.75rem 0.1rem 0.65rem; }
     .dt-tab-panel { padding: 0.75rem; }
     .dt-grid--3col { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ============================================================
+   Drawing Tools — Vertical Toolbar (Phase 2)
+   ============================================================ */
+
+/* ── Main toolbar: vertical, left of canvas ────────────────── */
+.dt-draw-tools {
+    width: 52px;
+    flex: 0 0 52px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.75rem 0 1rem;
+    background: #F5F2EC;
+    border-right: 1px solid var(--color-border);
+    overflow-y: auto;
+    z-index: 5;
+    gap: 2px;
+    order: 0;
+}
+
+/* Settings panel: narrow panel between toolbar and canvas */
+.dt-draw-settings {
+    width: 140px;
+    flex: 0 0 140px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem 0.75rem;
+    background: #FAFAFA;
+    border-right: 1px solid var(--color-border);
+    overflow-y: auto;
+    order: 1;
+}
+
+.dt-draw-settings[hidden] { display: none; }
+
+.dt-draw-setting-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.dt-draw-setting-item[hidden] { display: none; }
+
+.dt-draw-setting-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.dt-draw-setting-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* ── Slider styles (horizontal inside settings panel) ─────── */
+.dt-draw-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    height: 4px;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+}
+
+.dt-draw-slider::-webkit-slider-runnable-track {
+    height: 4px;
+    background: #E0D9CE;
+    border-radius: 2px;
+}
+
+.dt-draw-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--color-primary-light);
+    cursor: pointer;
+    margin-top: -5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.14);
+    transition: transform 0.12s;
+}
+
+.dt-draw-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.dt-draw-slider::-moz-range-track {
+    height: 4px;
+    background: #E0D9CE;
+    border-radius: 2px;
+}
+
+.dt-draw-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--color-primary-light);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.14);
+}
+
+.dt-draw-setting-val {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--color-primary-light);
+    min-width: 1.6rem;
+    text-align: end;
+}
+
+/* ── Color picker ──────────────────────────────────────────── */
+.dt-draw-color {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 30px;
+    height: 28px;
+    border: 1.5px solid var(--color-border);
+    border-radius: 6px;
+    background: transparent;
+    cursor: pointer;
+    padding: 2px;
+    flex-shrink: 0;
+    transition: border-color 0.15s;
+}
+
+.dt-draw-color:hover { border-color: var(--color-primary-light); }
+
+.dt-draw-color::-webkit-color-swatch-wrapper { padding: 0; }
+.dt-draw-color::-webkit-color-swatch { border: none; border-radius: 3px; }
+.dt-draw-color::-moz-color-swatch { border: none; border-radius: 3px; }
+
+/* ── Toolbar buttons ──────────────────────────────────────── */
+.dt-draw-btn {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    transition: background 0.12s, color 0.12s;
+    padding: 0;
+    margin: 2px 0;
+    position: relative;
+}
+
+.dt-draw-btn svg {
+    display: block;
+}
+
+.dt-draw-btn:hover {
+    background: rgba(191, 161, 95, 0.12);
+    color: var(--color-text-primary);
+}
+
+.dt-draw-btn:active {
+    background: rgba(191, 161, 95, 0.2);
+}
+
+.dt-draw-btn.is-active,
+.dt-brush-btn.is-active {
+    background: rgba(191, 161, 95, 0.18);
+    color: var(--color-primary-light);
+}
+
+/* Drawing mode active state on toggle button */
+.dt-draw-btn.is-drawing {
+    background: var(--color-primary-light);
+    color: #ffffff;
+}
+
+.dt-draw-btn.is-drawing:hover {
+    background: var(--color-primary);
+    color: #ffffff;
+}
+
+/* Separator */
+.dt-draw-sep {
+    width: 28px;
+    height: 1px;
+    border: none;
+    background: var(--color-border);
+    margin: 4px 0;
+    flex: 0 0 1px;
+}
+
+/* ── RTL overrides ────────────────────────────────────────── */
+[dir="rtl"] .dt-draw-tools {
+    border-right: none;
+    border-left: 1px solid var(--color-border);
+}
+
+[dir="rtl"] .dt-draw-settings {
+    border-right: none;
+    border-left: 1px solid var(--color-border);
+}
+
+/* ── Responsive: Tablet ───────────────────────────────────── */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .dt-draw-tools {
+        width: 46px;
+        flex-basis: 46px;
+        padding: 0.65rem 0 0.85rem;
+    }
+
+    .dt-draw-btn {
+        width: 32px;
+        height: 32px;
+        flex-basis: 32px;
+    }
+
+    .dt-draw-btn svg {
+        width: 17px;
+        height: 17px;
+    }
+
+    .dt-draw-settings {
+        width: 120px;
+        flex-basis: 120px;
+        padding: 0.85rem 0.6rem;
+    }
+}
+
+/* ── Responsive: Mobile (≤ 767px) horizontal toolbar ──────── */
+@media (max-width: 767px) {
+    .dt-draw-tools {
+        flex-direction: row;
+        width: 100%;
+        flex: 0 0 44px;
+        padding: 0 0.5rem;
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+        order: 0 !important;
+        justify-content: center;
+        gap: 1px;
+    }
+
+    .dt-draw-btn {
+        width: 34px;
+        height: 34px;
+        flex-basis: 34px;
+        margin: 0 1px;
+    }
+
+    .dt-draw-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .dt-draw-sep {
+        width: 1px;
+        height: 22px;
+        margin: 0 3px;
+    }
+
+    /* Settings become a horizontal row below toolbar on mobile */
+    .dt-draw-settings {
+        flex-direction: row;
+        width: 100%;
+        flex: 0 0 38px;
+        padding: 0 0.75rem;
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+        order: 1 !important;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .dt-draw-setting-item {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .dt-draw-slider {
+        width: 60px;
+        flex: none;
+    }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+    .dt-draw-tools {
+        flex: 0 0 40px;
+        padding: 0 0.35rem;
+    }
+
+    .dt-draw-btn {
+        width: 30px;
+        height: 30px;
+        flex-basis: 30px;
+    }
+
+    .dt-draw-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .dt-draw-settings {
+        flex: 0 0 34px;
+        padding: 0 0.5rem;
+        gap: 0.5rem;
+    }
+
+    .dt-draw-setting-label {
+        font-size: 0.6rem;
+    }
+
+    .dt-draw-slider {
+        width: 44px;
+    }
+
+    .dt-draw-setting-val {
+        font-size: 0.68rem;
+        min-width: 1.2rem;
+    }
 }
 
 /* ============================================================

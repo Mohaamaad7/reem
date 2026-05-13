@@ -197,6 +197,9 @@ class DesignEngine {
         this._bindMobileBottomSheets();
         this._loadSavedDesigns();
 
+        /* ── Drawing Engine (Phase 2) ── */
+        this._initDrawingTools();
+
         /* ── Recovery & Workspaces ── */
         this._tryRecovery();
         this._initWorkspaces();
@@ -1068,6 +1071,13 @@ class DesignEngine {
                 self._scheduleAutoSave();
             });
         });
+        /* ── Phase 2: mark drawing paths and trigger auto-save ── */
+        self.canvas.on('path:created', function(e) {
+            if (e.path) {
+                e.path._isDrawingPath = true;
+            }
+            self._scheduleAutoSave();
+        });
     }
 
     _scheduleAutoSave() {
@@ -1083,7 +1093,7 @@ class DesignEngine {
             var gf = this._guideFrame;
             if (gf) gf.set('visible', false);
 
-            var canvasJson = JSON.stringify(this.canvas.toJSON(['patternId', '_isSvgGroup', 'subTargetCheck']));
+            var canvasJson = JSON.stringify(this.canvas.toJSON(['patternId', '_isSvgGroup', 'subTargetCheck', '_isDrawingPath']));
 
             if (gf) gf.set('visible', true);
             this.canvas.renderAll();
@@ -1435,7 +1445,7 @@ class DesignEngine {
         try {
             var gf = this._guideFrame;
             if (gf) gf.set('visible', false);
-            ws.canvas_json = JSON.stringify(this.canvas.toJSON(['patternId', '_isSvgGroup', 'subTargetCheck']));
+            ws.canvas_json = JSON.stringify(this.canvas.toJSON(['patternId', '_isSvgGroup', 'subTargetCheck', '_isDrawingPath']));
             if (gf) gf.set('visible', true);
             this.canvas.renderAll();
             ws.state = {
@@ -1620,7 +1630,7 @@ class DesignEngine {
                 blend_mode:   this.state.blendMode,
                 opacity:      currentOpacity,
                 patterns_used: JSON.stringify(patternIds),
-                canvas_json:  JSON.stringify(this.canvas.toJSON(['patternId', '_isSvgGroup', 'subTargetCheck'])),
+                canvas_json:  JSON.stringify(this.canvas.toJSON(['patternId', '_isSvgGroup', 'subTargetCheck', '_isDrawingPath'])),
                 preview_image: (function() {
                     var gf = self._guideFrame;
                     if (gf) gf.set('visible', false);
@@ -1665,6 +1675,171 @@ class DesignEngine {
                 });
                 self._updateSaveBtn();
             }, 2500);
+        }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       Phase 2 — Freehand Drawing Engine
+       ═══════════════════════════════════════════════════════════════ */
+
+    _initDrawingTools() {
+        var self = this;
+
+        /* ── DOM refs ── */
+        this._drawModeBtn      = document.getElementById('dt-draw-mode');
+        this._brushBtns        = document.querySelectorAll('.dt-brush-btn');
+        this._drawSettings     = document.getElementById('dt-draw-settings');
+        this._drawSizeWrap     = document.getElementById('dt-draw-size-wrap');
+        this._drawColorWrap    = document.getElementById('dt-draw-color-wrap');
+        this._eraserSizeWrap   = document.getElementById('dt-eraser-size-wrap');
+        this._brushSizeInput   = document.getElementById('dt-brush-size');
+        this._brushColorInput  = document.getElementById('dt-brush-color');
+        this._eraserSizeInput  = document.getElementById('dt-eraser-size');
+        this._brushSizeLabel   = document.getElementById('dt-brush-size-label');
+        this._eraserSizeLabel  = document.getElementById('dt-eraser-size-label');
+
+        /* ── State ── */
+        this._isDrawingMode = false;
+        this._activeBrush   = 'pencil';
+
+        /* ── Mode toggle ── */
+        this._drawModeBtn.addEventListener('click', function() {
+            self._toggleDrawingMode();
+        });
+
+        /* ── Brush selection ── */
+        this._brushBtns.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                self._selectBrush(this.dataset.brush);
+            });
+        });
+
+        /* ── Brush size slider ── */
+        this._brushSizeInput.addEventListener('input', function() {
+            var val = parseInt(this.value, 10);
+            self._updateBrushSize(val);
+            if (self._brushSizeLabel) self._brushSizeLabel.textContent = val;
+        });
+
+        /* ── Brush color picker ── */
+        this._brushColorInput.addEventListener('input', function() {
+            self._updateBrushColor(this.value);
+        });
+
+        /* ── Eraser size slider ── */
+        this._eraserSizeInput.addEventListener('input', function() {
+            var val = parseInt(this.value, 10);
+            self._updateEraserSize(val);
+            if (self._eraserSizeLabel) self._eraserSizeLabel.textContent = val;
+        });
+
+        /* ── Hide all settings initially ── */
+        this._drawSettings.hidden = true;
+        this._drawSizeWrap.hidden = true;
+        this._drawColorWrap.hidden = true;
+        this._eraserSizeWrap.hidden = true;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       Mode toggle: Selection ↔ Drawing
+       ───────────────────────────────────────────────────────────── */
+    _toggleDrawingMode() {
+        this._isDrawingMode = !this._isDrawingMode;
+        this.canvas.isDrawingMode = this._isDrawingMode;
+
+        this._drawModeBtn.classList.toggle('is-drawing', this._isDrawingMode);
+        this._drawModeBtn.title = this.isAr
+            ? (this._isDrawingMode ? 'وضع الرسم' : 'وضع التحديد')
+            : (this._isDrawingMode ? 'Drawing Mode' : 'Selection Mode');
+
+        if (this._isDrawingMode) {
+            this._selectBrush(this._activeBrush);
+        } else {
+            this.canvas.freeDrawingBrush = null;
+            this.canvas.selection = true;
+            this._drawSettings.hidden = true;
+            this._drawSizeWrap.hidden = true;
+            this._drawColorWrap.hidden = true;
+            this._eraserSizeWrap.hidden = true;
+        }
+
+        this.canvas.renderAll();
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       Select brush type: pencil | spray | eraser
+       ───────────────────────────────────────────────────────────── */
+    _selectBrush(brushType) {
+        this._activeBrush = brushType;
+        this._isDrawingMode = true;
+        this.canvas.isDrawingMode = true;
+        this.canvas.selection = false;
+
+        /* Update toggle button state */
+        this._drawModeBtn.classList.add('is-drawing');
+        this._drawModeBtn.title = this.isAr
+            ? (brushType === 'eraser' ? 'الممحاة' : 'الرسم')
+            : (brushType === 'eraser' ? 'Eraser' : 'Drawing Mode');
+
+        /* Update brush button active states */
+        this._brushBtns.forEach(function(btn) {
+            btn.classList.toggle('is-active', btn.dataset.brush === brushType);
+        });
+
+        /* Hide all settings then show relevant ones */
+        this._drawSizeWrap.hidden = true;
+        this._drawColorWrap.hidden = true;
+        this._eraserSizeWrap.hidden = true;
+
+        if (brushType === 'eraser') {
+            /* ── EraserBrush (Fabric.js 5.3+) ── */
+            if (typeof fabric.EraserBrush !== 'undefined') {
+                this.canvas.freeDrawingBrush = new fabric.EraserBrush(this.canvas);
+            } else {
+                console.warn('[Draw] EraserBrush unavailable, falling back to white pencil');
+                this.canvas.freeDrawingBrush = new fabric.PencilBrush(this.canvas);
+                this.canvas.freeDrawingBrush.color = '#ffffff';
+            }
+            this._drawSettings.hidden = false;
+            this._eraserSizeWrap.hidden = false;
+            var erVal = parseInt(this._eraserSizeInput.value, 10);
+            this._updateEraserSize(erVal);
+            if (this._eraserSizeLabel) this._eraserSizeLabel.textContent = erVal;
+        } else {
+            /* ── Pencil or Spray brush ── */
+            this.canvas.freeDrawingBrush = brushType === 'spray'
+                ? new fabric.SprayBrush(this.canvas)
+                : new fabric.PencilBrush(this.canvas);
+            this._drawSettings.hidden = false;
+            this._drawSizeWrap.hidden = false;
+            this._drawColorWrap.hidden = false;
+            var brVal = parseInt(this._brushSizeInput.value, 10);
+            this._updateBrushSize(brVal);
+            this._updateBrushColor(this._brushColorInput.value);
+            if (this._brushSizeLabel) this._brushSizeLabel.textContent = brVal;
+        }
+
+        this.canvas.renderAll();
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       Brush settings
+       ───────────────────────────────────────────────────────────── */
+    _updateBrushSize(val) {
+        if (this.canvas.freeDrawingBrush) {
+            this.canvas.freeDrawingBrush.width = val;
+        }
+    }
+
+    _updateBrushColor(color) {
+        if (this.canvas.freeDrawingBrush) {
+            this.canvas.freeDrawingBrush.color = color;
+        }
+    }
+
+    _updateEraserSize(val) {
+        if (this.canvas.freeDrawingBrush) {
+            this.canvas.freeDrawingBrush.width = val;
         }
     }
 }

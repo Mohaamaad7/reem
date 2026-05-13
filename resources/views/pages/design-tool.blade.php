@@ -9,6 +9,80 @@
 <section class="dt-workspace">
 
     {{-- ═══════════════════════════════════════════
+         DRAWING TOOLS — Left vertical toolbar
+         ═══════════════════════════════════════════ --}}
+    <div class="dt-draw-tools" id="dt-draw-tools">
+        {{-- Mode Toggle --}}
+        <button class="dt-draw-btn" id="dt-draw-mode" type="button"
+                title="{{ $isAr ? 'وضع التحديد' : 'Selection Mode' }}">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/>
+            </svg>
+        </button>
+
+        <hr class="dt-draw-sep">
+
+        {{-- Brushes --}}
+        <button class="dt-draw-btn dt-brush-btn is-active" data-brush="pencil" type="button"
+                title="{{ $isAr ? 'قلم رصاص' : 'Pencil' }}">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+            </svg>
+        </button>
+
+        <button class="dt-draw-btn dt-brush-btn" data-brush="spray" type="button"
+                title="{{ $isAr ? 'بخاخ' : 'Spray' }}">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="2.5"/>
+                <circle cx="4" cy="7" r="1.2"/>
+                <circle cx="20" cy="7" r="1.2"/>
+                <circle cx="7" cy="19" r="1.2"/>
+                <circle cx="17" cy="19" r="1.2"/>
+            </svg>
+        </button>
+
+        <button class="dt-draw-btn dt-brush-btn" data-brush="eraser" type="button"
+                title="{{ $isAr ? 'ممحاة' : 'Eraser' }}">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 20H7L3 16c-.8-.8-.8-2 0-2.8l10-10c.8-.8 2-.8 2.8 0l5 5c.8.8.8 2 0 2.8L12 17"/>
+                <path d="M9 9l6 6"/>
+            </svg>
+        </button>
+    </div>
+
+    {{-- ═══════════════════════════════════════════
+         DRAW SETTINGS — narrow panel between toolbar & canvas
+         ═══════════════════════════════════════════ --}}
+    <div class="dt-draw-settings" id="dt-draw-settings" hidden>
+        {{-- Pencil / Spray size --}}
+        <div class="dt-draw-setting-item" id="dt-draw-size-wrap" hidden>
+            <label class="dt-draw-setting-label">{{ $isAr ? 'الحجم' : 'Size' }}</label>
+            <div class="dt-draw-setting-row">
+                <input type="range" id="dt-brush-size" class="dt-draw-slider"
+                       min="1" max="50" value="5" step="1">
+                <span class="dt-draw-setting-val" id="dt-brush-size-label">5</span>
+            </div>
+        </div>
+        {{-- Pencil / Spray color --}}
+        <div class="dt-draw-setting-item" id="dt-draw-color-wrap" hidden>
+            <label class="dt-draw-setting-label">{{ $isAr ? 'اللون' : 'Color' }}</label>
+            <div class="dt-draw-setting-row">
+                <input type="color" id="dt-brush-color" class="dt-draw-color"
+                       value="#000000">
+            </div>
+        </div>
+        {{-- Eraser size --}}
+        <div class="dt-draw-setting-item" id="dt-eraser-size-wrap" hidden>
+            <label class="dt-draw-setting-label">{{ $isAr ? 'الممحاة' : 'Eraser' }}</label>
+            <div class="dt-draw-setting-row">
+                <input type="range" id="dt-eraser-size" class="dt-draw-slider"
+                       min="5" max="80" value="20" step="1">
+                <span class="dt-draw-setting-val" id="dt-eraser-size-label">20</span>
+            </div>
+        </div>
+    </div>
+
+    {{-- ═══════════════════════════════════════════
          CANVAS AREA — Left / Top on mobile
          ═══════════════════════════════════════════ --}}
     <div class="dt-canvas-area">
