@@ -107,6 +107,14 @@
         {{-- Floating Action Bar --}}
         <div class="dt-floating-actions">
             <div class="dt-floating-actions__bar">
+                <button class="dt-fab-btn dt-fab-btn--icon" id="dt-undo-btn" type="button" disabled
+                        title="{{ $isAr ? 'تراجع (Ctrl+Z)' : 'Undo (Ctrl+Z)' }}">
+                    ↩
+                </button>
+                <button class="dt-fab-btn dt-fab-btn--icon" id="dt-redo-btn" type="button" disabled
+                        title="{{ $isAr ? 'إعادة (Ctrl+Shift+Z)' : 'Redo (Ctrl+Shift+Z)' }}">
+                    ↪
+                </button>
                 <button class="dt-fab-btn dt-fab-btn--danger" id="dt-delete-btn" type="button" disabled>
                     🗑️ {{ $isAr ? 'حذف' : 'Delete' }}
                 </button>
@@ -256,5 +264,6 @@
 
 @push('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+<script src="{{ asset('js/fabric-eraser.js') }}"></script>
 <script src="{{ asset('js/canvas-tool.js') }}" defer></script>
 @endpush

@@ -1916,6 +1916,25 @@ body:has(.dt-workspace) .brand__subtitle {
     }
 }
 
+/* ── Cursor preview circle (follows mouse on canvas) ──────── */
+.dt-cursor-preview {
+    position: fixed;
+    pointer-events: none;
+    z-index: 999;
+    border-radius: 50%;
+    border: 1.5px solid rgba(0, 0, 0, 0.25);
+    background: rgba(255, 255, 255, 0.1);
+    display: none;
+    transform: translate(-50%, -50%);
+}
+
+/* ── Icon-only buttons in floating action bar ─────────────── */
+.dt-fab-btn--icon {
+    font-size: 1.1rem;
+    padding: 0.35rem 0.5rem;
+    min-width: 2rem;
+}
+
 /* ============================================================
    New Hub Page – Morris Design System (from index1.html)
    ============================================================ */

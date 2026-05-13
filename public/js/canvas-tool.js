@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Rawnaq — Design Tool Canvas Engine (Fabric.js 5.3.0)
  * =========================================================
  * Phase 4 Layout Fix — Complete rewrite
@@ -200,6 +200,9 @@ class DesignEngine {
         /* ── Drawing Engine (Phase 2) ── */
         this._initDrawingTools();
 
+        /* ── Undo/Redo (Phase 2 fix) ── */
+        this._initUndoRedo();
+
         /* ── Recovery & Workspaces ── */
         this._tryRecovery();
         this._initWorkspaces();
@@ -296,6 +299,7 @@ class DesignEngine {
             selectable: false,
             evented: false,
             excludeFromExport: true,
+            erasable: false,
             _isGuideFrame: true,
         });
 
@@ -890,7 +894,8 @@ class DesignEngine {
                     originX: 'left',
                     originY: 'top',
                     left: 0,
-                    top: 0
+                    top: 0,
+                    erasable: false,
                 });
                 self.canvas.setBackgroundImage(img, function() {
                     self._drawGuideFrame();
@@ -1078,6 +1083,10 @@ class DesignEngine {
             }
             self._scheduleAutoSave();
         });
+        /* ── Phase 2 fix: save on tab close ── */
+        window.addEventListener('beforeunload', function() {
+            self._performAutoSave();
+        });
     }
 
     _scheduleAutoSave() {
@@ -1140,15 +1149,19 @@ class DesignEngine {
                 var data = JSON.parse(raw);
                 if (data.canvas_json) {
                     console.log('[Recovery] Found auto-save, restoring...');
+                    /* ── [Fix] Block history snapshots during recovery load ── */
+                    this._isUndoRedo = true;
                     this.canvas.loadFromJSON(JSON.parse(data.canvas_json), function() {
                         self._restoreRecoveryState(data.state);
                         self._restoreBackground();
                         self._syncUIAfterLoad();
                         self._hideEmpty();
                         self._updateSaveBtn();
+                        /* ── [Fix] Seed history with the recovered state ── */
+                        self._isUndoRedo = false;
+                        self._saveHistorySnapshot();
                         console.log('[Recovery] Canvas restored from auto-save');
                     });
-                    localStorage.removeItem(AUTOSAVE_KEY);
                     return;
                 }
             }
@@ -1156,6 +1169,8 @@ class DesignEngine {
             var ws = this._workspaces.items.find(function(w) { return w.id === self._workspaces.currentId; });
             if (ws && ws.canvas_json) {
                 console.log('[Recovery] Loading workspace:', ws.name);
+                /* ── [Fix] Block history snapshots during workspace load ── */
+                this._isUndoRedo = true;
                 this.canvas.loadFromJSON(JSON.parse(ws.canvas_json), function() {
                     if (ws.state) {
                         self.state.fabricId = ws.state.fabricId || null;
@@ -1166,11 +1181,16 @@ class DesignEngine {
                     self._syncUIAfterLoad();
                     self._hideEmpty();
                     self._updateSaveBtn();
+                    /* ── [Fix] Seed history with the loaded workspace state ── */
+                    self._isUndoRedo = false;
+                    self._saveHistorySnapshot();
                     console.log('[Recovery] Workspace restored');
                 });
             } else {
                 this._drawGuideFrame();
                 this.canvas.renderAll();
+                /* ── [Fix] Seed history for blank state ── */
+                this._saveHistorySnapshot();
             }
         } catch (e) {
             console.warn('[Recovery] Failed:', e);
@@ -1211,6 +1231,7 @@ class DesignEngine {
                 scaleX: cW / (img.getElement().naturalWidth || 1),
                 scaleY: cH / (img.getElement().naturalHeight || 1),
                 originX: 'left', originY: 'top', left: 0, top: 0,
+                erasable: false,
             });
             self.canvas.setBackgroundImage(img, function() {
                 self._drawGuideFrame();
@@ -1463,6 +1484,8 @@ class DesignEngine {
     _loadWorkspaceIntoCanvas(ws) {
         var self = this;
         if (ws.canvas_json) {
+            /* ── [Fix] Block history snapshots during workspace switch load ── */
+            this._isUndoRedo = true;
             this.canvas.loadFromJSON(JSON.parse(ws.canvas_json), function() {
                 if (ws.state) {
                     self.state.fabricId = ws.state.fabricId || null;
@@ -1473,6 +1496,11 @@ class DesignEngine {
                 self._syncUIAfterLoad();
                 self._hideEmpty();
                 self._updateSaveBtn();
+                /* ── [Fix] Seed clean history for this workspace ── */
+                self._history = [];
+                self._historyIndex = -1;
+                self._isUndoRedo = false;
+                self._saveHistorySnapshot();
             });
         } else {
             this.state.fabricId = null;
@@ -1484,6 +1512,10 @@ class DesignEngine {
             this._syncUIAfterLoad();
             this._hideEmpty();
             this._updateSaveBtn();
+            /* ── [Fix] Seed clean history for blank workspace ── */
+            this._history = [];
+            this._historyIndex = -1;
+            this._saveHistorySnapshot();
         }
     }
 
@@ -1679,6 +1711,114 @@ class DesignEngine {
     }
 
     /* ═══════════════════════════════════════════════════════════════
+       Phase 2 fix — Undo/Redo System
+       ═══════════════════════════════════════════════════════════════ */
+
+    _initUndoRedo() {
+        var self = this;
+        this._history = [];
+        this._historyIndex = -1;
+        this._historyMax = 50;
+        /* ── [Fix] Start as true so _tryRecovery (called after this) controls seeding ── */
+        this._isUndoRedo = true;
+        this._undoTimer = null;
+
+        /* Keyboard shortcuts */
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                if (e.key === 'z' && !e.shiftKey) {
+                    e.preventDefault();
+                    self._undo();
+                } else if ((e.key === 'z' && e.shiftKey) || e.key === 'y') {
+                    e.preventDefault();
+                    self._redo();
+                }
+            }
+        });
+
+        /* Button clicks */
+        if (this._undoBtn) {
+            this._undoBtn.addEventListener('click', function() { self._undo(); });
+        }
+        if (this._redoBtn) {
+            this._redoBtn.addEventListener('click', function() { self._redo(); });
+        }
+
+        /* Auto-save history on every canvas change */
+        var evts = ['object:modified', 'object:added', 'object:removed', 'path:created'];
+        evts.forEach(function(evt) {
+            self.canvas.on(evt, function() {
+                self._scheduleHistorySave();
+            });
+        });
+
+        this._updateUndoButtons();
+    }
+
+    _scheduleHistorySave() {
+        var self = this;
+        if (this._undoTimer) clearTimeout(this._undoTimer);
+        this._undoTimer = setTimeout(function() {
+            self._saveHistorySnapshot();
+        }, 300);
+    }
+
+    _saveHistorySnapshot() {
+        if (this._isUndoRedo) return;
+
+        /* Remove any future states after current index */
+        this._history = this._history.slice(0, this._historyIndex + 1);
+
+        /* Serialize canvas (hide guide frame during snapshot) */
+        var gf = this._guideFrame;
+        if (gf) gf.set('visible', false);
+        var state = JSON.stringify(
+            this.canvas.toJSON(['patternId', '_isSvgGroup', 'subTargetCheck', '_isDrawingPath'])
+        );
+        if (gf) gf.set('visible', true);
+        this.canvas.renderAll();
+
+        this._history.push(state);
+
+        /* Trim if over max */
+        if (this._history.length > this._historyMax) {
+            this._history.shift();
+        }
+        this._historyIndex = this._history.length - 1;
+
+        this._updateUndoButtons();
+    }
+
+    _undo() {
+        if (this._historyIndex <= 0) return;
+        this._historyIndex--;
+        this._loadHistoryState();
+    }
+
+    _redo() {
+        if (this._historyIndex >= this._history.length - 1) return;
+        this._historyIndex++;
+        this._loadHistoryState();
+    }
+
+    _loadHistoryState() {
+        var self = this;
+        this._isUndoRedo = true;
+        var state = this._history[this._historyIndex];
+        this.canvas.loadFromJSON(JSON.parse(state), function() {
+            self._restoreBackground();
+            self._isUndoRedo = false;
+            self._updateUndoButtons();
+            self.canvas.renderAll();
+        });
+    }
+
+    _updateUndoButtons() {
+        if (this._undoBtn) this._undoBtn.disabled = this._historyIndex <= 0;
+        if (this._redoBtn) this._redoBtn.disabled = this._historyIndex >= this._history.length - 1;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
        Phase 2 — Freehand Drawing Engine
        ═══════════════════════════════════════════════════════════════ */
 
@@ -1698,9 +1838,40 @@ class DesignEngine {
         this._brushSizeLabel   = document.getElementById('dt-brush-size-label');
         this._eraserSizeLabel  = document.getElementById('dt-eraser-size-label');
 
+        /* ── Undo/Redo refs ── */
+        this._undoBtn = document.getElementById('dt-undo-btn');
+        this._redoBtn = document.getElementById('dt-redo-btn');
+
         /* ── State ── */
         this._isDrawingMode = false;
         this._activeBrush   = 'pencil';
+
+        /* ── Cursor preview element ── */
+        this._cursorPreview = document.createElement('div');
+        this._cursorPreview.className = 'dt-cursor-preview';
+        document.body.appendChild(this._cursorPreview);
+
+        /* ── Canvas mouse events for cursor preview ── */
+        this.canvas.on('mouse:move', function(opt) {
+            if (self._isDrawingMode && self._cursorPreview && opt.e) {
+                var pointer = self.canvas.getPointer(opt.e);
+                var canvasPos = self.canvas.wrapperEl.getBoundingClientRect();
+                var size = self._activeBrush === 'eraser'
+                    ? parseInt(self._eraserSizeInput.value, 10)
+                    : parseInt(self._brushSizeInput.value, 10);
+                self._updateCursorPreview(canvasPos, pointer, size);
+            }
+        });
+
+        this.canvas.on('mouse:down', function() {
+            if (self._cursorPreview) self._cursorPreview.style.display = 'none';
+        });
+
+        this.canvas.on('mouse:up', function() {
+            if (self._isDrawingMode && self._cursorPreview) {
+                self._cursorPreview.style.display = 'block';
+            }
+        });
 
         /* ── Mode toggle ── */
         this._drawModeBtn.addEventListener('click', function() {
@@ -1741,6 +1912,17 @@ class DesignEngine {
     }
 
     /* ─────────────────────────────────────────────────────────────
+       Cursor preview: positions a circle at mouse pointer
+       ───────────────────────────────────────────────────────────── */
+    _updateCursorPreview(canvasPos, pointer, size) {
+        this._cursorPreview.style.width = size + 'px';
+        this._cursorPreview.style.height = size + 'px';
+        this._cursorPreview.style.left = (canvasPos.left + pointer.x) + 'px';
+        this._cursorPreview.style.top = (canvasPos.top + pointer.y) + 'px';
+        this._cursorPreview.style.display = 'block';
+    }
+
+    /* ─────────────────────────────────────────────────────────────
        Mode toggle: Selection ↔ Drawing
        ───────────────────────────────────────────────────────────── */
     _toggleDrawingMode() {
@@ -1761,6 +1943,7 @@ class DesignEngine {
             this._drawSizeWrap.hidden = true;
             this._drawColorWrap.hidden = true;
             this._eraserSizeWrap.hidden = true;
+            if (this._cursorPreview) this._cursorPreview.style.display = 'none';
         }
 
         this.canvas.renderAll();
@@ -1792,14 +1975,8 @@ class DesignEngine {
         this._eraserSizeWrap.hidden = true;
 
         if (brushType === 'eraser') {
-            /* ── EraserBrush (Fabric.js 5.3+) ── */
-            if (typeof fabric.EraserBrush !== 'undefined') {
-                this.canvas.freeDrawingBrush = new fabric.EraserBrush(this.canvas);
-            } else {
-                console.warn('[Draw] EraserBrush unavailable, falling back to white pencil');
-                this.canvas.freeDrawingBrush = new fabric.PencilBrush(this.canvas);
-                this.canvas.freeDrawingBrush.color = '#ffffff';
-            }
+            /* ── EraserBrush (via fabric-eraser plugin) ── */
+            this.canvas.freeDrawingBrush = new fabric.EraserBrush(this.canvas);
             this._drawSettings.hidden = false;
             this._eraserSizeWrap.hidden = false;
             var erVal = parseInt(this._eraserSizeInput.value, 10);

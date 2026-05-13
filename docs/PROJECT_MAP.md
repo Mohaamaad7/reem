@@ -1,6 +1,6 @@
 # Project Map — Rawnaq (رونق)
 
-> آخر تحديث: 2026-05-13 (Phase 2)
+> آخر تحديث: 2026-05-13 (Phase 2 — Fixes v2)
 
 ---
 
@@ -133,7 +133,7 @@ rawnaq/
 #### 2. محرك الفرش (Brushes Engine)
 - **PencilBrush**: قلم ناعم `new fabric.PencilBrush(canvas)`
 - **SprayBrush**: بخاخ نقطي `new fabric.SprayBrush(canvas)`
-- **EraserBrush**: ممحاة ذكية `new fabric.EraserBrush(canvas)` (Fabric.js 5.3+)
+- **Object-Removal Eraser**: ممحاة تحذف الكائنات المرسومة دون المساس بالقماش
 
 #### 3. إعدادات الفرشاة (Brush Settings)
 - **حجم الفرشاة**: شريط تمرير (slider) في لوحة الإعدادات
@@ -157,6 +157,67 @@ rawnaq/
 | `public/js/canvas-tool.js` | +160 سطر (Drawing Engine + auto-save integration) |
 | `resources/views/pages/design-tool.blade.php` | +60 سطر (HTML toolbar + SVG icons + settings panel) |
 | `resources/css/app.css` | +170 سطر (Toolbar + RTL + responsive styles) |
+
+### Mini-Design Studio Phase 2 — Fixes (2026-05-13)
+
+#### 1. مؤشر الفأرة الدائري (Brush Cursor)
+- **الآلية**: عنصر `div` منفصل (`position: fixed; pointer-events: none`) يتحرك فوق الكانفاس
+- **يتغير القطر**: بناءً على حجم الفرشاة أو الممحاة المختارة
+- **الأحداث**: `mouse:move` يحرك الدائرة، `mouse:down` يخفيها أثناء الرسم، `mouse:up` يعيدها
+
+#### 2. إصلاح الممحاة (Eraser Fix)
+- **المشكلة**: الممحاة تمسح `_guideFrame` مما يخلق فراغاً يبدو كأنه محو للقماش
+- **الحل**: إضافة `erasable: false` إلى الـ Guide Frame
+- **النتيجة**: الممحاة تمسح فقط النقوشات والمسارات المرسومة، والقماش (backgroundImage) محمي تلقائياً
+
+#### 3. نظام Undo/Redo
+- **الآلية**: `_history[]` مصفوفة JSON snapshots (حد أقصى 50 خطوة)
+- **الاختصارات**: `Ctrl+Z` للتراجع، `Ctrl+Shift+Z` للإعادة
+- **الأزرار**: ↩ و ↪ في شريط الإجراءات السفلي (floating action bar)
+- **Debounce**: 300ms بين كل snapshot
+- **حماية**: `_isUndoRedo` flag يمنع حفظ snapshots أثناء التنقل
+
+#### 4. حفظ التصميم والرجوع إليه
+- **beforeunload**: حفظ فوري عند إغلاق التبويب
+- **Auto-save recovery**: لا يمسح auto-save بعد الاسترجاع (يبقى كنسخة احتياطية)
+
+#### الملفات المعدلة:
+| الملف | التغيير |
+|-------|---------|
+| `public/js/canvas-tool.js` | +100 سطر (Undo/Redo + cursor preview + erasable fix + beforeunload) |
+| `resources/views/pages/design-tool.blade.php` | +سطرين (أزرار Undo/Redo في floating bar) |
+| `resources/css/app.css` | +15 سطر (`.dt-cursor-preview` + `.dt-fab-btn--icon`) |
+
+### Mini-Design Studio Phase 2 — Fixes v2 (2026-05-13)
+
+#### 1. إصلاح الممحاة نهائياً (Eraser — erasable flag on backgroundImage)
+- **المشكلة**: `EraserBrush` في Fabric.js 5.3 كان يمسح `backgroundImage` (القماش) عند الرسم فوقه
+- **السبب الجذري**: `backgroundImage` لم يحمل خاصية `erasable: false` رغم أن `_guideFrame` كان يحملها
+- **الحل**: إضافة `erasable: false` في موضعين:
+  - `_selectFabric()` عند تحميل القماش الجديد
+  - `_restoreBackground()` عند إعادة تحميل القماش من autosave/workspace
+- **النتيجة**: الممحاة تمسح فقط الكائنات والمسارات المرسومة، القماش محمي تماماً
+
+#### 2. إصلاح Undo — Snapshots خاطئة أثناء التحميل
+- **المشكلة**: `loadFromJSON()` يُطلق أحداث `object:added` لكل كائن → كل حدث يُنشئ snapshot في `_history` → عند الضغط Undo يرجع لحالات وسيطة فارغة
+- **الحل**: `_isUndoRedo = true` قبل كل `loadFromJSON` في:
+  - `_tryRecovery()` — autosave recovery
+  - `_tryRecovery()` — workspace recovery
+  - `_loadWorkspaceIntoCanvas()` — workspace switch
+- **بعد اكتمال التحميل**: `_isUndoRedo = false` ثم `_saveHistorySnapshot()` مرة واحدة كنقطة بداية نظيفة
+
+#### 3. إصلاح تهيئة Undo — Snapshot فارغ مُبكر
+- **المشكلة**: `_initUndoRedo()` كان يستدعي `_saveHistorySnapshot()` مباشرة قبل `_tryRecovery()` → snapshot فارغ يُدخل في التاريخ → Undo يرجع لحالة فارغة بدلاً من التوقف
+- **الحل**: `_initUndoRedo()` يبدأ بـ `_isUndoRedo = true` بدون snapshot مبكر — `_tryRecovery()` هي التي تزرع أول snapshot صحيح بعد اكتمال تحميل البيانات
+
+#### 4. إعادة ضبط تاريخ Undo عند تبديل الـ Workspace
+- **المشكلة**: عند التبديل بين مساحات العمل كان تاريخ Undo يحمل حالات من الـ workspace السابق
+- **الحل**: `_loadWorkspaceIntoCanvas()` يُصفّر `_history` و `_historyIndex` بعد تحميل الـ workspace ويبدأ تاريخاً جديداً
+
+#### الملفات المعدلة:
+| الملف | التغيير |
+|-------|---------|
+| `public/js/canvas-tool.js` | +25 سطر جراحية — 4 إصلاحات دقيقة |
 
 ---
 
@@ -205,4 +266,4 @@ rawnaq/
 
 ---
 
-*آخر تحديث: 2026-05-13 — Mini-Design Studio Phase 1*
+*آخر تحديث: 2026-05-13 — Mini-Design Studio Phase 2 Fixes v2*
