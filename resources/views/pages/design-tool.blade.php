@@ -46,6 +46,79 @@
                 <path d="M9 9l6 6"/>
             </svg>
         </button>
+
+        <hr class="dt-draw-sep">
+
+        <button class="dt-draw-btn" id="dt-draw-color-toggle" type="button"
+                title="{{ $isAr ? 'اختيار لون' : 'Color Picker' }}">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="4"/>
+                <path d="M12 2v2"/>
+                <path d="M12 20v2"/>
+                <path d="M4.93 4.93l1.41 1.41"/>
+                <path d="M17.66 17.66l1.41 1.41"/>
+                <path d="M2 12h2"/>
+                <path d="M20 12h2"/>
+                <path d="M6.34 17.66l-1.41 1.41"/>
+                <path d="M19.07 4.93l-1.41 1.41"/>
+            </svg>
+        </button>
+
+        <hr class="dt-draw-sep">
+
+        <button class="dt-draw-btn" id="dt-toggle-left" type="button"
+                title="{{ $isAr ? 'طي/توسيع' : 'Toggle Panel' }}">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6"/>
+            </svg>
+        </button>
+    </div>
+
+    {{-- ═══════════════════════════════════════════
+         DRAW SETTINGS — Between toolbar and canvas
+         ═══════════════════════════════════════════ --}}
+    <div class="dt-draw-settings" id="dt-draw-settings" hidden>
+        {{-- Color Section (SVG semantic coloring) --}}
+        <div class="dt-draw-setting-item" id="dt-color-section" style="display:none;">
+            <span class="dt-draw-setting-label">{{ $isAr ? 'الألوان' : 'Colors' }}</span>
+            <div class="dt-color-swatches dt-draw-setting-row--wrap" id="dt-color-swatches"></div>
+            <div class="dt-color-custom">
+                <label class="dt-color-custom__label">{{ $isAr ? 'مخصص' : 'Custom' }}</label>
+                <input type="color" class="dt-color-custom__input" id="dt-color-picker" value="#8B6914">
+            </div>
+        </div>
+
+        {{-- Blend Section --}}
+        <div class="dt-draw-setting-item" id="dt-blend-section" style="display:none;">
+            <span class="dt-draw-setting-label">{{ $isAr ? 'دمج' : 'Blend' }}</span>
+            <div class="dt-blend-group" id="dt-blend-group"></div>
+        </div>
+
+        {{-- Brush Size --}}
+        <div class="dt-draw-setting-item" id="dt-draw-size-wrap" hidden>
+            <div class="dt-draw-setting-row">
+                <span class="dt-draw-setting-label">{{ $isAr ? 'الحجم' : 'Size' }}</span>
+                <span class="dt-draw-setting-val" id="dt-brush-size-label">5</span>
+            </div>
+            <input class="dt-draw-slider" id="dt-brush-size" type="range" min="1" max="50" value="5" step="1">
+        </div>
+
+        {{-- Brush Color --}}
+        <div class="dt-draw-setting-item" id="dt-draw-color-wrap" hidden>
+            <span class="dt-draw-setting-label">{{ $isAr ? 'لون الفرشاة' : 'Brush Color' }}</span>
+            <div class="dt-draw-setting-row">
+                <input type="color" class="dt-draw-color" id="dt-brush-color" value="#2E5B1E">
+            </div>
+        </div>
+
+        {{-- Eraser Size --}}
+        <div class="dt-draw-setting-item" id="dt-eraser-size-wrap" hidden>
+            <div class="dt-draw-setting-row">
+                <span class="dt-draw-setting-label">{{ $isAr ? 'الممحاة' : 'Eraser' }}</span>
+                <span class="dt-draw-setting-val" id="dt-eraser-size-label">10</span>
+            </div>
+            <input class="dt-draw-slider" id="dt-eraser-size" type="range" min="5" max="80" value="10" step="1">
+        </div>
     </div>
 
     {{-- ═══════════════════════════════════════════
@@ -103,8 +176,13 @@
          LAYERS PANEL — Right sidebar
          ═══════════════════════════════════════════ --}}
     <aside class="dt-sidebar-right" id="dt-sidebar-right">
-        <div class="dt-sidebar-right__header">
+        <div class="dt-sidebar-right__header" style="display:flex;justify-content:space-between;align-items:center;">
             <h3 class="dt-sidebar-right__title">{{ $isAr ? 'الطبقات' : 'Layers' }}</h3>
+            <button id="dt-toggle-right" type="button" style="background:none;border:none;color:#aaa;cursor:pointer;padding:0;" title="{{ $isAr ? 'طي' : 'Collapse' }}">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18l6-6-6-6"/>
+                </svg>
+            </button>
         </div>
         <div class="dt-sidebar-right__body">
             <div style="position:relative;">
@@ -168,6 +246,15 @@
             </div>
         </div>
     </aside>
+
+    {{-- Force Landscape Overlay (Mobile Portrait) --}}
+    <div class="dt-force-landscape">
+        <div class="dt-force-landscape__content">
+            <span class="dt-force-landscape__icon">📱</span>
+            <p>{{ $isAr ? 'للحصول على أفضل تجربة رسم، يرجى تدوير الهاتف للوضع الأفقي.' : 'For the best drawing experience, please rotate your device to landscape mode.' }}</p>
+            <p dir="ltr" style="font-size: 0.9em; color: #aaa;">Please rotate your device to landscape mode.</p>
+        </div>
+    </div>
 
 </section>
 

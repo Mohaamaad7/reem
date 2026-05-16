@@ -261,6 +261,7 @@ class DesignEngine {
        ═══════════════════════════════════════════════════════════════ */
     _resizeCanvas() {
         var isMobile = window.innerWidth < 768;
+        var isTablet = !isMobile && window.innerWidth <= 1024;
         var canvasW;
 
         if (isMobile) {
@@ -270,8 +271,9 @@ class DesignEngine {
             if (leftPanel) {
                 var panelWidth = leftPanel.clientWidth;
                 var panelHeight = leftPanel.clientHeight;
-                var maxW = panelWidth * 0.80;
-                var maxH = panelHeight * 0.80;
+                var fillRatio = isTablet ? 0.92 : 0.80;
+                var maxW = panelWidth * fillRatio;
+                var maxH = panelHeight * fillRatio;
                 canvasW = Math.min(maxW, maxH / CANVAS_RATIO);
             } else {
                 canvasW = 360;
@@ -660,13 +662,20 @@ class DesignEngine {
     _toggleStep3Sections(activeObj) {
         var isSvg = activeObj && (activeObj._isSvgGroup || (activeObj.group && activeObj.group._isSvgGroup));
 
-        var blendDisplay = isSvg ? 'none' : '';
-        var colorDisplay = isSvg ? '' : 'none';
+        var hasObj = !!activeObj;
+        var blendDisplay = (hasObj && !isSvg) ? '' : 'none';
+        var colorDisplay = (hasObj && isSvg) ? '' : 'none';
 
         if (this.blendSection)       this.blendSection.style.display       = blendDisplay;
         if (this.blendSectionMobile) this.blendSectionMobile.style.display = blendDisplay;
         if (this.colorSection)       this.colorSection.style.display       = colorDisplay;
         if (this.colorSectionMobile) this.colorSectionMobile.style.display = colorDisplay;
+
+        /* Phase 4 Fix: Show dt-draw-settings parent when color/blend is visible */
+        if (this._drawSettings && !this._isDrawingMode) {
+            var needsPanel = hasObj && (colorDisplay !== 'none' || blendDisplay !== 'none');
+            this._drawSettings.hidden = !needsPanel;
+        }
     }
 
     /* ─────────────────────────────────────────────────────────────
@@ -1093,6 +1102,16 @@ class DesignEngine {
         /* ── Phase 2: mark drawing paths and trigger auto-save ── */
         self.canvas.on('path:created', function(e) {
             if (e.path) {
+                /* 🛡️ Phase 4 Fix: Prevent drawing on locked layer */
+                var activeLayer = null;
+                if (self._activeLayerId && self._layers) {
+                    activeLayer = self._layers.find(function(l) { return l.id === self._activeLayerId; });
+                }
+                if (activeLayer && activeLayer.locked) {
+                    self.canvas.remove(e.path);
+                    self.canvas.renderAll();
+                    return;
+                }
                 e.path._isDrawingPath = true;
                 /* Phase 4: Assign to active layer */
                 if (self._activeLayerId) {
@@ -1430,7 +1449,7 @@ class DesignEngine {
         var self = this;
         this._saveCurrentWorkspace();
         this.canvas.discardActiveObject();
-        this.canvas.getObjects().forEach(function(obj) {
+        this.canvas.getObjects().slice().forEach(function(obj) {
             if (!obj._isGuideFrame) self.canvas.remove(obj);
         });
         self._removeExistingFabricLayer();
@@ -1451,7 +1470,7 @@ class DesignEngine {
         );
         this._saveCurrentWorkspace();
         this.canvas.discardActiveObject();
-        this.canvas.getObjects().forEach(function(obj) {
+        this.canvas.getObjects().slice().forEach(function(obj) {
             if (!obj._isGuideFrame) self.canvas.remove(obj);
         });
         self._removeExistingFabricLayer();
@@ -1459,6 +1478,8 @@ class DesignEngine {
         this.state.fabricId = null;
         this.state.blendMode = 'multiply';
         this.state.opacity = 0.8;
+        this._layers = [];
+        this._activeLayerId = null;
         this._workspaces.items.push(ws);
         this._workspaces.currentId = ws.id;
         this._currentWorkspaceId = ws.id;
@@ -1484,7 +1505,7 @@ class DesignEngine {
             this._workspaces.currentId = targetId;
             this._currentWorkspaceId = targetId;
             this.canvas.discardActiveObject();
-            this.canvas.getObjects().forEach(function(obj) {
+            this.canvas.getObjects().slice().forEach(function(obj) {
                 if (!obj._isGuideFrame) self.canvas.remove(obj);
             });
             self._removeExistingFabricLayer();
@@ -1547,6 +1568,8 @@ class DesignEngine {
             this.state.fabricId = null;
             this.state.blendMode = (ws.state && ws.state.blendMode) || 'multiply';
             this.state.opacity = (ws.state && ws.state.opacity != null) ? ws.state.opacity : 0.8;
+            self._layers = [];
+            self._activeLayerId = null;
             self._removeExistingFabricLayer();
             this._drawGuideFrame();
             this.canvas.renderAll();
@@ -1962,6 +1985,22 @@ class DesignEngine {
             self._toggleDrawingMode();
         });
 
+        /* ── Color toggle (Phase 4 Fix) ── */
+        this._drawColorToggle = document.getElementById('dt-draw-color-toggle');
+        if (this._drawColorToggle) {
+            this._drawColorToggle.addEventListener('click', function() {
+                if (self._drawSettings && !self._isDrawingMode) {
+                    var willShow = self._drawSettings.hidden;
+                    self._drawSettings.hidden = !willShow;
+                    /* If showing, also update color section visibility based on selection */
+                    if (willShow) {
+                        var active = self.canvas.getActiveObject();
+                        self._toggleStep3Sections(active);
+                    }
+                }
+            });
+        }
+
         /* ── Brush selection ── */
         this._brushBtns.forEach(function(btn) {
             btn.addEventListener('click', function() {
@@ -2016,6 +2055,15 @@ class DesignEngine {
        Mode toggle: Selection ↔ Drawing
        ───────────────────────────────────────────────────────────── */
     _toggleDrawingMode() {
+        /* 🛡️ Phase 4 Fix: Don't allow drawing mode on locked layer */
+        if (!this._isDrawingMode) {
+            var activeLayer = this._activeLayerId && this._layers
+                ? this._layers.find(function(l) { return l.id === this._activeLayerId; }, this)
+                : null;
+            if (activeLayer && activeLayer.locked) {
+                return;
+            }
+        }
         this._isDrawingMode = !this._isDrawingMode;
         this.canvas.isDrawingMode = this._isDrawingMode;
 
@@ -2046,6 +2094,13 @@ class DesignEngine {
        Select brush type: pencil | spray | eraser
        ───────────────────────────────────────────────────────────── */
     _selectBrush(brushType) {
+        /* 🛡️ Phase 4 Fix: Don't allow brush on locked layer */
+        var activeLayer = this._activeLayerId && this._layers
+            ? this._layers.find(function(l) { return l.id === this._activeLayerId; }, this)
+            : null;
+        if (activeLayer && activeLayer.locked) {
+            return;
+        }
         this._activeBrush = brushType;
         this._isDrawingMode = true;
         this.canvas.isDrawingMode = true;
@@ -2182,6 +2237,23 @@ class DesignEngine {
 
         /* Floating toolbar */
         this._initFloatingToolbar();
+
+        /* Panel Collapse Buttons */
+        var toggleLeft = document.getElementById('dt-toggle-left');
+        var toggleRight = document.getElementById('dt-toggle-right');
+        var drawSettings = document.getElementById('dt-draw-settings');
+        var sidebarRight = document.getElementById('dt-sidebar-right');
+        
+        if (toggleLeft && drawSettings) {
+            toggleLeft.addEventListener('click', function() {
+                drawSettings.classList.toggle('is-collapsed');
+            });
+        }
+        if (toggleRight && sidebarRight) {
+            toggleRight.addEventListener('click', function() {
+                sidebarRight.classList.toggle('is-collapsed');
+            });
+        }
 
         /* Initial render */
         this._renderLayersPanel();

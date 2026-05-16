@@ -308,6 +308,50 @@ rawnaq/
 - `_selectFabric()` — على الديسكتوب لا يفعل شيئاً (يُستخدم عبر modal)
 - `_addPattern()` — على الديسكتوب يُنشئ طبقة تلقائياً (للتوافق مع الموبايل)
 
+### Mini-Design Studio Phase 4 — Fixes v2: Color Picker + Lock Drawing (2026-05-16)
+
+#### 1. إعادة Color Picker إلى عناصر التحكم
+- **المشكلة**: في Phase 4 تم حذف `#dt-color-section` و `#dt-color-swatches` و `#dt-color-picker` من واجهة الديسكتوب (كانت في الشريط الجانبي القديم). كذلك تم حذف عناصر إعدادات الفرشاة (`#dt-brush-color`, `#dt-brush-size`, `#dt-eraser-size`).
+- **الحل**:
+  - إضافة `dt-draw-settings` كشريط جانبي ضيق بين شريط الأدوات الأيسر ومنطقة الكانفاس.
+  - إعادة بناء كامل لعناصر التحكم داخله:
+    - `#dt-color-section` مع `#dt-color-swatches` (8 ألوان) و `#dt-color-picker` (لون مخصص) ← لتلوين SVG
+    - `#dt-blend-section` مع `#dt-blend-group` ← لأوضاع المزج
+    - `#dt-draw-size-wrap` ← حجم الفرشاة
+    - `#dt-draw-color-wrap` ← لون الفرشاة
+    - `#dt-eraser-size-wrap` ← حجم الممحاة
+  - إضافة زر `#dt-draw-color-toggle` في شريط الأدوات الأيسر لعرض/إخفاء لوحة الألوان.
+  - إضافة CSS داكن متوافق مع تصميم Phase 4.
+
+#### 2. منع الرسم على الطبقة المقفولة
+- **المشكلة**: `canvas.isDrawingMode = true` كان يتجاوز خصائص `selectable/evented` للكائنات، مما يسمح بإنشاء مسارات رسم جديدة على طبقات مقفولة.
+- **السبب الجذري**: حدث `path:created` كان يُسند `_layerId` للطبقة النشطة دون التحقق من حالة `locked`.
+- **الحل**: إضافة فحص أمان (`guard`) في 3 مواضع:
+  1. `path:created` (السطر 1094) — بعد إنشاء المسار، إذا كانت الطبقة النشطة `locked === true` يتم حذف المسار فوراً.
+  2. `_toggleDrawingMode()` (السطر 2028) — منع تفعيل وضع الرسم إذا كانت الطبقة النشطة مقفولة.
+  3. `_selectBrush()` (السطر 2067) — منع اختيار فرشاة إذا كانت الطبقة النشطة مقفولة.
+
+#### 3. إصلاح Deprecated (Color Picker)
+- عناصر HTML القديمة التي أُعيدت:
+  - `#dt-color-section` / `#dt-color-swatches` / `#dt-color-picker` — عادت في `dt-draw-settings`
+  - `#dt-brush-color` / `#dt-brush-size` / `#dt-eraser-size` — عادت في `dt-draw-settings`
+  - `#dt-blend-section` / `#dt-blend-group` — عادت في `dt-draw-settings`
+
+#### 4. إصلاح عرض التابلت — ملء الكانفاس للمساحة
+- **المشكلة**: الكانفاس كان يأخذ 80% فقط من المساحة المتاحة، والشريط الجانبي الأيمن عرضه 280px ثابت، مما ينتج كانفاس بحجم 315px فقط على تابلت 768px.
+- **الحل**:
+  - زيادة `fillRatio` من 0.80 إلى **0.92** على التابلت (768px–1024px) في `_resizeCanvas()`
+  - تقليل عرض `.dt-sidebar-right` من 280px إلى **200px** على التابلت
+  - تقليل padding `.dt-canvas-area` من `1.5rem` إلى `1rem` على التابلت
+- **النتيجة**: الكانفاس أصبح 458px بدلاً من 315px (↑43%)
+
+#### الملفات المعدلة:
+| الملف | التغيير |
+|-------|---------|
+| `resources/views/pages/design-tool.blade.php` | +55 سطر — إضافة `dt-draw-settings` مع كامل عناصر التحكم |
+| `resources/css/app.css` | +65 سطر — أنماط داكنة لعناصر `dt-draw-settings` + تحسينات تابلت |
+| `public/js/canvas-tool.js` | +35 سطر — 3 حراسات لقفل الطبقات + تحسين `fillRatio` للتابلت |
+
 ### Mini-Design Studio Phase 4 — Hotfix (2026-05-16)
 
 #### 1. إصلاح انهيار Constructor (Null DOM References)
