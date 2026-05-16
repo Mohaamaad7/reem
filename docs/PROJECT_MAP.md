@@ -1,6 +1,6 @@
 # Project Map — Rawnaq (رونق)
 
-> آخر تحديث: 2026-05-13 (Phase 2 — Fixes v2)
+> آخر تحديث: 2026-05-16 (Phase 4 — Dark Theme Redesign)
 
 ---
 
@@ -219,6 +219,118 @@ rawnaq/
 |-------|---------|
 | `public/js/canvas-tool.js` | +25 سطر جراحية — 4 إصلاحات دقيقة |
 
+### Mini-Design Studio Phase 3 — Layers Panel (2026-05-16)
+
+#### 1. معمارية لوحة الطبقات (Layers Panel UI)
+- **الموقع**: شريط جانبي أيمن (`.dt-sidebar-right`) على الديسكتوب
+- **الموبايل**: Bottom Sheet مع زر عائم (`.dt-layers-fab`)
+- **المصدر**: تقرأ من `canvas.getObjects()` وتُحدث نفسها تلقائياً عبر أحداث `object:added/removed/modified`
+- **كل طبقة تحتوي على**:
+  - اسم مبسط + أيقونة معبرة (🧵 قماش، ✏️ رسم حر، 🎨 نقشة SVG، 🖼️ عنصر)
+  - زر إخفاء/إظهار (👁️) يتحكم في `obj.visible`
+  - زر قفل (🔒) يتحكم في `selectable/evented/hasControls/hasBorders`
+  - زر حذف (🗑️) لحذف الطبقة
+  - أزرار ترتيب (🔼 🔽) عبر `bringForward` / `sendBackwards`
+
+#### 2. تحويل الأقمشة إلى طبقات عادية (Fabric as Layers)
+- **تغيير جذري**: توقف عن استخدام `canvas.setBackgroundImage()`
+- **البديل**: إضافة القماش كـ `fabric.Image` عادي عبر `canvas.add()` + `sendToBack()`
+- **التأمين (Guardrail)**: القماش يُضاف بخصائص:
+  ```
+  selectable: false, evented: false, hasControls: false, hasBorders: false, _locked: true
+  ```
+- **النتيجة**: القماش يظهر كطبقة عادية في لوحة الطبقات، لا يمكن تحديده أو تحريكه إلا بعد رفع القفل
+
+#### 3. تجميع خطوط الرسم الحر (Freehand Drawing Grouping)
+- كل `fabric.Path` يحمل `_isDrawingPath = true` يتم تجميعه تحت طبقة واحدة باسم "رسم حر"
+- عند حذف/إخفاء طبقة "رسم حر"، يتم تنفيذ الإجراء على **جميع** الـ paths دفعة واحدة
+- في الواجهة، طبقة واحدة فقط تظهر باسم "رسم حر" مع أيقونة ✏️
+
+#### 4. مزامنة الحالة (Serialization)
+- جميع استدعاءات `canvas.toJSON()` تشمل الآن: `_isFabric`, `_fabricName`, `_locked`
+- auto-save و undo/redo و workspaces تعمل مع النظام الجديد
+- `_loadDesignIntoCanvas()` يعيّن خصائص القفل تلقائياً عند استرجاع تصميم محفوظ
+
+#### الملفات المعدلة:
+| الملف | التغيير |
+|-------|---------|
+| `public/js/canvas-tool.js` | +200 سطر — تحويل fabric إلى layer + نظام الطبقات + تجميع الرسم الحر |
+| `resources/views/pages/design-tool.blade.php` | +30 سطر — HTML لوحة الطبقات + Bottom Sheet + زر عائم |
+| `resources/css/app.css` | +120 سطر — أنماط `.dt-sidebar-right` + `.dt-layer-item` + Bottom Sheet |
+
+#### كود Deprecated:
+- `canvas.setBackgroundImage()` — لم يُعد مستخدماً في `_selectFabric()` و `_restoreBackground()`
+- `canvas.backgroundImage` — تم استبداله بكائنات `_isFabric` عادية
+- المرجع الوحيد المتبقي لـ `backgroundImage = null` في `_loadDesignIntoCanvas()` هو إجراء أمان لتصاميم قديمة
+
+### Mini-Design Studio Phase 4 — Dark Theme Redesign (2026-05-16)
+
+#### 1. إعادة تصميم الواجهة الكاملة (Dark Theme)
+- **الخلفية**: من `#FAFAFA` متدرجة إلى `#1a1a1a` داكنة
+- **الكانفاس**: خلفية بيضاء صافية مع ظل واضح
+- **شريط الأدوات**: داكن مع أزرار ذهبية عند التفعيل
+- **لوحة الطبقات**: داكنة (`#242424`) مع عناصر (`#2a2a2a`)
+
+#### 2. نظام الطبقات اليدوي (Manual Layer Management)
+- **إلغاء الإضافة التلقائية**: القماش لا يُضاف تلقائياً بعد الآن
+- **زر "إضافة طبقة"**: المستخدم يضغط ويختار النوع:
+  - 🧵 طبقة قماش → modal اختيار القماش
+  - 🎨 طبقة نقشة → modal اختيار النقشة
+  - ✏️ طبقة رسم حر → تفعيل وضع الرسم
+- **هيكل الطبقة**: `{ id, name, type, visible, locked }`
+- **ربط الكائنات**: كل كائن كانفاس يحمل `_layerId` يشير لطبقته
+
+#### 3. شريط عائم (Floating Toolbar)
+- يظهر فوق الكانفاس عند تفعيل وضع الرسم
+- يحتوي على: ألوان (أخضر/أحمر/ذهبي) + أيقونة فرشاة + slider حجم
+
+#### 4. Modals للاختيار
+- **Fabric Modal**: شبكة الأقمشة المتاحة
+- **Pattern Modal**: شبكة النقوش المتاحة
+- يُغلقان بالضغط على X أو خارج المحتوى
+
+#### 5. التوافق مع الميزات القديمة
+- **Auto-save**: يحفظ `_layers` + `activeLayerId`
+- **Workspaces**: يحفظ/يسترجع `_layers` مع كل workspace
+- **Undo/Redo**: يعمل عبر `_layerId` في serialization
+- **Saved Designs**: يسترجع `_layers` من التصميم المحفوظ
+- **Mobile**: يحتفظ بالتبويبات القديمة كـ fallback
+
+#### الملفات المعدلة:
+| الملف | التغيير |
+|-------|---------|
+| `public/js/canvas-tool.js` | إعادة بناء نظام الطبقات (+300 سطر) |
+| `resources/views/pages/design-tool.blade.php` | إعادة بناء HTML كاملة |
+| `resources/css/app.css` | +300 سطر (dark theme + أنماط جديدة) |
+
+#### كود Deprecated (Phase 4):
+- التبويبات (Fabric/Patterns/Adjust) — مخفية على الديسكتوب، تُستخدم فقط في الموبايل
+- `_selectFabric()` — على الديسكتوب لا يفعل شيئاً (يُستخدم عبر modal)
+- `_addPattern()` — على الديسكتوب يُنشئ طبقة تلقائياً (للتوافق مع الموبايل)
+
+### Mini-Design Studio Phase 4 — Hotfix (2026-05-16)
+
+#### 1. إصلاح انهيار Constructor (Null DOM References)
+- **المشكلة**: عند Phase 4 تم حذف عناصر HTML لإعدادات الفرش (`dt-draw-settings`, `dt-brush-size`, `dt-brush-color`, `dt-eraser-size`) والتبويبات (`dt-category-tabs`, `dt-pattern-grid`) من Blade template (الديسكتوب)، لكن الكود ظل يحاول الوصول إليها.
+- **السبب الجذري**: 
+  1. `this._brushSizeInput.addEventListener(...)` على `null` يوقف Constructor بالكامل.
+  2. استخدام `.appendChild()` على حاويات محذوفة مثل `self.categoryTabs` و `self.patternGrid` أثناء جلب البيانات.
+- **التأثير**: كل الدوال اللاحقة لم تُستدعى (أزرار لا تعمل)، وتوقف الصفحة عن التحميل بعد جلب البيانات (شاشة بيضاء).
+- **الحل**: إضافة null-safety checks (`if (element)`) قبل كل `.addEventListener()`, `.hidden`, و `.appendChild()` على العناصر المحذوفة.
+- **تكامل مع Floating Toolbar**: عندما لا توجد عناصر الفرش القديمة، يُقرأ حجم الفرشاة من `ftbSizeSlider` كبديل.
+
+#### 2. إصلاح جلب الأصول (API Routing Fix)
+- **المشكلة**: استدعاء `fetch('/api/patterns')` كمسار مطلق يفشل عندما يتم استضافة المشروع في مجلد فرعي (مثل `localhost/reem1/public/`) ويعمل فقط على النطاق المباشر (مثل `reem1.test`).
+- **الحل**: 
+  - حقن `url('/')` كـ `<meta name="base-url">` في `layouts/app.blade.php`.
+  - قراءة الـ `base-url` في `canvas-tool.js` وإضافته قبل روابط الـ API.
+
+#### الملفات المعدلة:
+| الملف | التغيير |
+|-------|---------|
+| `resources/views/layouts/app.blade.php` | إضافة `<meta name="base-url">` لدعم الـ API |
+| `public/js/canvas-tool.js` | إصلاح مسارات API بـ `base-url` + حماية شاملة من null reference في `appendChild` |
+
 ---
 
 ## التقنيات المستخدمة
@@ -254,6 +366,7 @@ rawnaq/
 2. **SVG Patterns**: حالياً 6 أنماط. يمكن إضافة المزيد من `public/images/patterns/`
 3. **الأقمشة**: يمكن استبدال الصور placeholder بصور حقيقية
 4. **PWA**: يعمل حالياً على Android Chrome. يحتاج تحسين لـ iOS
+5. **لوحة الطبقات**: يمكن إضافة دعم التجميع (Groups) وتسمية الطبقات المخصصة
 
 ---
 
@@ -266,4 +379,4 @@ rawnaq/
 
 ---
 
-*آخر تحديث: 2026-05-13 — Mini-Design Studio Phase 2 Fixes v2*
+*آخر تحديث: 2026-05-16 — Mini-Design Studio Phase 4 — Dark Theme Redesign*

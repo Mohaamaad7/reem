@@ -87,10 +87,10 @@ body {
     line-height: 1.65;
 }
 
-/* Design-tool page: remove decorative body pattern, prevent page scroll */
+/* Design-tool page: dark theme */
 body:has(.dt-workspace) {
     background-image: none;
-    background-color: #FAFAFA;
+    background-color: #1a1a1a;
     overflow: hidden;
 }
 
@@ -767,7 +767,7 @@ body:has(.dt-workspace) .brand__subtitle {
     height: calc(100vh - var(--header-height));
     margin-top: var(--header-height);
     overflow: hidden;
-    background: #FAFAFA;
+    background: #1a1a1a;
 }
 
 /* RTL: use order instead of row-reverse so draw-tools stays on physical left */
@@ -775,6 +775,7 @@ body:has(.dt-workspace) .brand__subtitle {
 [dir="rtl"] .dt-draw-settings { order: 2; }
 [dir="rtl"] .dt-canvas-area   { order: 1; }
 [dir="rtl"] .dt-sidebar       { order: 0; }
+[dir="rtl"] .dt-sidebar-right { order: 5; }
 
 /* ── Canvas Area ──────────────────────────────────────────── */
 .dt-canvas-area {
@@ -784,7 +785,7 @@ body:has(.dt-workspace) .brand__subtitle {
     align-items: center;
     justify-content: flex-start;
     padding: 1.5rem 2rem 4.5rem;
-    background: radial-gradient(circle at center, #FAFAFA 0%, #EFEBE4 100%);
+    background: #1a1a1a;
     position: relative;
     overflow: hidden;
     min-width: 0;
@@ -792,9 +793,9 @@ body:has(.dt-workspace) .brand__subtitle {
 
 .dt-canvas-frame {
     background: #ffffff;
-    padding: 1rem;
-    border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(44, 53, 57, 0.10);
+    padding: 0;
+    border-radius: 4px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
     position: relative;
     display: inline-flex;
     flex-direction: column;
@@ -802,12 +803,30 @@ body:has(.dt-workspace) .brand__subtitle {
 
 .dt-canvas-frame canvas {
     display: block;
-    border-radius: 8px;
-    border: 1px dashed #EAE6DF;
+    border-radius: 0;
+    border: none;
 }
 
 .dt-canvas-frame .upper-canvas {
-    border-radius: 8px;
+    border-radius: 0;
+}
+
+/* ── Empty State ──────────────────────────────────────────── */
+.dt-empty-state {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    color: #888;
+    font-size: 0.9rem;
+    pointer-events: none;
+    text-align: center;
+    z-index: 2;
+    background: #fff;
+    border-radius: 4px;
 }
 
 /* â”€â”€ Empty State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -1027,6 +1046,138 @@ body:has(.dt-workspace) .brand__subtitle {
     overflow: hidden;
     box-shadow: 0 0 12px rgba(44, 53, 57, 0.05);
     z-index: 10;
+}
+
+/* ── Layers Panel — Right Sidebar ─────────────────────────── */
+.dt-sidebar-right {
+    width: 260px;
+    flex-shrink: 0;
+    background: #ffffff;
+    border-right: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 0 12px rgba(44, 53, 57, 0.05);
+    z-index: 10;
+}
+
+[dir="rtl"] .dt-sidebar-right {
+    order: 0;
+    border-right: none;
+    border-left: 1px solid var(--color-border);
+}
+
+.dt-sidebar-right__header {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    background: #FAFAFA;
+    flex-shrink: 0;
+}
+
+.dt-sidebar-right__title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.dt-sidebar-right__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+.dt-layer-empty {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+}
+
+/* ── Layer Item ───────────────────────────────────────────── */
+.dt-layer-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.6rem;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    background: #FAFAFA;
+    border: 1px solid transparent;
+    transition: background 0.15s, border-color 0.15s;
+    gap: 0.4rem;
+}
+
+.dt-layer-item:hover {
+    background: #F0EDE5;
+    border-color: var(--color-border);
+}
+
+.dt-layer-main {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 0;
+    cursor: pointer;
+}
+
+.dt-layer-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.dt-layer-name {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dt-layer-actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+}
+
+.dt-layer-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    padding: 0;
+    line-height: 1;
+}
+
+.dt-layer-btn:hover {
+    background: #E8E4DB;
+    color: var(--color-text-primary);
+}
+
+.dt-layer-btn--toggle.is-off {
+    opacity: 0.35;
+}
+
+.dt-layer-btn--toggle.is-on {
+    color: var(--color-primary-light);
+}
+
+.dt-layer-btn--delete:hover {
+    background: #FDF0F0;
+    color: #C0392B;
 }
 
 /* â”€â”€ Tab Navigation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -1533,6 +1684,11 @@ body:has(.dt-workspace) .brand__subtitle {
         border-left: none;
         border-top: 1px solid var(--color-border);
         box-shadow: 0 -2px 10px rgba(44, 53, 57, 0.06);
+    }
+
+    /* Hide right sidebar on mobile, show as bottom sheet */
+    .dt-sidebar-right {
+        display: none;
     }
 
     .dt-floating-actions { bottom: 0.6rem; }
@@ -2095,4 +2251,692 @@ body:has(.dt-workspace) .brand__subtitle {
 }
 .toc-link.active svg {
     color: #9F1239;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Layers Panel — Mobile Floating Button + Bottom Sheet
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Floating button (mobile only) */
+.dt-layers-fab {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .dt-layers-fab {
+        display: inline-flex;
+        position: fixed;
+        right: 12px;
+        bottom: 80px;
+        width: 44px;
+        height: 44px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 1px solid var(--color-border);
+        box-shadow: 0 4px 16px rgba(44, 53, 57, 0.15);
+        color: var(--color-text-primary);
+        font-size: 1.2rem;
+        cursor: pointer;
+        z-index: 100;
+        transition: transform 0.18s, box-shadow 0.18s;
+    }
+
+    .dt-layers-fab:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(44, 53, 57, 0.2);
+    }
+
+    [dir="rtl"] .dt-layers-fab {
+        right: auto;
+        left: 12px;
+    }
+
+    /* Bottom sheet for layers */
+    .dt-bottom-sheet {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        display: none;
+        align-items: flex-end;
+    }
+
+    .dt-bottom-sheet.is-open {
+        display: flex;
+    }
+
+    .dt-bottom-sheet__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+    }
+
+    .dt-bottom-sheet__content {
+        position: relative;
+        width: 100%;
+        max-height: 70vh;
+        background: #ffffff;
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -4px 24px rgba(44, 53, 57, 0.15);
+        display: flex;
+        flex-direction: column;
+        animation: dt-sheet-up 0.25s ease;
+    }
+
+    @keyframes dt-sheet-up {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+    }
+
+    .dt-bottom-sheet__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.85rem 1rem;
+        border-bottom: 1px solid var(--color-border);
+        flex-shrink: 0;
+    }
+
+    .dt-bottom-sheet__title {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--color-text-primary);
+        margin: 0;
+    }
+
+    .dt-bottom-sheet__close {
+        width: 32px;
+        height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background: transparent;
+        color: var(--color-text-muted);
+        font-size: 1.3rem;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: background 0.15s;
+    }
+
+    .dt-bottom-sheet__close:hover {
+        background: #F0EDE5;
+    }
+
+    .dt-bottom-sheet__body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0.5rem;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Phase 4 — Dark Theme Redesign
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Dark workspace overrides ───────────────────────────────── */
+.dt-workspace {
+    background: #1a1a1a !important;
+}
+
+.dt-canvas-area {
+    background: #1a1a1a !important;
+    padding: 1rem 1.5rem 1rem !important;
+}
+
+.dt-canvas-frame {
+    background: #ffffff !important;
+    padding: 0 !important;
+    border-radius: 4px !important;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4) !important;
+}
+
+.dt-canvas-frame canvas {
+    border-radius: 0 !important;
+    border: none !important;
+}
+
+.dt-canvas-frame .upper-canvas {
+    border-radius: 0 !important;
+}
+
+.dt-empty-state {
+    inset: 0 !important;
+    color: #888 !important;
+    background: #fff !important;
+    border-radius: 4px !important;
+}
+
+/* ── Left toolbar (dark) ───────────────────────────────────── */
+.dt-draw-tools {
+    background: #242424 !important;
+    border-color: #333 !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.dt-draw-btn {
+    color: #888 !important;
+}
+
+.dt-draw-btn:hover,
+.dt-draw-btn.is-active,
+.dt-draw-btn.is-drawing {
+    background: #D4AF37 !important;
+    color: #fff !important;
+}
+
+.dt-draw-sep {
+    border-color: #333 !important;
+}
+
+/* ── Draw settings panel (dark) ────────────────────────────── */
+.dt-draw-settings {
+    background: #242424 !important;
+    border-color: #333 !important;
+}
+
+.dt-draw-setting-label {
+    color: #aaa !important;
+}
+
+.dt-draw-setting-val {
+    color: #ccc !important;
+}
+
+/* ── Workspace tabs (dark) ─────────────────────────────────── */
+.dt-workspace-tabs {
+    background: #1a1a1a !important;
+}
+
+.dt-ws-tab {
+    background: #2a2a2a !important;
+    border-color: #444 !important;
+    color: #aaa !important;
+}
+
+.dt-ws-tab.is-active {
+    background: #333 !important;
+    border-color: #D4AF37 !important;
+    color: #D4AF37 !important;
+}
+
+.dt-ws-tab__del {
+    color: #e74c3c !important;
+}
+
+/* ── Floating action bar (dark) ────────────────────────────── */
+.dt-floating-actions__bar {
+    background: #2a2a2a !important;
+    border-color: #444 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+.dt-fab-btn {
+    color: #ccc !important;
+}
+
+.dt-fab-btn:hover:not(:disabled) {
+    background: #3a3a3a !important;
+}
+
+.dt-fab-btn--primary {
+    background: #D4AF37 !important;
+    color: #fff !important;
+}
+
+.dt-fab-btn--danger {
+    color: #e74c3c !important;
+}
+
+/* ── Layers Panel (dark, right sidebar) ────────────────────── */
+.dt-sidebar-right {
+    width: 280px !important;
+    background: #242424 !important;
+    border-right: 1px solid #333 !important;
+    border-left: none !important;
+    box-shadow: -2px 0 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+[dir="rtl"] .dt-sidebar-right {
+    border-right: none !important;
+    border-left: 1px solid #333 !important;
+}
+
+.dt-sidebar-right__header {
+    background: #2a2a2a !important;
+    border-bottom-color: #333 !important;
+    padding: 0.85rem 1rem !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dt-sidebar-right__title {
+    color: #e0e0e0 !important;
+    font-size: 0.95rem !important;
+    margin: 0 !important;
+}
+
+.dt-sidebar-right__body {
+    padding: 0.5rem !important;
+}
+
+/* ── Add Layer Button ──────────────────────────────────────── */
+.dt-add-layer-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 100%;
+    padding: 0.6rem;
+    border: 1.5px dashed #555 !important;
+    border-radius: 8px !important;
+    background: transparent !important;
+    color: #aaa !important;
+    font-family: inherit !important;
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    transition: all 0.18s !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.dt-add-layer-btn:hover {
+    border-color: #D4AF37 !important;
+    color: #D4AF37 !important;
+    background: rgba(212, 175, 55, 0.05) !important;
+}
+
+/* ── Layer Item (dark) ─────────────────────────────────────── */
+.dt-layer-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.55rem 0.6rem !important;
+    border-radius: 8px !important;
+    margin-bottom: 4px !important;
+    background: #2a2a2a !important;
+    border: 1.5px solid transparent !important;
+    transition: all 0.15s !important;
+    gap: 0.4rem !important;
+}
+
+.dt-layer-item:hover {
+    background: #333 !important;
+    border-color: #444 !important;
+}
+
+.dt-layer-item.is-active {
+    border-color: #D4AF37 !important;
+    background: rgba(212, 175, 55, 0.08) !important;
+}
+
+.dt-layer-item.is-hidden {
+    opacity: 0.45 !important;
+}
+
+.dt-layer-main {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem !important;
+    flex: 1 !important;
+    min-width: 0 !important;
+    cursor: pointer !important;
+}
+
+.dt-layer-icon {
+    font-size: 1rem !important;
+    flex-shrink: 0 !important;
+    line-height: 1 !important;
+    width: 20px !important;
+    text-align: center !important;
+}
+
+.dt-layer-thumb {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 4px !important;
+    object-fit: cover !important;
+    flex-shrink: 0 !important;
+    background: #444 !important;
+    border: 1px solid #555 !important;
+}
+
+.dt-layer-name {
+    font-size: 0.78rem !important;
+    font-weight: 500 !important;
+    color: #ddd !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.dt-layer-actions {
+    display: flex;
+    align-items: center;
+    gap: 1px !important;
+    flex-shrink: 0 !important;
+}
+
+.dt-layer-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 24px !important;
+    height: 24px !important;
+    border: none !important;
+    border-radius: 4px !important;
+    background: transparent !important;
+    color: #888 !important;
+    font-size: 0.75rem !important;
+    cursor: pointer !important;
+    transition: all 0.15s !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+}
+
+.dt-layer-btn:hover {
+    background: #444 !important;
+    color: #ddd !important;
+}
+
+.dt-layer-btn--toggle.is-off {
+    opacity: 0.3 !important;
+}
+
+.dt-layer-btn--lock.is-locked {
+    color: #D4AF37 !important;
+}
+
+.dt-layer-btn--delete:hover {
+    background: rgba(231, 76, 60, 0.15) !important;
+    color: #e74c3c !important;
+}
+
+.dt-layer-grip {
+    color: #555 !important;
+    cursor: grab !important;
+    font-size: 0.9rem !important;
+}
+
+.dt-layer-empty {
+    padding: 2rem 1rem !important;
+    text-align: center !important;
+    color: #666 !important;
+    font-size: 0.8rem !important;
+}
+
+/* ── Layer type dropdown ───────────────────────────────────── */
+.dt-layer-type-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    z-index: 50;
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.dt-layer-type-option {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.65rem 0.85rem;
+    background: transparent;
+    border: none;
+    width: 100%;
+    color: #ddd;
+    font-family: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.dt-layer-type-option:hover {
+    background: #3a3a3a;
+}
+
+.dt-layer-type-option__icon {
+    font-size: 1.1rem;
+    width: 22px;
+    text-align: center;
+}
+
+/* ── Floating toolbar (above canvas) ───────────────────────── */
+.dt-floating-toolbar {
+    position: absolute;
+    top: -48px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.75rem;
+    background: #2a2a2a;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    border: 1px solid #444;
+    z-index: 20;
+    white-space: nowrap;
+}
+
+.dt-ftb-color {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.15s, transform 0.15s;
+}
+
+.dt-ftb-color:hover {
+    transform: scale(1.15);
+}
+
+.dt-ftb-color.is-active {
+    border-color: #fff;
+}
+
+.dt-ftb-sep {
+    width: 1px;
+    height: 20px;
+    background: #444;
+    margin: 0 0.2rem;
+}
+
+.dt-ftb-brush-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #888;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.dt-ftb-brush-btn:hover,
+.dt-ftb-brush-btn.is-active {
+    background: #D4AF37;
+    color: #fff;
+}
+
+.dt-ftb-size-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.dt-ftb-size-label {
+    font-size: 0.72rem;
+    color: #aaa;
+    min-width: 28px;
+}
+
+.dt-ftb-size-slider {
+    width: 70px;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #444;
+    border-radius: 2px;
+    outline: none;
+}
+
+.dt-ftb-size-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #D4AF37;
+    cursor: pointer;
+}
+
+/* ── Modal overlay (dark) ──────────────────────────────────── */
+.dt-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 300;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+}
+
+.dt-modal-overlay.is-open {
+    display: flex;
+}
+
+.dt-modal-content {
+    background: #242424;
+    border: 1px solid #444;
+    border-radius: 16px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+    max-width: 520px;
+    width: 90%;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.dt-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #333;
+}
+
+.dt-modal-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #e0e0e0;
+    margin: 0;
+}
+
+.dt-modal-close {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: #888;
+    font-size: 1.3rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.15s;
+}
+
+.dt-modal-close:hover {
+    background: #333;
+    color: #ddd;
+}
+
+.dt-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+.dt-modal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.dt-modal-grid-item {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2.5px solid transparent;
+    background: #333;
+    transition: all 0.18s;
+}
+
+.dt-modal-grid-item:hover {
+    border-color: #D4AF37;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dt-modal-grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ── Remove old sidebar (tabs) on desktop ──────────────────── */
+@media (min-width: 768px) {
+    .dt-sidebar {
+        display: none !important;
+    }
+}
+
+/* ── Mobile: show old sidebar as bottom panel ──────────────── */
+@media (max-width: 767px) {
+    .dt-sidebar {
+        display: flex !important;
+    }
+    .dt-sidebar-right {
+        display: none !important;
+    }
+}
+
+/* ── Cursor preview (dark) ─────────────────────────────────── */
+.dt-cursor-preview {
+    position: fixed;
+    pointer-events: none;
+    border: 2px solid #D4AF37;
+    border-radius: 50%;
+    z-index: 999;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: difference;
+}
+
+/* ── RTL adjustments ───────────────────────────────────────── */
+[dir="rtl"] .dt-sidebar-right {
+    order: 0 !important;
+}
+
+[dir="rtl"] .dt-draw-tools {
+    order: 3 !important;
+}
+
+[dir="rtl"] .dt-canvas-area {
+    order: 1 !important;
 }
