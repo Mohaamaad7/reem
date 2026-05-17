@@ -171,7 +171,7 @@ $isLoggedIn    = session()->has(''participant_id'');
     <link href=""https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap"" rel=""stylesheet"">
     @vite([''resources/css/app.css'', ''resources/js/app.js''])
 </head>
-<body class=""antialiased min-h-screen flex flex-col relative overflow-x-hidden bg-cover bg-center bg-no-repeat bg-[url(''/images/bg/mobile.jpg'')] md:bg-[url(''/images/bg/ipad_vertical.jpg'')] lg:bg-[url(''/images/bg/desktop.jpg'')]"" style=""background-color: #FBF7F2;"">')"`*
+<body class=""antialiased min-h-screen flex flex-col relative overflow-x-hidden bg-cover bg-center bg-no-repeat bg-[url('/images/bg/mobile.jpg')] md:bg-[url('/images/bg/ipad_vertical.jpg')] lg:bg-[url('/images/bg/desktop.jpg')]"" style=""background-color: #FBF7F2;"">')"`*
 
 *Checked command status*
 
