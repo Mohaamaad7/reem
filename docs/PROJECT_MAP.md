@@ -56,6 +56,19 @@ rawnaq/
 
 ---
 
+## Phase 4 — Hotfix (2026-05-17)
+
+- Fix: Production crash/blank canvas due to absolute asset paths when deployed under a subdirectory.
+  - Added `BASE_URL` helper and `absoluteUrl()` in `public/js/canvas-tool.js` to prefix all runtime image URLs and saved-designs fetches with the Laravel-injected `<meta name="base-url">`.
+  - Updated modal grids, pattern/fabric image loads (including Fabric.js `fromURL` and `loadSVGFromURL`) to use `absoluteUrl()`.
+  - Guarded `_hideEmpty()` against missing `#dt-empty-state` to avoid null access.
+- Fix: Service Worker registration respects subdirectory scope by using `meta[base-url]` in `resources/js/app.js`.
+
+Notes:
+- PWA icons under `public/images/icons/` are currently empty in the repository; 404s may appear until icons are provided on the server. Functionality is unaffected.
+
+---
+
 ## الوحدات البرمجية (Modules)
 
 ### 1. نظام إدارة المستخدمين (Auth)

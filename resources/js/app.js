@@ -20,7 +20,9 @@ function initHeaderToggle() {
 function initServiceWorker() {
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js').catch(() => {});
+            const meta = document.querySelector('meta[name="base-url"]');
+            const baseUrl = meta ? meta.content : '';
+            navigator.serviceWorker.register(baseUrl + '/sw.js').catch(() => {});
         });
     }
 }

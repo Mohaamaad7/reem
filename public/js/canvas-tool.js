@@ -19,6 +19,15 @@ const AssetCatalog = {
     patterns: [],
 };
 
+/* ── Base URL helper (supports subdirectory deployments) ───────────────── */
+var BASE_URL = (document.querySelector('meta[name="base-url"]') && document.querySelector('meta[name="base-url"]').content) || '';
+function absoluteUrl(u) {
+    if (!u) return u;
+    if (/^https?:\/\//i.test(u) || u.indexOf('data:') === 0) return u;
+    if (u.charAt(0) === '/') return BASE_URL + u;
+    return BASE_URL + '/' + u;
+}
+
 /* ── Blend Mode Definitions ────────────────────────────────── */
 /* ── Canvas aspect ratio (3:4 portrait, like a t-shirt) ──── */
 const CANVAS_RATIO = 4 / 3;
@@ -360,7 +369,7 @@ class DesignEngine {
             btn.type = 'button';
             btn.className = 'dt-grid__item';
             btn.dataset.fabricId = f.id;
-            btn.innerHTML = '<img class="dt-grid__item-img" src="' + (f.thumb_url || f.url) + '" alt="' + f.id + '" loading="lazy" crossorigin="anonymous">' +
+            btn.innerHTML = '<img class="dt-grid__item-img" src="' + absoluteUrl(f.thumb_url || f.url) + '" alt="' + f.id + '" loading="lazy" crossorigin="anonymous">' +
                 '<span class="dt-grid__item-label">' + f.id.replace(/-/g, ' ') + '</span>';
             btn.addEventListener('click', function() { self._selectFabric(f); });
             if (self.fabricGrid) self.fabricGrid.appendChild(btn);
@@ -459,7 +468,7 @@ class DesignEngine {
             btn.dataset.patternId = p.id;
             btn.dataset.category = p.category || 'uncategorized';
             btn.style.display = 'none';
-            btn.innerHTML = '<img class="dt-grid__item-img" src="' + (p.thumb_url || p.url) + '" alt="' + p.id + '" loading="lazy" crossorigin="anonymous">' +
+            btn.innerHTML = '<img class="dt-grid__item-img" src="' + absoluteUrl(p.thumb_url || p.url) + '" alt="' + p.id + '" loading="lazy" crossorigin="anonymous">' +
                 '<span class="dt-grid__item-label">' + p.id.replace(/-/g, ' ') + '</span>';
             btn.addEventListener('click', function() { self._addPattern(p); });
             if (self.patternGrid) self.patternGrid.appendChild(btn);
@@ -938,7 +947,7 @@ class DesignEngine {
         });
         this._activeLayerId = layerId;
 
-        var patternUrl = pattern.working_url || pattern.url;
+        var patternUrl = absoluteUrl(pattern.working_url || pattern.url);
         var ext = (patternUrl.split('.').pop() || '').split('?')[0].toLowerCase();
         console.log('[Pattern] Loading:', patternUrl, '(ext:', ext + ')');
 
@@ -1075,7 +1084,7 @@ class DesignEngine {
     _hideEmpty() {
         var hasFabric = this.state.fabricId || this.canvas.getObjects().some(function(o) { return o._isFabric; });
         if (hasFabric || this.canvas.getObjects().length > 0) {
-            this.emptyState.setAttribute('hidden', '');
+            if (this.emptyState) this.emptyState.setAttribute('hidden', '');
         }
     }
 
@@ -1589,7 +1598,7 @@ class DesignEngine {
     async _loadSavedDesigns() {
         var self = this;
         try {
-            var res = await fetch('/designs');
+            var res = await fetch(BASE_URL + '/designs');
             if (!res.ok) return;
             var designs = await res.json();
             self._renderSavedDesigns(designs);
@@ -1643,7 +1652,7 @@ class DesignEngine {
     async _deleteSavedDesign(id) {
         try {
             var csrfToken = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
-            var res = await fetch('/designs/' + id, {
+            var res = await fetch(BASE_URL + '/designs/' + id, {
                 method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': csrfToken,
@@ -2295,7 +2304,7 @@ class DesignEngine {
         AssetCatalog.fabrics.forEach(function(f) {
             var item = document.createElement('div');
             item.className = 'dt-modal-grid-item';
-            item.innerHTML = '<img src="' + (f.thumb_url || f.url) + '" alt="' + f.id + '" loading="lazy" crossorigin="anonymous">';
+            item.innerHTML = '<img src="' + absoluteUrl(f.thumb_url || f.url) + '" alt="' + f.id + '" loading="lazy" crossorigin="anonymous">';
             item.addEventListener('click', function() {
                 self._closeAllModals();
                 self._addFabricLayer(f);
@@ -2315,7 +2324,7 @@ class DesignEngine {
         AssetCatalog.patterns.forEach(function(p) {
             var item = document.createElement('div');
             item.className = 'dt-modal-grid-item';
-            item.innerHTML = '<img src="' + (p.thumb_url || p.url) + '" alt="' + p.id + '" loading="lazy" crossorigin="anonymous">';
+            item.innerHTML = '<img src="' + absoluteUrl(p.thumb_url || p.url) + '" alt="' + p.id + '" loading="lazy" crossorigin="anonymous">';
             item.addEventListener('click', function() {
                 self._closeAllModals();
                 self._addPatternLayer(p);
@@ -2337,7 +2346,7 @@ class DesignEngine {
         var layerId = 'layer_' + Date.now();
         var layerName = fabricItem.id.replace(/-/g, ' ');
 
-        var fabricUrl = fabricItem.working_url || fabricItem.url;
+        var fabricUrl = absoluteUrl(fabricItem.working_url || fabricItem.url);
         console.log('[Layers] Adding fabric layer:', layerName);
 
         fabric.Image.fromURL(fabricUrl, function(img, isError) {
