@@ -21,6 +21,21 @@
         <main class="site-main @if(request()->routeIs('design-tool')) site-main--dt @endif">
             @yield('content')
         </main>
+        
+        @unless(request()->routeIs('design-tool'))
+        <footer class="bg-gray-900 text-gray-400 text-sm py-8 border-t border-gray-800 mt-auto">
+            <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex gap-4">
+                    <a href="{{ route('expert.survey') }}" class="hover:text-green-500 transition-colors">استمارة لجنة التحكيم</a>
+                    <span>|</span>
+                    <a href="{{ route('designer.survey') }}" class="hover:text-green-500 transition-colors">استمارة المصممين</a>
+                </div>
+                <div class="text-center md:text-left">
+                    &copy; {{ date('Y') }} جامعة القصيم - تطبيق رونق.
+                </div>
+            </div>
+        </footer>
+        @endunless
     </div>
 
     @stack('scripts')

@@ -55,102 +55,75 @@
 
     <section class="pt-4 sm:pt-6 pb-12 lg:pb-24">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-            <div class="grid grid-cols-3 gap-2 sm:gap-3 lg:gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
 
-                <a href="{{ route('morris') }}" class="morris-frame rounded-xl p-2 sm:p-4 lg:p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-primary fade-in-up hover:bg-morris-primary/5" style="animation-delay: 0.4s;">
-                    <div class="w-8 h-8 sm:w-10 sm:h-10 lg:w-16 lg:h-16 rounded-full bg-morris-primary/15 text-morris-primary flex items-center justify-center mb-2 lg:mb-5 group-hover:scale-110 transition-transform">
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-8 lg:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <!-- 1. Morris -->
+                <a href="{{ route('morris') }}" class="morris-frame rounded-2xl p-6 lg:p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-primary fade-in-up hover:bg-morris-primary/5 bg-white" style="animation-delay: 0.4s;">
+                    <div class="w-16 h-16 rounded-full bg-morris-primary/15 text-morris-primary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     </div>
-                    <h2 class="font-brand text-xs sm:text-sm lg:text-2xl text-morris-primary mb-1 lg:mb-3">وليام موريس</h2>
-                    <p class="hidden lg:block text-sm text-morris-text/80 line-clamp-2">تعرفي على فلسفة الفنون والحرف والإلهام المستمد من الطبيعة.</p>
-                    <div class="hidden lg:flex mt-5 text-morris-primary/40 group-hover:text-morris-primary transition-colors">
-                        <svg class="w-6 h-6 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    </div>
+                    <h2 class="font-brand text-xl lg:text-2xl text-morris-primary mb-2">وليام موريس</h2>
+                    <p class="text-sm text-morris-text/80 line-clamp-2">تعرفي على فلسفة الفنون والحرف والإلهام المستمد من الطبيعة.</p>
                 </a>
 
-                <a href="{{ route('fabrics') }}" class="morris-frame rounded-xl p-2 sm:p-4 lg:p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-olive fade-in-up hover:bg-morris-olive/5" style="animation-delay: 0.5s;">
-                    <div class="w-8 h-8 sm:w-10 sm:h-10 lg:w-16 lg:h-16 rounded-full bg-morris-olive/15 text-morris-olive flex items-center justify-center mb-2 lg:mb-5 group-hover:scale-110 transition-transform">
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-8 lg:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                <!-- 2. Fabrics -->
+                <a href="{{ route('fabrics') }}" class="morris-frame rounded-2xl p-6 lg:p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-olive fade-in-up hover:bg-morris-olive/5 bg-white" style="animation-delay: 0.5s;">
+                    <div class="w-16 h-16 rounded-full bg-morris-olive/15 text-morris-olive flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
                     </div>
-                    <h2 class="font-brand text-xs sm:text-sm lg:text-2xl text-morris-olive mb-1 lg:mb-3">الأقمشة المستدامة</h2>
-                    <p class="hidden lg:block text-sm text-morris-text/80 line-clamp-2">اكتشفي أنواع الأقمشة الصديقة للبيئة وكيفية العناية بها.</p>
-                    <div class="hidden lg:flex mt-5 text-morris-olive/40 group-hover:text-morris-olive transition-colors">
-                        <svg class="w-6 h-6 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    </div>
+                    <h2 class="font-brand text-xl lg:text-2xl text-morris-olive mb-2">الأقمشة المستدامة</h2>
+                    <p class="text-sm text-morris-text/80 line-clamp-2">اكتشفي أنواع الأقمشة الصديقة للبيئة وكيفية العناية بها.</p>
                 </a>
 
-                <a href="{{ route('technique') }}" class="morris-frame rounded-xl p-2 sm:p-4 lg:p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-indigo fade-in-up hover:bg-morris-indigo/5" style="animation-delay: 0.6s;">
-                    <div class="w-8 h-8 sm:w-10 sm:h-10 lg:w-16 lg:h-16 rounded-full bg-morris-indigo/15 text-morris-indigo flex items-center justify-center mb-2 lg:mb-5 group-hover:scale-110 transition-transform">
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-8 lg:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                <!-- 3. Technique -->
+                <a href="{{ route('technique') }}" class="morris-frame rounded-2xl p-6 lg:p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-indigo fade-in-up hover:bg-morris-indigo/5 bg-white" style="animation-delay: 0.6s;">
+                    <div class="w-16 h-16 rounded-full bg-morris-indigo/15 text-morris-indigo flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                     </div>
-                    <h2 class="font-brand text-xs sm:text-sm lg:text-2xl text-morris-indigo mb-1 lg:mb-3">النقشة الزائدة</h2>
-                    <p class="hidden lg:block text-sm text-morris-text/80 line-clamp-2">تعلمي تقنيات النقشة الزائدة لإضافة لمسة فنية لأقمشتك.</p>
-                    <div class="hidden lg:flex mt-5 text-morris-indigo/40 group-hover:text-morris-indigo transition-colors">
-                        <svg class="w-6 h-6 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    </div>
+                    <h2 class="font-brand text-xl lg:text-2xl text-morris-indigo mb-2">النقشة الزائدة</h2>
+                    <p class="text-sm text-morris-text/80 line-clamp-2">تعلمي تقنيات النقشة الزائدة لإضافة لمسة فنية لأقمشتك.</p>
                 </a>
 
+                <!-- 4. Design Tool (Requires Login) -->
                 @if($isLoggedIn)
-                <a href="{{ route('design-tool') }}" id="open-modal-design" class="relative w-full morris-frame rounded-xl p-2 sm:p-4 lg:p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-gold fade-in-up hover:bg-morris-gold/5" style="animation-delay: 0.7s;">
+                <a href="{{ route('design-tool') }}" id="open-modal-design" class="relative w-full morris-frame rounded-2xl p-6 lg:p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-gold fade-in-up hover:bg-morris-gold/5 bg-white" style="animation-delay: 0.7s;">
                 @else
-                <button type="button" id="open-modal-design" data-open-login-modal class="relative w-full morris-frame rounded-xl p-2 sm:p-4 lg:p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-gold fade-in-up hover:bg-morris-gold/5" style="animation-delay: 0.7s;">
+                <button type="button" id="open-modal-design" data-open-login-modal class="relative w-full morris-frame rounded-2xl p-6 lg:p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-gold fade-in-up hover:bg-morris-gold/5 bg-white" style="animation-delay: 0.7s;">
                 @endif
                     @unless($isLoggedIn)
-                    <div class="absolute top-1.5 right-1.5 lg:top-4 lg:right-4 w-5 h-5 lg:w-8 lg:h-8 rounded-full bg-white border border-morris-gold text-morris-gold flex items-center justify-center shadow-sm group-hover:bg-morris-gold group-hover:text-white transition-colors">
+                    <div class="absolute top-4 right-4 w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-white border border-morris-gold text-morris-gold flex items-center justify-center shadow-sm group-hover:bg-morris-gold group-hover:text-white transition-colors">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                     </div>
                     @endunless
 
-                    <div class="w-8 h-8 sm:w-10 sm:h-10 lg:w-16 lg:h-16 rounded-full bg-morris-gold/15 text-morris-gold flex items-center justify-center mb-2 lg:mb-5 group-hover:scale-110 transition-transform">
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-8 lg:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                    <div class="w-16 h-16 rounded-full bg-morris-gold/15 text-morris-gold flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
                     </div>
-                    <h2 class="font-brand text-xs sm:text-sm lg:text-2xl text-morris-gold mb-1 lg:mb-3">أداة التصميم</h2>
-                    <p class="hidden lg:block text-sm text-morris-text/80 line-clamp-2">ابدئي بتصميم نقوشك الخاصة حصرياً للمشاركين.</p>
-                    @if($isLoggedIn)
-                    <div class="hidden lg:flex mt-5 text-morris-gold/40 group-hover:text-morris-gold transition-colors">
-                        <svg class="w-6 h-6 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    </div>
-                    @else
-                    <div class="hidden lg:block mt-4 text-morris-gold font-bold text-xs lg:text-sm bg-morris-gold/10 px-3 py-1 lg:px-4 lg:py-1.5 rounded-full border border-morris-gold/20">
-                        يتطلب كود دخول
-                    </div>
-                    @endif
+                    <h2 class="font-brand text-xl lg:text-2xl text-morris-gold mb-2">أداة التصميم</h2>
+                    <p class="text-sm text-morris-text/80 line-clamp-2">ابدئي بتصميم نقوشك الخاصة حصرياً للمشاركين.</p>
                 @if($isLoggedIn)
                 </a>
                 @else
                 </button>
                 @endif
 
-                @if($isLoggedIn)
-                <a href="{{ route('survey') }}" id="open-modal-survey" class="relative w-full morris-frame rounded-xl p-2 sm:p-4 lg:p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-terracotta fade-in-up hover:bg-morris-terracotta/5" style="animation-delay: 0.8s;">
-                @else
-                <button type="button" id="open-modal-survey" data-open-login-modal class="relative w-full morris-frame rounded-xl p-2 sm:p-4 lg:p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-terracotta fade-in-up hover:bg-morris-terracotta/5" style="animation-delay: 0.8s;">
-                @endif
-                    @unless($isLoggedIn)
-                    <div class="absolute top-1.5 right-1.5 lg:top-4 lg:right-4 w-5 h-5 lg:w-8 lg:h-8 rounded-full bg-white border border-morris-terracotta text-morris-terracotta flex items-center justify-center shadow-sm group-hover:bg-morris-terracotta group-hover:text-white transition-colors">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                <!-- 5. Expert Survey (Public) -->
+                <a href="{{ route('expert.survey') }}" class="morris-frame rounded-2xl p-6 lg:p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-terracotta fade-in-up hover:bg-morris-terracotta/5 bg-white" style="animation-delay: 0.8s;">
+                    <div class="w-16 h-16 rounded-full bg-morris-terracotta/15 text-morris-terracotta flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
                     </div>
-                    @endunless
-
-                    <div class="w-8 h-8 sm:w-10 sm:h-10 lg:w-16 lg:h-16 rounded-full bg-morris-terracotta/15 text-morris-terracotta flex items-center justify-center mb-2 lg:mb-5 group-hover:scale-110 transition-transform">
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-8 lg:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
-                    </div>
-                    <h2 class="font-brand text-xs sm:text-sm lg:text-2xl text-morris-terracotta mb-1 lg:mb-3">الاستبيان</h2>
-                    <p class="hidden lg:block text-sm text-morris-text/80 line-clamp-2">شاركينا رأيك حول تجربتك في استخدام أداة رونق.</p>
-                    @if($isLoggedIn)
-                    <div class="hidden lg:flex mt-5 text-morris-terracotta/40 group-hover:text-morris-terracotta transition-colors">
-                        <svg class="w-6 h-6 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    </div>
-                    @else
-                    <div class="hidden lg:block mt-4 text-morris-terracotta font-bold text-xs lg:text-sm bg-morris-terracotta/10 px-3 py-1 lg:px-4 lg:py-1.5 rounded-full border border-morris-terracotta/20">
-                        يتطلب كود دخول
-                    </div>
-                    @endif
-                @if($isLoggedIn)
+                    <h2 class="font-brand text-xl lg:text-2xl text-morris-terracotta mb-2">استبيان لجنة الحكم</h2>
+                    <p class="text-sm text-morris-text/80 line-clamp-2">نموذج تقييم التطبيق مخصص لأعضاء لجنة التحكيم والمتخصصين.</p>
                 </a>
-                @else
-                </button>
-                @endif
+
+                <!-- 6. Designer Survey (Public) -->
+                <a href="{{ route('designer.survey') }}" class="morris-frame rounded-2xl p-6 lg:p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-green-600 fade-in-up hover:bg-green-50 bg-white" style="animation-delay: 0.9s;">
+                    <div class="w-16 h-16 rounded-full bg-green-100 text-green-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    </div>
+                    <h2 class="font-brand text-xl lg:text-2xl text-green-600 mb-2">استبيان المصممين</h2>
+                    <p class="text-sm text-morris-text/80 line-clamp-2">نموذج تقييم التطبيق مخصص لمصممي الأقمشة في مصانع الملابس.</p>
+                </a>
 
             </div>
         </div>

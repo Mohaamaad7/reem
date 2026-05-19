@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استمارات تحكيم - جامعة القصيم</title>
+    <!-- خطوط جوجل (Tajawal) لدعم اللغة العربية بشكل أنيق -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <!-- مكتبة Tailwind CSS للتصميم -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Tajawal', 'sans-serif'],
+                    },
+                    colors: {
+                        qassim: {
+                            light: '#e6f4ea',
+                            DEFAULT: '#166534', // لون أخضر يعكس هوية الاستدامة وجامعة القصيم
+                            dark: '#14532d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* تحسينات للطباعة */
+        @media print {
+            body { background-color: white !important; }
+            .no-print { display: none !important; }
+            .print-break { page-break-before: always; }
+            .shadow-lg { box-shadow: none !important; }
+            .container { max-width: 100% !important; padding: 0 !important; }
+            input[type="radio"] { appearance: none; border: 1px solid #000; width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+            input[type="radio"]:checked { background-color: black; }
+        }
+        /* تصميم أزرار الراديو */
+        input[type="radio"] {
+            accent-color: #166534;
+            width: 1.2rem;
+            height: 1.2rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased min-h-screen pb-12">
+
+    <!-- شريط الإجراءات (لا يظهر في الطباعة) -->
+    <div class="no-print bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+        <div class="container mx-auto max-w-5xl px-4 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-qassim">النظام الإلكتروني لاستمارات التحكيم</h1>
+            <button onclick="window.print()" class="bg-qassim hover:bg-qassim-dark text-white px-5 py-2 rounded-lg font-semibold transition-colors flex items-center gap-2 shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                طباعة الاستمارات
+            </button>
+        </div>
+    </div>
+
+    <!-- حاوية المحتوى الرئيسي -->
+    <div class="container mx-auto max-w-5xl px-4 mt-8 space-y-12">
+
+        <!-- ============================================== -->
+        <!-- الاستمارة الأولى (ملحق 9 و 10) -->
+        <!-- ============================================== -->
+        <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-8 sm:p-12">
+            
+            <!-- الترويسة -->
+            <div class="flex flex-col sm:flex-row justify-between items-center border-b-2 border-qassim pb-6 mb-8">
+                <div class="text-center sm:text-right font-semibold leading-relaxed">
+                    <p>المملكة العربية السعودية</p>
+                    <p>وزارة التعليم</p>
+                    <p>جامعة القصيم</p>
+                    <p>كلية الفنون والتصاميم</p>
+                    <p>قسم تصميم أزياء</p>
+                </div>
+                <div class="mt-4 sm:mt-0 text-center flex flex-col items-center">
+                    <!-- شعار افتراضي لجامعة القصيم (يمكن تغييره لاحقاً) -->
+                    <div class="w-24 h-24 rounded-full border-4 border-qassim flex items-center justify-center mb-2">
+                        <span class="text-qassim font-bold text-sm text-center">جامعة القصيم<br>Qassim Univ</span>
+                    </div>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-bold border border-gray-200">ملحق رقم (9، 10)</span>
+                </div>
+            </div>
+
+            <!-- عنوان الاستمارة -->
+            <div class="text-center mb-8">
+                <h2 class="text-2xl sm:text-3xl font-bold text-qassim mb-4">استمارة تحكيم المتخصصين لصلاحية التطبيق للنشر على المتجر</h2>
+            </div>
+
+            <!-- بيانات الباحثة والمقدمة -->
+            <div class="prose max-w-none mb-8 text-gray-700 leading-8 text-justify">
+                <p class="font-bold text-lg mb-2">السيد الأستاذ الدكتور / ..................................................................................</p>
+                <p>تحية طيبة وبعد ،،،</p>
+                <p>
+                    تقوم الباحثة / <strong>ريم علي السعوي</strong> بإجراء دراسة لاستكمال متطلبات الحصول على درجة الماجستير في تصميم الأزياء مسار تصميم وتطريز الملابس والمنسوجات بعمل بحث بعنوان: 
+                    <span class="text-qassim font-bold">"ابتكار تطبيق ذكي للتصميم على الاقمشة الصديقة للبيئة ذات النقشة الزائدة والمستلهمة من الاعمال التشكيلية للفنان وليام موريس لتفعيل الاستدامة"</span>
+                </p>
+                <p>
+                    قامت الباحثة بإعداد تطبيق ذكي للتصميم على الاقمشة الصديقة للبيئة ذات النقشة الزائدة، ولذلك تم إعداد هذه الاستمارة بهدف معرفة مدى صلاحية التطبيق للنشر على المتجر، والمرجو من سيادتكم التفضل بقراءة محاورها وبنودها وإبداء الرأي في مدى صحتها، وإضافة ما ترونه غير واضح أو محدد، أو حذف ما ترونه غير مناسب.
+                </p>
+                <p class="mt-4 font-bold">ولسيادتكم جزيل الشكر لتعاونكم ،،،</p>
+                <p class="mt-2 text-left font-bold italic">الباحثة</p>
+            </div>
+
+            <!-- جدول التقييم الأول -->
+            <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm mt-8">
+                <table class="w-full text-right border-collapse">
+                    <thead>
+                        <tr class="bg-qassim text-white">
+                            <th class="p-3 border border-qassim-dark font-bold text-center w-12">م</th>
+                            <th class="p-3 border border-qassim-dark font-bold w-3/5">البنود</th>
+                            <th class="p-3 border border-qassim-dark font-bold text-center">متوافر</th>
+                            <th class="p-3 border border-qassim-dark font-bold text-center">متوافر إلى حد ما</th>
+                            <th class="p-3 border border-qassim-dark font-bold text-center">غير متوافر</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-700">
+                        <!-- القسم الأول -->
+                        <tr class="bg-gray-100 font-bold text-qassim">
+                            <td colspan="5" class="p-3 border border-gray-300">أولاً: معايير التصميم التعليمي للتطبيق</td>
+                        </tr>
+                        <script>
+                            const itemsPart1 = [
+                                "صحة المعلومات العلمية التي يتضمنها التطبيق.",
+                                "التسلسل المنطقي في عرض المحتوى وتوضيحه.",
+                                "وضوح أهداف التطبيق.",
+                                "وضوح الصياغة اللغوية.",
+                                "ملائمة التطبيق لمستوى المتعلم.",
+                                "وضوح ومناسبة مشاهد الفيديو للمعلومة المصاحبة.",
+                                "وضوح ومناسبة الصور الثابتة من رسوم وأشكال للمعلومة المناسبة.",
+                                "سهولة استيعابه وخلوه من العبارات الغامضة والتعقيدات اللغوية."
+                            ];
+                            itemsPart1.forEach((item, index) => {
+                                document.write(`
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="p-3 border border-gray-200 text-center font-semibold">${index + 1}</td>
+                                        <td class="p-3 border border-gray-200">${item}</td>
+                                        <td class="p-3 border border-gray-200 text-center"><input type="radio" name="q1_${index+1}" value="3"></td>
+                                        <td class="p-3 border border-gray-200 text-center"><input type="radio" name="q1_${index+1}" value="2"></td>
+                                        <td class="p-3 border border-gray-200 text-center"><input type="radio" name="q1_${index+1}" value="1"></td>
+                                    </tr>
+                                `);
+                            });
+                        </script>
+
+                        <!-- القسم الثاني -->
+                        <tr class="bg-gray-100 font-bold text-qassim">
+                            <td colspan="5" class="p-3 border border-gray-300">ثانياً: صحة وملائمة المحتوى العلمي والفني</td>
+                        </tr>
+                        <script>
+                            const itemsPart2 = [
+                                "سهولة تحميل التطبيق من المتجر.",
+                                "أيقونة التطبيق جميلة وجذابة.",
+                                "تعكس أيقونة التطبيق وظيفة التطبيق.",
+                                "وجود صور داخل واجهة التطبيق.",
+                                "توزيع الألوان على الشاشة وتناسبها مع بعضها البعض.",
+                                "حجم حروف الكتابة ووضوحها على الشاشة."
+                            ];
+                            itemsPart2.forEach((item, index) => {
+                                document.write(`
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="p-3 border border-gray-200 text-center font-semibold">${index + 9}</td>
+                                        <td class="p-3 border border-gray-200">${item}</td>
+                                        <td class="p-3 border border-gray-200 text-center"><input type="radio" name="q2_${index+9}" value="3"></td>
+                                        <td class="p-3 border border-gray-200 text-center"><input type="radio" name="q2_${index+9}" value="2"></td>
+                                        <td class="p-3 border border-gray-200 text-center"><input type="radio" name="q2_${index+9}" value="1"></td>
+                                    </tr>
+                                `);
+                            });
+                        </script>
+
+                        <!-- القسم الثالث -->
+                        <tr class="bg-gray-100 font-bold text-qassim">
+                            <td colspan="5" class="p-3 border border-gray-300">ثالثاً: تنفيذ التطبيق بصورة سليمة</td>
+                        </tr>
+                        <script>
+                            const itemsPart3 = [
+                                "درجة وضوح ونقاء مشاهد الفيديو عند العرض.",
+                                "درجة وضوح الصور الثابتة والمتحركة أثناء العرض.",
+                                "درجة وضوح الصوت."
+                            ];
+                            itemsPart3.forEach((item, index) => {
+                                document.write(`
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="p-3 border border-gray-200 text-center font-semibold">${index + 15}</td>
+                                        <td class="p-3 border border-gray-200">${item}</td>
+                                        <td class="p-3 border border-gray-200 text-center"><input type="radio" name="q3_${index+15}" value="3"></td>
+                                        <td class="p-3 border border-gray-200 text-center"><input type="radio" name="q3_${index+15}" value="2"></td>
+                                        <td class="p-3 border border-gray-200 text-center"><input type="radio" name="q3_${index+15}" value="1"></td>
+                                    </tr>
+                                `);
+                            });
+                        </script>
+
+                        <!-- القسم الرابع -->
+                        <tr class="bg-gray-100 font-bold text-qassim">
+                            <td colspan="5" class="p-3 border border-gray-300">رابعاً: سهولة تعامل الطالب مع التطبيق وصلاحيته</td>
+                        </tr>
+                        <script>
+                            const itemsPart4 = [
+                                "يساعد الطالب على التعلم ذاتياً.",
+                                "يعرض المحتوى في خطوات متتابعة متسلسلة منطقيا تناسب الطالب.",
+                                "يتيح للمتعلم التحكم في اختيار المحتوى أو جزء منه.",
+                                "يتيح للمتعلم تكرار تعلم ومشاهدة أي جزء من الفيديوهات داخل التطبيق بسهولة ويسر.",
+                                "يتيح للمتعلم الخروج من التطبيق في أي وقت شاء.",
+                                "سهولة التنقل عبر شاشات التطبيق باستخدام الأزرار أو المفاتيح.",
+                                "يساعد الطالب على التقويم الذاتي.",
+                                "يتيح الفرصة لكل طالب للتعلم وفقاً لقدراته وسرعته.",
+                                "يوفر التطبيق عناصر الجذب والتشويق.",
+                                "يسمح للطالب بمراجعة الأطر التي سبق له دراستها."
+                            ];
+                            itemsPart4.forEach((item, index) => {
+                                document.write(`
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="p-3 border border-gray-200 text-center font-semibold">${index + 18}</td>
+                                        <td class="p-3 border border-gray-200">${item}</td>
+                                        <td class="p-3 border border-gray-200 text-center"><input type="radio" name="q4_${index+18}" value="3"></td>
+                                        <td class="p-3 border border-gray-200 text-center"><input type="radio" name="q4_${index+18}" value="2"></td>
+                                        <td class="p-3 border border-gray-200 text-center"><input type="radio" name="q4_${index+18}" value="1"></td>
+                                    </tr>
+                                `);
+                            });
+                        </script>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <div class="flex flex-col gap-4">
+                    <label class="font-bold text-gray-800">ملاحظات / تعديلات مقترحة:</label>
+                    <textarea class="w-full border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-qassim focus:border-qassim outline-none transition" rows="4" placeholder="اكتب ملاحظاتك هنا..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- فاصل للطباعة -->
+        <div class="print-break"></div>
+
+        <!-- ============================================== -->
+        <!-- الاستمارة الثانية (ملحق 11) -->
+        <!-- ============================================== -->
+        <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-8 sm:p-12 mb-12">
+            
+            <!-- الترويسة -->
+            <div class="flex flex-col sm:flex-row justify-between items-center border-b-2 border-qassim pb-6 mb-8">
+                <div class="text-center sm:text-right font-semibold leading-relaxed">
+                    <p>المملكة العربية السعودية</p>
+                    <p>وزارة التعليم</p>
+                    <p>جامعة القصيم</p>
+                    <p>كلية الفنون والتصاميم</p>
+                    <p>قسم تصميم أزياء</p>
+                </div>
+                <div class="mt-4 sm:mt-0 text-center flex flex-col items-center">
+                    <div class="w-24 h-24 rounded-full border-4 border-qassim flex items-center justify-center mb-2">
+                        <span class="text-qassim font-bold text-sm text-center">جامعة القصيم<br>Qassim Univ</span>
+                    </div>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-bold border border-gray-200">ملحق رقم (11)</span>
+                </div>
+            </div>
+
+            <!-- عنوان الاستمارة -->
+            <div class="text-center mb-8">
+                <h2 class="text-2xl sm:text-3xl font-bold text-qassim mb-4">استمارة تحكيم مصممي الأقمشة داخل مصانع الملابس لصلاحية التطبيق الذكي للتصميم على الأقمشة</h2>
+            </div>
+
+            <!-- بيانات المصمم -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 bg-qassim-light p-6 rounded-lg border border-green-100">
+                <div class="flex flex-col gap-2">
+                    <label class="font-bold text-qassim-dark">إسم المصمم:</label>
+                    <input type="text" class="border border-gray-300 rounded-md p-2 outline-none focus:border-qassim focus:ring-1 focus:ring-qassim" placeholder="ادخل اسم المصمم...">
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="font-bold text-qassim-dark">المصنع:</label>
+                    <input type="text" class="border border-gray-300 rounded-md p-2 outline-none focus:border-qassim focus:ring-1 focus:ring-qassim" placeholder="ادخل اسم المصنع...">
+                </div>
+            </div>
+            
+            <p class="font-bold text-gray-700 mb-4">ضع علامة (✓) أسفل الاستجابة التي تتفق مع وجهة نظرك في كل من العبارات الآتية:</p>
+
+            <!-- جدول التقييم الثاني -->
+            <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+                <table class="w-full text-right border-collapse">
+                    <thead>
+                        <tr class="bg-qassim text-white">
+                            <th class="p-3 border border-qassim-dark font-bold text-center w-12">م</th>
+                            <th class="p-3 border border-qassim-dark font-bold w-1/2">العبارات</th>
+                            <th class="p-3 border border-qassim-dark font-bold text-center text-sm">متوفر بشدة<br>(5)</th>
+                            <th class="p-3 border border-qassim-dark font-bold text-center text-sm">متوفر<br>(4)</th>
+                            <th class="p-3 border border-qassim-dark font-bold text-center text-sm">متوفر إلى حد ما<br>(3)</th>
+                            <th class="p-3 border border-qassim-dark font-bold text-center text-sm">غير متوفر<br>(2)</th>
+                            <th class="p-3 border border-qassim-dark font-bold text-center text-sm">غير متوفر بشدة<br>(1)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-700" id="form2-body">
+                        <script>
+                            const itemsForm2 = [
+                                "وضوح أهداف التطبيق.",
+                                "ساعدني التطبيق على التعلم بسهولة في أي وقت.",
+                                "ساعدني التطبيق على التعلم بسهولة في أي مكان.",
+                                "المادة العلمية للتطبيق المقترح منظمة بشكل منطقى.",
+                                "يحتوي التطبيق على عدد كافي من الأشكال والصور التوضيحية.",
+                                "يلبي التطبيق الاحتياجات الفعلية لدى المهتمين في التصميم على الاقمشة.",
+                                "يسهم البرنامج في تحسين مستوى الأداء في التصميم على الاقمشة.",
+                                "يعد التطبيق المقترح أحد الأساليب الحديثة لتعلم التصميم على الاقمشة.",
+                                "استخدام الهواتف المحمولة في التعلم أمر مشجع.",
+                                "يساير التطبيق المقترح التطور العلمي والتكنولوجي في مجال التصميم على الاقمشة باستخدام الهواتف المحمولة.",
+                                "شعرت بملل أثناء أدائي للمهارات بواسطة التطبيق. (عبارة سلبية)",
+                                "وجدت صعوبة في التعامل مع التطبيق المقترح. (عبارة سلبية)",
+                                "أسلوب الدراسة شيق بالتطبيق المقترح."
+                            ];
+
+                            itemsForm2.forEach((item, index) => {
+                                const isNegative = item.includes('(عبارة سلبية)');
+                                const bgClass = isNegative ? 'bg-red-50 hover:bg-red-100' : 'hover:bg-gray-50';
+                                document.write(`
+                                    <tr class="${bgClass} transition-colors border-b border-gray-200">
+                                        <td class="p-3 border-l border-gray-200 text-center font-semibold">${index + 1}</td>
+                                        <td class="p-3 border-l border-gray-200 font-medium">${item}</td>
+                                        <td class="p-3 border-l border-gray-200 text-center"><input type="radio" name="f2_${index+1}" value="${isNegative ? 1 : 5}" class="score-calc"></td>
+                                        <td class="p-3 border-l border-gray-200 text-center"><input type="radio" name="f2_${index+1}" value="${isNegative ? 2 : 4}" class="score-calc"></td>
+                                        <td class="p-3 border-l border-gray-200 text-center"><input type="radio" name="f2_${index+1}" value="3" class="score-calc"></td>
+                                        <td class="p-3 border-l border-gray-200 text-center"><input type="radio" name="f2_${index+1}" value="${isNegative ? 4 : 2}" class="score-calc"></td>
+                                        <td class="p-3 text-center"><input type="radio" name="f2_${index+1}" value="${isNegative ? 5 : 1}" class="score-calc"></td>
+                                    </tr>
+                                `);
+                            });
+                        </script>
+                        <!-- صف المجموع الكلي -->
+                        <tr class="bg-gray-100 font-bold text-qassim border-t-2 border-qassim">
+                            <td colspan="2" class="p-4 border-l border-gray-300 text-left text-lg">المجموع الكلي:</td>
+                            <td colspan="5" class="p-4 text-center text-xl" id="total-score">- / 65</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-4 text-sm text-red-600 font-bold bg-red-50 p-3 rounded-lg inline-block">
+                * ملحوظة: العبارات (11) و (12) عبارات سلبية (يتم عكس درجتها برمجياً في المجموع).
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // سكريبت بسيط لحساب المجموع الكلي للاستمارة الثانية تلقائياً
+        const radios = document.querySelectorAll('.score-calc');
+        const totalDisplay = document.getElementById('total-score');
+
+        radios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                let total = 0;
+                let answeredCount = 0;
+                
+                // تجميع القيم المختارة
+                for(let i = 1; i <= 13; i++) {
+                    const selected = document.querySelector(`input[name="f2_${i}"]:checked`);
+                    if(selected) {
+                        total += parseInt(selected.value);
+                        answeredCount++;
+                    }
+                }
+
+                if (answeredCount > 0) {
+                    totalDisplay.innerText = `${total} / 65`;
+                    totalDisplay.classList.add('text-qassim-dark');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

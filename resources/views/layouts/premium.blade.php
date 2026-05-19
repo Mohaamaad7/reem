@@ -89,8 +89,13 @@
 
     <!-- Footer -->
     <footer class="bg-white/80 backdrop-blur-sm border-t border-morris-border mt-auto">
-        <div class="container mx-auto px-4 py-8 text-center">
-            <p class="text-morris-text/60 text-sm font-semibold">
+        <div class="container mx-auto px-4 py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-semibold">
+            <div class="flex gap-4 text-morris-primary">
+                <a href="{{ route('expert.survey') }}" class="hover:text-morris-terracotta transition-colors">استمارة لجنة التحكيم</a>
+                <span class="text-morris-text/30">|</span>
+                <a href="{{ route('designer.survey') }}" class="hover:text-morris-terracotta transition-colors">استمارة المصممين</a>
+            </div>
+            <p class="text-morris-text/60">
                 &copy; {{ date('Y') }} رونق - ريم السعوي. جميع الحقوق محفوظة.
             </p>
         </div>

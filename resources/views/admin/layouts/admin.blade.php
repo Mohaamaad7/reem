@@ -139,6 +139,18 @@
                 <i data-lucide="image" class="w-5 h-5"></i>
                 التصاميم المحفوظة
             </a>
+            <a href="{{ route('admin.evaluations.expert') }}"
+               class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-colors
+                      {{ request()->routeIs('admin.evaluations.expert') ? 'bg-amber-50 text-amber-800 border-r-2 border-amber-600' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50' }}">
+                <i data-lucide="clipboard-check" class="w-5 h-5"></i>
+                تحكيم المتخصصين
+            </a>
+            <a href="{{ route('admin.evaluations.designer') }}"
+               class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-colors
+                      {{ request()->routeIs('admin.evaluations.designer') ? 'bg-amber-50 text-amber-800 border-r-2 border-amber-600' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50' }}">
+                <i data-lucide="scissors" class="w-5 h-5"></i>
+                تحكيم المصممين
+            </a>
         </nav>
 
         <!-- Logout -->

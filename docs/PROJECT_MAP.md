@@ -97,9 +97,13 @@ Notes:
 - ✅ **الحفظ التلقائي (Auto-Save)** ← جديد
 - ✅ **مساحات العمل المتعددة (Workspaces)** ← جديد
 
-### 4. الاستبيان (Survey)
-- **survey.blade.php**: نموذج التقييم
-- **SurveyController**: معالجة النتائج
+### 4. الاستبيان والتقييمات (Surveys & Evaluations)
+- **survey.blade.php**: نموذج التقييم الأساسي للمشاركين
+- **SurveyController**: معالجة نتائج المشاركين وتصديرها إلى Google Sheets
+- **expert-survey.blade.php**: استمارة لجنة التحكيم (ملحق 9 و 10)
+- **designer-survey.blade.php**: استمارة تحكيم المصممين (ملحق 11)
+- **EvaluationController**: معالجة الاستمارات المخصصة وإرسال إشعار بالبريد الإلكتروني للإدارة (`NewEvaluationNotification`)
+- **EvaluationAdminController**: عرض نتائج التقييمات في لوحة التحكم
 
 ### 5. لوحة التحكم (Admin)
 - إدارة المشاركين

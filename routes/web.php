@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ResponseController;
 use App\Http\Controllers\Admin\AssetController;
 use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\DesignController;
+use App\Http\Controllers\Admin\EvaluationAdminController;
 use Illuminate\Support\Facades\Route;
 
 // ==========================================
@@ -60,6 +61,14 @@ Route::get('/morris', [PageController::class, 'morris'])->name('morris');
 Route::get('/fabrics', [PageController::class, 'fabrics'])->name('fabrics');
 Route::get('/technique', [PageController::class, 'technique'])->name('technique');
 
+// مسارات التحكيم (عامة)
+use App\Http\Controllers\EvaluationController;
+Route::get('/expert-survey', [EvaluationController::class, 'showExpert'])->name('expert.survey');
+Route::post('/expert-survey', [EvaluationController::class, 'storeExpert'])->name('expert.survey.post');
+Route::get('/designer-survey', [EvaluationController::class, 'showDesigner'])->name('designer.survey');
+Route::post('/designer-survey', [EvaluationController::class, 'storeDesigner'])->name('designer.survey.post');
+Route::get('/evaluation-thank-you', [EvaluationController::class, 'thankYou'])->name('evaluation.thank-you');
+
 // صفحات المشارك (محمية بـ ParticipantAuth)
 Route::middleware('participant.auth')->group(function () {
     Route::get('/design-tool', [PageController::class, 'designTool'])->name('design-tool');
@@ -105,4 +114,8 @@ Route::prefix('admin')->middleware('admin.auth')->name('admin.')->group(function
     // Responses (existing)
     Route::get('responses',          [ResponseController::class, 'index'])->name('responses.index');
     Route::get('responses/export',   [ResponseController::class, 'export'])->name('responses.export');
+
+    // Evaluations
+    Route::get('evaluations/expert', [EvaluationAdminController::class, 'indexExpert'])->name('evaluations.expert');
+    Route::get('evaluations/designer', [EvaluationAdminController::class, 'indexDesigner'])->name('evaluations.designer');
 });
