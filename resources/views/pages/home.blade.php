@@ -60,7 +60,7 @@
                 <!-- 1. Morris -->
                 <a href="{{ route('morris') }}" class="morris-frame rounded-2xl p-6 lg:p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-primary fade-in-up hover:bg-morris-primary/5 bg-white" style="animation-delay: 0.4s;">
                     <div class="w-16 h-16 rounded-full bg-morris-primary/15 text-morris-primary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        <img src="{{ asset('images/icons/william.svg') }}" class="w-8 h-8" alt="وليام موريس">
                     </div>
                     <h2 class="font-brand text-xl lg:text-2xl text-morris-primary mb-2">وليام موريس</h2>
                     <p class="text-sm text-morris-text/80 line-clamp-2">تعرفي على فلسفة الفنون والحرف والإلهام المستمد من الطبيعة.</p>
@@ -78,7 +78,7 @@
                 <!-- 3. Technique -->
                 <a href="{{ route('technique') }}" class="morris-frame rounded-2xl p-6 lg:p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all duration-300 shadow-morris hover:shadow-morris-hover border-t-4 border-t-morris-indigo fade-in-up hover:bg-morris-indigo/5 bg-white" style="animation-delay: 0.6s;">
                     <div class="w-16 h-16 rounded-full bg-morris-indigo/15 text-morris-indigo flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                        <img src="{{ asset('images/icons/pattern.svg') }}" class="w-8 h-8" alt="النقشة الزائدة">
                     </div>
                     <h2 class="font-brand text-xl lg:text-2xl text-morris-indigo mb-2">النقشة الزائدة</h2>
                     <p class="text-sm text-morris-text/80 line-clamp-2">تعلمي تقنيات النقشة الزائدة لإضافة لمسة فنية لأقمشتك.</p>
