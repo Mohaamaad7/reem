@@ -118,4 +118,5 @@ Route::prefix('admin')->middleware('admin.auth')->name('admin.')->group(function
     // Evaluations
     Route::get('evaluations/expert', [EvaluationAdminController::class, 'indexExpert'])->name('evaluations.expert');
     Route::get('evaluations/designer', [EvaluationAdminController::class, 'indexDesigner'])->name('evaluations.designer');
+    Route::get('evaluations/designer/export', [EvaluationAdminController::class, 'exportDesigner'])->name('evaluations.designer.export');
 });
