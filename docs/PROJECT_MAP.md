@@ -62,7 +62,7 @@ rawnaq/
 - **New**: صفحة النقشة الزائدة (`/technique`) أعيد بناؤها بنفس تصميم صفحة وليام موريس.
   - **الملف**: `resources/views/pages/technique.blade.php` — من `@extends('layouts.app')` → `@extends('layouts.premium')`
   - **لون الواجهة**: Indigo (`morris-indigo`) كلون accent مميز
-  - **نظام المحتوى**: يستخدم `EducationalPage` model (slug: `technique`) بدلاً من المحتوى الثابت
+  - **نظام المحتوى**: يستخدم `EducationalPage` model (slug: `extra-weft`) بدلاً من المحتوى الثابت
   - **المحتوى**: 13 section مستخلصة من `code_artifact.html` مع الحفاظ على تنسيق الصور والاستشهادات
   - **دعم CSS**: إضافة كلاسات `.image-placeholder`, `.citation`, `.footnote` في `app.css`
 
@@ -72,7 +72,7 @@ rawnaq/
 | `resources/views/pages/technique.blade.php` | إعادة بناء كاملة — premium layout + TOC + Intersection Observer |
 | `app/Http/Controllers/PageController.php` | `technique()` الآن تجلب `EducationalPage::where('slug', 'technique')` |
 | `resources/css/app.css` | +30 سطر — دعم `.image-placeholder`, `.citation`, `.footnote` |
-| `database/educational_pages` | سجل جديد `slug: technique` مع 13 section من `code_artifact.html` |
+| `database/educational_pages` | سجل جديد `slug: extra-weft` مع 13 section من `code_artifact.html` |
 | `public/images/technique/` | مجلد جديد لصور صفحة التقنية (21 صورة) |
 | `docs/PROJECT_MAP.md` | هذا التحديث |
 

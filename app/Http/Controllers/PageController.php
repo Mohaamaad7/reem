@@ -31,7 +31,7 @@ class PageController extends Controller
     public function technique()
     {
         $this->trackPageVisit('technique');
-        $page = EducationalPage::where('slug', 'technique')->firstOrFail();
+        $page = EducationalPage::where('slug', 'extra-weft')->firstOrFail();
         return view('pages.technique', compact('page'));
     }
 
