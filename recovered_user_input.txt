@@ -1,0 +1,110 @@
+<USER_REQUEST>
+[الدور والمهمة] أنت Staff Software Engineer. المطلوب جراحة برمجية للمشروع للقيام بالتعديل التالي (دون تخريب الميزات الأخرى) :
+
+
+[وصف التعديل/الميزة].
+
+
+قم بتعديل صفحة الاقمشة المستدامة http://reem1.test/technique
+
+تعديل المحتوى فقط مع الحفاظ على الترتيب
+
+محتوى الصفحة بالمل @code_artifact.html 
+
+مسار الصور
+
+C:\laragon\www\reem1\public\images\fabric\img
+
+[قواعد التعديل الجراحي (Surgical Changes)]
+
+
+المس فقط ما يجب لمسه: لا تحسن تنسيق كود مجاور، لا تعد صياغة تعليقات قديمة، لا تقم بـ Refactoring لكود يعمل ما لم يُطلب منك ذلك.
+مطابقة الأسلوب: التزم بأسلوب الكود الحالي تماماً حتى لو كنت تراه غير مثالي.
+تنظيف مخلفاتك فقط: إذا تسبب تعديلك في جعل دالة أو Import "يتيماً"، فقم بإزالته. لا تلمس الأكواد الميتة القديمة.
+[بروتوكول التحليل والتنفيذ] البروتوكول الأول: تحليل التأثير (Impact Analysis)
+
+
+اقرأ PROJECT_MAP.md. حدد الملفات المتأثرة بدقة. ابحث عن أحدث التقنيات إذا استلزم الأمر.
+البروتوكول الثاني: السلامة المعمارية والتجريد
+
+
+التزم بـ DRY (لا تكرر الكود) واستخدم طبقة Shared/Core. أضف Logging للتعديل الجديد.
+البروتوكول الثالث: التحقق والنجاح (Goal-Driven)
+
+
+حول التعديل إلى "هدف قابل للتحقق". اكتب الاختبار، تأكد من فشله، ثم اجعله ينجح (TDD).
+تأكد من نجاح اختبارات الميزات القديمة (No Regression).
+البروتوكول الرابع: مزامنة الحالة
+
+
+حدّث PROJECT_MAP.md فوراً. أي كود أصبح Deprecated بسبب تعديلك يجب أن يُعالج أو يُسجل في النواقص.
+[أمر التنفيذ] نفذ البروتوكولات بشكل مستمر. ابدأ بتحليل التأثير وذكر الافتراضات (Think Before Coding)، ثم انتقل للتنفيذ الجراحي المباشر.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-07-08T15:22:10+03:00.
+
+The user's current state is as follows:
+Other open documents:
+- c:\laragon\www\reem1\resources\views\pages\designer-survey.blade.php (LANGUAGE_BLADE)
+- c:\laragon\www\reem1\resources\views\admin\evaluations\designer.blade.php (LANGUAGE_BLADE)
+- c:\laragon\www\reem1\app\Http\Controllers\Admin\EvaluationAdminController.php (LANGUAGE_PHP)
+- c:\laragon\www\reem1\routes\web.php (LANGUAGE_PHP)
+</ADDITIONAL_METADATA>
+<USER_SETTINGS_CHANGE>
+The user changed setting `Model Selection` from None to Gemini 3.1 Pro (High). No need to comment on this change if the user doesn't ask about it. If reporting what model you are, please use a human readable name instead of the exact string.
+</USER_SETTINGS_CHANGE><USER_REQUEST>
+[الدور والمهمة] أنت Staff Software Engineer. المطلوب جراحة برمجية للمشروع للقيام بالتعديل التالي (دون تخريب الميزات الأخرى) :
+
+
+[وصف التعديل/الميزة].
+
+
+قم بتعديل صفحة الاقمشة المستدامة http://reem1.test/http://reem1.test/fabrics
+
+تعديل المحتوى فقط مع الحفاظ على الترتيب
+
+محتوى الصفحة بالمل @[c:\laragon\www\reem1\code_artifact.html] 
+
+[قواعد التعديل الجراحي (Surgical Changes)]
+
+
+المس فقط ما يجب لمسه: لا تحسن تنسيق كود مجاور، لا تعد صياغة تعليقات قديمة، لا تقم بـ Refactoring لكود يعمل ما لم يُطلب منك ذلك.
+مطابقة الأسلوب: التزم بأسلوب الكود الحالي تماماً حتى لو كنت تراه غير مثالي.
+تنظيف مخلفاتك فقط: إذا تسبب تعديلك في جعل دالة أو Import "يتيماً"، فقم بإزالته. لا تلمس الأكواد الميتة القديمة.
+[بروتوكول التحليل والتنفيذ] البروتوكول الأول: تحليل التأثير (Impact Analysis)
+
+
+اقرأ PROJECT_MAP.md. حدد الملفات المتأثرة بدقة. ابحث عن أحدث التقنيات إذا استلزم الأمر.
+البروتوكول الثاني: السلامة المعمارية والتجريد
+
+
+التزم بـ DRY (لا تكرر الكود) واستخدم طبقة Shared/Core. أضف Logging للتعديل الجديد.
+البروتوكول الثالث: التحقق والنجاح (Goal-Driven)
+
+
+حول التعديل إلى "هدف قابل للتحقق". اكتب الاختبار، تأكد من فشله، ثم اجعله ينجح (TDD).
+تأكد من نجاح اختبارات الميزات القديمة (No Regression).
+البروتوكول الرابع: مزامنة الحالة
+
+
+حدّث PROJECT_MAP.md فوراً. أي كود أصبح Deprecated بسبب تعديلك يجب أن يُعالج أو يُسجل في النواقص.
+[أمر التنفيذ] نفذ البروتوكولات بشكل مستمر. ابدأ بتحليل التأثير وذكر الافتراضات (Think Before Coding)، ثم انتقل للتنفيذ الجراحي المباشر.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-07-08T15:29:36+03:00.
+
+The user's current state is as follows:
+Other open documents:
+- c:\laragon\www\reem1\resources\views\admin\evaluations\designer.blade.php (LANGUAGE_BLADE)
+- c:\laragon\www\reem1\app\Http\Controllers\Admin\EvaluationAdminController.php (LANGUAGE_PHP)
+- c:\laragon\www\reem1\routes\web.php (LANGUAGE_PHP)
+- c:\laragon\www\reem1\resources\views\pages\designer-survey.blade.php (LANGUAGE_BLADE)
+
+The user has mentioned some items in the form @[ITEM]. Here is extra information about the items that were mentioned by the user, in the order that they appear:
+
+@[c:\laragon\www\reem1\code_artifact.html] is a [File]:
+c:\laragon\www\reem1\code_artifact.html
+</ADDITIONAL_METADATA>
+<USER_SETTINGS_CHANGE>
+The user changed setting `Model Selection` from None to Gemini 3.1 Pro (High). No need to comment on this change if the user doesn't ask about it. If reporting what model you are, please use a human readable name instead of the exact string.
+</USER_SETTINGS_CHANGE>
