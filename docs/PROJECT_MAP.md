@@ -1,6 +1,6 @@
 # Project Map — Rawnaq (رونق)
 
-> آخر تحديث: 2026-05-16 (Phase 4 — Dark Theme Redesign)
+> آخر تحديث: 2026-07-08 (Phase 5 — Technique Page Migration)
 
 ---
 
@@ -39,8 +39,9 @@ rawnaq/
 │   │   ├── pages/
 │   │   │   ├── home.blade.php      # Hub/Dashboard
 │   │   │   ├── design-tool.blade.php # Mini-Design Studio
-│   │   │   ├── morris.blade.php
-│   │   │   ├── fabrics.blade.php
+│   │   │   ├── morris.blade.php     # وليام موريس (premium)
+│   │   │   ├── fabrics.blade.php    # أقمشة صديقة للبيئة (premium)
+│   │   │   ├── technique.blade.php  # النقشة الزائدة (premium)
 │   │   │   └── survey.blade.php
 │   │   └── admin/
 │   ├── css/app.css
@@ -55,6 +56,25 @@ rawnaq/
 ```
 
 ---
+
+## Phase 5 — Technique Page Migration (2026-07-08)
+
+- **New**: صفحة النقشة الزائدة (`/technique`) أعيد بناؤها بنفس تصميم صفحة وليام موريس.
+  - **الملف**: `resources/views/pages/technique.blade.php` — من `@extends('layouts.app')` → `@extends('layouts.premium')`
+  - **لون الواجهة**: Indigo (`morris-indigo`) كلون accent مميز
+  - **نظام المحتوى**: يستخدم `EducationalPage` model (slug: `technique`) بدلاً من المحتوى الثابت
+  - **المحتوى**: 13 section مستخلصة من `code_artifact.html` مع الحفاظ على تنسيق الصور والاستشهادات
+  - **دعم CSS**: إضافة كلاسات `.image-placeholder`, `.citation`, `.footnote` في `app.css`
+
+### الملفات المعدلة:
+| الملف | التغيير |
+|-------|---------|
+| `resources/views/pages/technique.blade.php` | إعادة بناء كاملة — premium layout + TOC + Intersection Observer |
+| `app/Http/Controllers/PageController.php` | `technique()` الآن تجلب `EducationalPage::where('slug', 'technique')` |
+| `resources/css/app.css` | +30 سطر — دعم `.image-placeholder`, `.citation`, `.footnote` |
+| `database/educational_pages` | سجل جديد `slug: technique` مع 13 section من `code_artifact.html` |
+| `public/images/technique/` | مجلد جديد لصور صفحة التقنية (21 صورة) |
+| `docs/PROJECT_MAP.md` | هذا التحديث |
 
 ## Phase 4 — Hotfix (2026-05-17)
 
@@ -78,9 +98,10 @@ Notes:
 - **المستخدمون**: كود دخول 4 أرقام
 
 ### 2. الصفحات التعليمية (Educational Pages)
-- **willam.html / morris.blade.php**: صفحة وليام موريس
-- **smartFabrics.html / fabrics.blade.php**: صفحة الأقمشة المستدامة
-- **technique.blade.php**: صفحة النقشة الزائدة
+- **willam.html / morris.blade.php**: صفحة وليام موريس (premium layout)
+- **smartFabrics.html / fabrics.blade.php**: صفحة الأقمشة المستدامة (premium layout)
+- **technique.blade.php**: صفحة النقشة الزائدة (premium layout, indigo accent)
+- **code_artifact.html**: المصدر الأصلي لمحتوى صفحة التقنية
 - **المحرر**: Summernote في لوحة التحكم
 
 ### 3. أداة التصميم (Design Tool)
@@ -437,7 +458,7 @@ Notes:
 | `/login` | شاشة الدخول |
 | `/morris` | صفحة وليام موريس |
 | `/fabrics` | صفحة الأقمشة |
-| `/technique` | صفحة التقنية |
+| `/technique` | صفحة التقنية (Premium Layout) |
 | `/design-tool` | أداة التصميم |
 | `/survey` | الاستبيان |
 | `/admin/*` | لوحة التحكم |

@@ -23,6 +23,7 @@ class PageController extends Controller
     public function fabrics()
     {
         $this->trackPageVisit('fabrics');
+        \Illuminate\Support\Facades\Log::info('Static fabrics page visited', ['participant_id' => session('participant_id')]);
         $page = EducationalPage::where('slug', 'fabrics')->firstOrFail();
         return view('pages.fabrics', compact('page'));
     }
@@ -30,7 +31,8 @@ class PageController extends Controller
     public function technique()
     {
         $this->trackPageVisit('technique');
-        return view('pages.technique');
+        $page = EducationalPage::where('slug', 'technique')->firstOrFail();
+        return view('pages.technique', compact('page'));
     }
 
     public function designTool()

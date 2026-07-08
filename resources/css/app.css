@@ -2213,6 +2213,91 @@ body:has(.dt-workspace) .brand__subtitle {
     background-color: rgba(248, 245, 240, 1);
 }
 
+/* ── Article figure images ──────────────────────────────────────────────── */
+.article-content figure {
+    margin: 2rem auto;
+    text-align: center;
+}
+.article-content figure img {
+    display: inline-block;
+    width: auto;
+    height: auto;
+    max-width: 150px;
+    max-height: 200px;
+    object-fit: contain;
+    background: #fff;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 4px;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.article-content figure img:hover {
+    border-color: #1E3A8A;
+    box-shadow: 0 4px 16px rgba(30,58,138,0.15);
+}
+
+/* ── Technique Lightbox ──────────────────────────────────────────── */
+.technique-lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+.technique-lightbox.active {
+    display: flex;
+}
+.technique-lightbox .lb-close {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 44px;
+    height: 44px;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+.technique-lightbox .lb-close:hover {
+    background: rgba(255,255,255,0.3);
+}
+.technique-lightbox .lb-image-wrap {
+    max-width: 90vw;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+.technique-lightbox .lb-image-wrap img {
+    max-width: 90vw;
+    max-height: 80vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+}
+.technique-lightbox .lb-caption {
+    color: rgba(255,255,255,0.85);
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.95rem;
+    text-align: center;
+    max-width: 600px;
+}
+
 /* ── Inner page article typography ──────────────────────────────────────── */
 .article-content p {
     margin-bottom: 1.5rem;
@@ -2259,6 +2344,44 @@ body:has(.dt-workspace) .brand__subtitle {
 }
 .toc-link.active svg {
     color: #9F1239;
+}
+
+/* ── Technique page: image placeholder ─────────────────────────── */
+.image-placeholder {
+    background: repeating-linear-gradient(
+        45deg,
+        #edf2f7,
+        #edf2f7 10px,
+        #e2e8f0 10px,
+        #e2e8f0 20px
+    );
+    border: 2px dashed #cbd5e0;
+}
+.image-placeholder:hover {
+    border-color: #1E3A8A;
+    border-style: solid;
+}
+
+/* ── Technique page: citation ──────────────────────────────────── */
+.citation {
+    color: #718096;
+    font-size: 0.95rem;
+    display: block;
+    margin-top: -1rem;
+    margin-bottom: 1.5rem;
+}
+.citation.inline {
+    display: inline;
+    margin: 0;
+}
+
+/* ── Technique page: footnote ──────────────────────────────────── */
+.footnote {
+    font-size: 0.9rem;
+    border-top: 1px solid #cbd5e0;
+    padding-top: 1rem;
+    margin-top: 2rem;
+    color: #4a5568;
 }
 
 /* ═══════════════════════════════════════════════════════════════
