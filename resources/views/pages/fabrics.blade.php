@@ -13,33 +13,33 @@
         <h1 class="font-brand text-3xl text-morris-primary font-bold drop-shadow-sm leading-snug">{{ $page->title_ar }}</h1>
     </div>
 
-    <!-- Hero Banner (hidden on mobile) -->
+        <!-- Hero Banner (hidden on mobile) -->
     <section class="hidden md:block py-8 lg:py-10">
-        <div class="container mx-auto px-6 lg:px-8">
-            <div class="relative rounded-3xl lg:rounded-[2.5rem] bg-morris-primary overflow-hidden shadow-2xl flex items-center justify-between border border-morris-olive/30 p-8 lg:p-12">
-                <div class="absolute inset-0 opacity-10" style="background-image:url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M54.627 0l1.25 1.25-43.125 43.125-1.25-1.25L54.627 0zM29.5 0l1.25 1.25-23.75 23.75-1.25-1.25L29.5 0zM60 25.373l-1.25-1.25L15.625 67.25l1.25 1.25L60 25.373zM60 50.5l-1.25-1.25-15.625 15.625 1.25 1.25L60 50.5z\' fill=\'%23F8F5F0\' fill-opacity=\'1\' fill-rule=\'evenodd\'/%3E%3C/svg%3E');"></div>
-                <div class="absolute inset-3 border border-morris-cream/20 rounded-2xl lg:rounded-[2rem] pointer-events-none"></div>
-
-                <div class="relative z-10 w-3/5 lg:w-2/3 text-right pr-2 lg:pr-4">
-                    <div class="inline-flex items-center gap-3 mb-3 lg:mb-4">
-                        <span class="h-[2px] w-8 bg-morris-olive rounded-full"></span>
-                        <span class="font-magic text-morris-cream/90 text-xl lg:text-2xl">الموضة المستدامة</span>
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+            <div class="relative rounded-3xl overflow-hidden shadow-2xl group min-h-[400px] bg-gray-900">
+                @if(isset($page) && $page->hero_image)
+                    <img src="{{ $page->hero_image }}" alt="صورة {{ $page->title_ar }}" class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition duration-700 ease-in-out" style="filter:sepia(0.2)">
+                @else
+                    <div class="absolute inset-0 w-full h-full bg-morris-primary flex items-center justify-center opacity-90">
+                        <svg class="w-24 h-24 text-morris-cream/30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <span class="absolute text-morris-cream/50 font-bold text-2xl mt-32">مكان صورة الهيرو</span>
                     </div>
-                    <h1 class="font-brand text-4xl lg:text-5xl text-morris-cream mb-4 lg:mb-6 leading-tight drop-shadow-md">{{ $page->title_ar }}</h1>
-                    <p class="text-base lg:text-xl text-morris-cream/80 leading-relaxed font-light max-w-2xl">{{ $page->intro_ar }}</p>
-                </div>
-
-                <div class="relative z-10 w-2/5 lg:w-1/3 flex justify-end pl-2 lg:pl-4">
-                    @if($page->hero_image)
-                    <div class="relative w-40 h-56 lg:w-56 lg:h-72 rounded-t-[4rem] rounded-b-xl overflow-hidden border-4 border-morris-olive/30 shadow-portrait group">
-                        <img src="{{ $page->hero_image }}" alt="{{ $page->title_ar }}" class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition duration-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-morris-primary/60 via-transparent to-transparent opacity-80"></div>
+                @endif
+                
+                <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent"></div>
+                
+                <div class="absolute bottom-0 inset-x-0 p-10 lg:p-16 flex flex-col justify-end transform transition duration-500">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-medium mb-6 w-fit">
+                        <span class="w-2 h-2 rounded-full bg-morris-olive animate-pulse"></span>
+                        الموضة المستدامة
                     </div>
-                    @else
-                    <div class="relative w-40 h-56 lg:w-56 lg:h-72 rounded-t-[4rem] rounded-b-xl overflow-hidden border-2 border-dashed border-morris-cream/40 bg-morris-primary/40 flex flex-col items-center justify-center text-morris-cream/60 shadow-portrait backdrop-blur-sm">
-                        <svg class="w-12 h-12 mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        <span class="font-brand text-center px-4 leading-snug text-sm">صورة مؤقتة</span>
-                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight drop-shadow-lg font-amiri">
+                        {{ $page->title_ar ?? 'الأقمشة المستدامة' }}
+                    </h1>
+                    @if(isset($page) && $page->subtitle_ar)
+                        <p class="text-xl text-gray-200 max-w-2xl font-light leading-relaxed drop-shadow-md border-r-4 border-morris-olive pr-4">
+                            {{ $page->subtitle_ar }}
+                        </p>
                     @endif
                 </div>
             </div>
